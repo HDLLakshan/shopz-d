@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import LoaderComponent from "./LoaderComponent";
 import Figure from "react-bootstrap/Figure";
 import {Link} from 'react-router-dom'
+import ImageView from "./ImageView";
 
 
 
@@ -43,21 +44,19 @@ class ShowItem extends Component {
         render() {
 
     return(
-<Link to={'/details/'+ this.props.product._id }>
+        <Link to={'/details/'+ this.props.product._id }>
         <div hidden={this.setHidden()}>
             <Figure style={{ border: "5px solid white" }}>
-                {this.state.didLoad ? <LoaderComponent /> : null}
-                <img  onLoad={this.onLoad.bind(this)} style={{'width':'12vw','height':'15vw'}}
-                     alt="171x180"
-                    src={this.props.product.ImageOfProduct}
-                />
+
+                <ImageView ImgArr={this.props.product.ImageOfProduct}/>
+
                 <figcaption className="text-xl-center">
                     Rs {this.props.product.PricePerUnit}
                 </figcaption>
             </Figure>
 
         </div>
-</Link>
+        </Link>
     )
 }
 

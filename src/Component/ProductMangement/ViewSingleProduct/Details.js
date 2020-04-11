@@ -1,34 +1,39 @@
 import React, {Component} from "react";
-import LoaderComponent from "./LoaderComponent";
-import ShowItem from "./ShowItem";
+import SubDetails from "./SubDetails";
+
 
 class Details extends Component{
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            position : 0
+        }
+      //  this.setPosition = this.setPosition().bind(this)
+    }
+
+    setPosition = (value) => {
+        let x;
+        x = this.props.clr.indexOf(value);
+        this.setState({
+            position:x
+        })
+    }
 
     render() {
         return (
             <div onChange={this.handleFormChange} className={"container"}>
                 <div className={"row"}>
+
                     <div className={"col-md-5"}>
-
-                        <img   className={"d-block w-100"} style={{'width':'12vw','height':'25vw'}} src={this.props.product.ImageOfProduct}/>
-
+                        <img src={this.props.src[this.state.position]} className="d-block w-100" alt="..." style={{'width':'12vw','height':'25vw'}}/>
                     </div>
+
+
                     <div className={"col-md-7"}>
-                        <p className={"newarrival text-center"}>NEW</p>
-                        <h2>{this.props.product.ProductName}</h2>
-                        <p>Product Code:SIfdjk</p>
-                        <img src={"starts.png"} className={"stars"}/>
-                        <p className={"price"}></p>
-                        <p><b>Availability:</b>{this.props.product.PricePerUnit}</p>
-                        <p><b>Availability:</b>In Stock </p>
-                        <p><b>Availability:</b>In Stock </p>
-
-                        <label>Quantity:</label>
-                        <input type={"text"} value={"1"} defaultValue/>
-                        <button type={"button"} className={"btn btn-default cart"}>Add to cart</button>
-
-
+                       <SubDetails position={this.state.position} product={this.props.product} clr={this.props.clr} setPosition={this.setPosition}/>
                     </div>
+
                 </div>
 
 
