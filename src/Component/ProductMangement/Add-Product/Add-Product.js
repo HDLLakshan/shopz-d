@@ -1,15 +1,12 @@
 import React, {Component} from "react";
 import TextField from "@material-ui/core/TextField";
-
 import SaveIcon from '@material-ui/icons/Save';
 import Button from '@material-ui/core/Button';
-
 import InputAdornment from "@material-ui/core/InputAdornment";
-import {withStyles} from "@material-ui/core/styles";
 import axios from 'axios';
 import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
-import FormFile from "react-bootstrap/FormFile";
+
 import AddImage from "./AddImage";
 
 
@@ -28,8 +25,10 @@ class AddProduct extends Component{
                 SubCategory:'',
                 ImageOfProduct:[],
                 ColorOfImg:[],
-
-                StockOfItem:[]
+                StockSmall:[],
+                StockMedium:[],
+                StockLarge:[],
+                StockXL:[],
 
             },
             imagePreviewUrl:'',
@@ -72,11 +71,15 @@ class AddProduct extends Component{
         }
 
         for(let m=0;m<this.state.Products.ColorOfImg.length;m++) {
-            console.log( this.state.Products.ColorOfImg[m])
+            console.log(this.state.Products.ColorOfImg[m])
             formData.append('ColorOfImg', this.state.Products.ColorOfImg[m]);
-            formData.append('StockOfItem', this.state.Products.StockOfItem[m]);
-        }
+            formData.append('StockSmall', this.state.Products.StockSmall[m]);
+            formData.append('StockMedium', this.state.Products.StockMedium[m]);
+            formData.append('StockLarge', this.state.Products.StockLarge[m]);
+            formData.append('StockXL', this.state.Products.StockXL[m]);
 
+
+        }
 
 
         formData.append("StockAmount", this.state.Products.StockAmount);
@@ -91,7 +94,12 @@ class AddProduct extends Component{
                 StockAmount:'',
                 ProductBrand: '',
                 ImageOfProduct:[],
-                ColorOfImg: []
+                ColorOfImg: [],
+                StockSmall:[],
+                StockMedium:[],
+                StockLarge:[],
+                StockXL:[],
+
 
             }
         })

@@ -2,14 +2,20 @@ import React, {Component} from "react";
 import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
 import {Rating} from "@material-ui/lab";
+import axios from "axios";
 
 class SubDetails extends Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            color:''
+            color:'',
+            size:'S',
+            AvailableAmount:'',
+            OrderQuantity:0,
+
         }
+        console.log(this.props.product.StockSmall[0])
     }
 
 
@@ -18,8 +24,51 @@ class SubDetails extends Component{
             this.props.setPosition(this.state.color)
             console.log(this.state.color)
         })
-
     }
+
+
+
+
+    setAvailability = () => {
+        if(this.state.size==='S'){
+             if(parseInt(this.props.product.StockSmall[this.props.position]) > 0 ){
+                 return this.props.product.StockSmall[this.props.position]
+             }
+             else {
+                 return this.props.product.StockSmall[this.props.position]
+             }
+
+        }
+        else if(this.state.size==='M'){
+            if(parseInt(this.props.product.StockMedium[this.props.position]) > 0 ){
+                return this.props.product.StockMedium[this.props.position]
+            }
+            else {
+                return this.props.product.StockMedium[this.props.position]
+
+            }
+
+        }
+        else if(this.state.size==='L'){
+            if(parseInt(this.props.product.StockLarge[this.props.position]) > 0 ){
+                return this.props.product.StockLarge[this.props.position]
+            }
+            else {
+                return this.props.product.StockLarge[this.props.position]
+            }
+
+        }
+        else if(this.state.size==='XL'){
+            if(parseInt(this.props.product.StockXL[this.props.position]) > 0 ){
+                return this.props.product.StockXL[this.props.position]
+            }
+            else {
+                return this.props.product.StockXL[this.props.position]
+            }
+        }
+    }
+
+
 
     render() {
         return(
@@ -30,21 +79,24 @@ class SubDetails extends Component{
                      <Rating name="size-small" defaultValue={2} size="small" disabled={true} />
                      <p className={"price"}></p>
 
+                     <div className={"row"}>
                      <FormLabel>Select Color</FormLabel>
-                     <FormControl  as="select" size="sm" name={"color"} value={this.props.clr[this.props.position]} onChange={(event ) => this.ChangeEventFn(event)} custom>
-                         {
-                             this.props.clr.map((text) =>
-                                 <option value={text}>{text}</option>
-                             )
-                         }
+                     <FormControl className={"col-md-4"}  as="select" size="sm" name={"color"} value={this.props.product.ColorOfImg[this.props.position]} onChange={(event ) => this.ChangeEventFn(event)} custom>
+                         {this.props.product.ColorOfImg.map((text) => <option value={text}>{text}</option>)}
                      </FormControl>
+                         <FormLabel>Select Size</FormLabel>
+                         <FormControl className={"col-md-4"}  as="select" size="sm" name={"size"} value={this.state.size} onChange={(e ) => this.setState({size: e.target.value})} custom>
+                             <option value={"S"}>Small</option>
+                             <option value={"M"}>Medium</option>
+                             <option value={"L"}>Large</option>
+                             <option value={"XL"}>XL</option>
+                         </FormControl>
+                     </div>
 
-                     <p><b>Availability:</b>In Stock </p>
-                     <p><b>Availability:</b>In Stock </p>
+                     <p><b>Availability:</b>{this.setAvailability()} </p>
 
-                     <label>Quantity:</label>
-
-                     <input placeholder="Enter a number" required type="number" value="" min="-100" max="100"/>
+                     <input className={' col-md-2'} placeholder="Enter Quantity" required type="number" value={this.state.OrderQuantity} min="1" max={this.setAvailability()}
+                     onChange={(event)=> this.setState({OrderQuantity:event.target.value})}/>
 
                      <button type={"button"} className={"btn btn-default cart"}>Add to cart</button>
 

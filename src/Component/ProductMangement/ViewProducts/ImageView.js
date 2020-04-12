@@ -20,7 +20,7 @@ class ImageView extends Component{
     render() {
         return(
 
-            <Carousel fade={true} pause={'hover'}  interval={5000} >
+            <Carousel fade={true} pause={'hover'} slide={false} interval={5000} >
 
                 {this.props.ImgArr.map(txt =>
                     <Carousel.Item>

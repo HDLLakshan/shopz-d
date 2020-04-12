@@ -14,7 +14,7 @@ class Details extends Component{
 
     setPosition = (value) => {
         let x;
-        x = this.props.clr.indexOf(value);
+        x = this.props.product.ColorOfImg.indexOf(value);
         this.setState({
             position:x
         })
@@ -26,7 +26,7 @@ class Details extends Component{
                 <div className={"row"}>
 
                     <div className={"col-md-5"}>
-                        <img src={this.props.src[this.state.position]} className="d-block w-100" alt="..." style={{'width':'12vw','height':'25vw'}}/>
+                        <img src={this.props.product.ImageOfProduct[this.state.position]} className="d-block w-100" alt="..." style={{'width':'12vw','height':'25vw'}}/>
                     </div>
 
 

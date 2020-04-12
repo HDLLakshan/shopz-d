@@ -10,11 +10,23 @@ class ProductFullDetails extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            product : {},
             didLoad: true,
             relateProduct:[],
-            images:[],
-            colors:[],
+            Products:{
+                ProductName:'',
+                Category: '',
+                PricePerUnit: '',
+                StockAmount:'',
+                ProductBrand: '',
+                ImageOfProduct:[],
+                ColorOfImg: [],
+                StockSmall:[],
+                StockMedium:[],
+                StockLarge:[],
+                StockXL:[],
+
+
+            }
         }
     }
 
@@ -27,14 +39,8 @@ class ProductFullDetails extends Component{
    getFullDetails = () => {
        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.match.params.id)
            .then(res => {
-
                this.setState({
-                   // loading:false,
-                   product: res.data,
-                   images:res.data.ImageOfProduct,
-                   colors:res.data.ColorOfImg
-
-
+                   Products:res.data
                }, () => this.getRelavantProduct());
            })
            .catch((error) => {
@@ -44,13 +50,17 @@ class ProductFullDetails extends Component{
    }
 
    getRelavantProduct = () => {
-       axios.get('https://servershopping.azurewebsites.net/products/get-products/' + this.state.product.SubCategory)
+       axios.get('https://servershopping.azurewebsites.net/products/get-products/' + this.state.Products.SubCategory)
            .then(res => {
                this.setState({
                    relateProduct: res.data,
                })
-           })
-       console.log(this.state.images[1])
+           }).catch((error) => {
+               console.log(error + 'error in get relevant products')
+       })
+
+
+
    }
 
 
@@ -59,9 +69,8 @@ class ProductFullDetails extends Component{
     }
 
     componentDidUpdate() {
-        if (this.props.match.params.id !== this.state.product._id) {
+        if (this.props.match.params.id !== this.state.Products._id) {
             this.getFullDetails();
-         //  this.getRelavantProduct();
         }
 
     }
@@ -70,7 +79,7 @@ class ProductFullDetails extends Component{
         return(
             <div>
 
-                <Details product={this.state.product} clr={this.state.colors} src={this.state.images}/>
+                <Details product={this.state.Products} clr={this.state.colors} src={this.state.images} small={this.state.smallArr}/>
 
 
 
@@ -78,7 +87,7 @@ class ProductFullDetails extends Component{
 
                 <div className={"container1"}>
                 {this.state.relateProduct.map((item, index) =>
-                        <ShowItem cid={this.state.product._id} key={index} product={item} cat={'none'}/>
+                        <ShowItem cid={this.state.Products._id} key={index} product={item} cat={'none'}/>
 
                     )
                 }
