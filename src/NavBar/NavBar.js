@@ -4,45 +4,85 @@ import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
-import { Redirect } from 'react-router-dom'
+import AuthService from "../Component/services/auth.service";
+import {BrowserRouter, Link} from "react-router-dom";
+
+let username='';
+
 
 class NavBar extends Component{
-
     constructor(props) {
         super(props);
-        this.state = {
-            SearchVal : '',
-            redirectToReferrer:''
+        this.logOut = this.logOut.bind(this);
 
-        }
+        this.state = {
+            currentUser: undefined,
+            SearchVal:'',
+            redirectToReferrer:''
+        };
     }
 
-    onSearch = () =>{
+    onSearch =() =>{
+        if(this.state.SearchVal !== ''){
+            this.setState({redirectToReferrer:true})
+        }
+    };
 
-            if (this.state.redirectToReferrer) {
-                return <Redirect to={'/search/'+this.state.SearchVal} />
-            }
+    componentDidMount() {
 
+
+        const user = AuthService.getCurrentUser();
+        username = AuthService.getUsername();
+
+        if (user) {
+            this.setState({
+                currentUser: AuthService.getCurrentUser(),
+            });
+        }
+    }
+    logOut() {
+        AuthService.logout();
     }
 
     render() {
-
+        const { currentUser } = this.state;
         return(
-            <Navbar bg="primary" variant="dark">
+            <Navbar bg="info" variant="dark">
                 <Navbar.Brand href="add">Add</Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link href="/">Home</Nav.Link>
-                    <Nav.Link href="/#features">Features</Nav.Link>
-                    <Nav.Link href="#pricing">Pricing</Nav.Link>
+                    {currentUser ? (
+                    <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>
+                    ) : (
+                        <Nav.Link href="/loginRegView">Login</Nav.Link>
+                    )}
+                    {currentUser ? (
+                    <Nav.Link href="/wishlist">Wishlist</Nav.Link>
+                    ) : ( null )}
+                    {currentUser ? (
+                    <Nav.Link href="/cart">Shopping cart</Nav.Link>
+                    ) : ( null )}
+
+
+
                 </Nav>
                 <Form inline>
                     <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={(e) => this.setState({SearchVal:e.target.value})}/>
-
-                    {this.onSearch()}
-                    <Button variant="outline-light" onClick={(event)=> this.setState({redirectToReferrer:true})}>Search</Button>
-
-
+                    <BrowserRouter>
+                        <Link href={`/search/${this.state.SearchVal}`}>
+                            <Button variant="outline-light" type={"submit"}  >Search</Button>
+                        </Link>
+                    </BrowserRouter>
                 </Form>
+
+                <Nav inline className="mr-auto">
+                    {currentUser ? (
+                        <Nav.Link href="/userMan"> Hey {username} </Nav.Link>
+                    ) : ( null )}
+                </Nav>
+
+
+
             </Navbar>
         )
     }
@@ -50,3 +90,4 @@ class NavBar extends Component{
 }
 
 export default NavBar
+
