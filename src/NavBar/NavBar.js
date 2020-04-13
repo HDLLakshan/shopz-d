@@ -4,12 +4,12 @@ import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
-import {BrowserRouter, Link} from "react-router-dom";
+import { Redirect } from 'react-router-dom'
 
 class NavBar extends Component{
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             SearchVal : '',
             redirectToReferrer:''
@@ -18,9 +18,11 @@ class NavBar extends Component{
     }
 
     onSearch = () =>{
-        if(this.state.SearchVal !== ''){
-            this.setState({redirectToReferrer:true})
-        }
+
+            if (this.state.redirectToReferrer) {
+                return <Redirect to={'/search/'+this.state.SearchVal} />
+            }
+
     }
 
     render() {
@@ -30,16 +32,16 @@ class NavBar extends Component{
                 <Navbar.Brand href="add">Add</Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link href="/">Home</Nav.Link>
-                    <Nav.Link href="#features">Features</Nav.Link>
+                    <Nav.Link href="/#features">Features</Nav.Link>
                     <Nav.Link href="#pricing">Pricing</Nav.Link>
                 </Nav>
                 <Form inline>
                     <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={(e) => this.setState({SearchVal:e.target.value})}/>
-                    <BrowserRouter>
-                    <Link href={`/search/${this.state.SearchVal}`}>
-                    <Button variant="outline-light" type={"submit"}  >Search</Button>
-                    </Link>
-                    </BrowserRouter>
+
+                    {this.onSearch()}
+                    <Button variant="outline-light" onClick={(event)=> this.setState({redirectToReferrer:true})}>Search</Button>
+
+
                 </Form>
             </Navbar>
         )

@@ -12,13 +12,14 @@ function App() {
 
   return (
       <div className={"App"}>
-          <NavBar/>
+
           <BrowserRouter>
+              <NavBar/>
               <Switch>
+                  <Route exact path="/search/:keyword" component={ViewSerchedItem} />
                   <Route path="/add" component={AddProduct} exact/>
                   <Route path="/details/:id" component={ProductFullDetails} exact/>
-                  <Route path="/search/:keyword" component={ViewSerchedItem} exact />
-                  <Route path="/" component={MainView}/>
+                  <Route path="/" component={MainView} exact/>
 
               </Switch>
           </BrowserRouter>

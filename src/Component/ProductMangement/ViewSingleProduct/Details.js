@@ -31,7 +31,7 @@ class Details extends Component{
 
 
                     <div className={"col-md-7"}>
-                       <SubDetails position={this.state.position} product={this.props.product} clr={this.props.clr} setPosition={this.setPosition}/>
+                       <SubDetails position={this.state.position} product={this.props.product}  setPosition={this.setPosition}/>
                     </div>
 
                 </div>
