@@ -22,7 +22,7 @@ class App extends Component{
             <BrowserRouter>
                 <ReactNotification/>
                 <Switch>
-                    <Route path="/search/:keyword" component={ViewSerchedItem} exact/>
+                    <Route exact path="/search/:keyword" component={ViewSerchedItem} />
                     <Route path="/cart" component={GetShoppingCart} exact/>
                     <Route path="/wishlist" component={GetWishlist} exact/>
                     <Route path="/userMan" component={UserManagement} exact/>

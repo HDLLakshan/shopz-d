@@ -26,7 +26,7 @@ class Details extends Component{
                 <div className={"row"}>
 
                     <div className={"col-md-5"}>
-                        <img src={this.props.product.ImageOfProduct[this.state.position]} className="d-block w-100" alt="..." style={{'width':'12vw','height':'25vw'}}/>
+                        <img src={this.props.product.ImageOfProduct[this.state.position]} className="d-block " alt="..." style={{'width':'12vw','height':'25vw'}}/>
                     </div>
 
 

@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import AuthService from "../Component/services/auth.service";
-import {BrowserRouter, Link} from "react-router-dom";
+import {Link, Redirect} from 'react-router-dom'
 
 let username='';
 
@@ -18,15 +18,10 @@ class NavBar extends Component{
         this.state = {
             currentUser: undefined,
             SearchVal:'',
-            redirectToReferrer:''
         };
     }
 
-    onSearch =() =>{
-        if(this.state.SearchVal !== ''){
-            this.setState({redirectToReferrer:true})
-        }
-    };
+
 
     componentDidMount() {
 
@@ -66,14 +61,17 @@ class NavBar extends Component{
 
 
                 </Nav>
-                <Form inline>
-                    <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={(e) => this.setState({SearchVal:e.target.value})}/>
-                    <BrowserRouter>
-                        <Link href={`/search/${this.state.SearchVal}`}>
-                            <Button variant="outline-light" type={"submit"}  >Search</Button>
-                        </Link>
-                    </BrowserRouter>
-                </Form>
+
+                <Nav>
+                    <Form inline>
+                        <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={(e) => this.setState({SearchVal:e.target.value})}/>
+
+                      <Nav.Link href={'search/'+this.state.SearchVal}>
+                        <Button variant="outline-light" >Search</Button>
+                        </Nav.Link>
+
+                    </Form>
+                </Nav>
 
                 <Nav inline className="mr-auto">
                     {currentUser ? (
