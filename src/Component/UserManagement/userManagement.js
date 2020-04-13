@@ -3,7 +3,7 @@ import {Form, Row, Col, Button} from 'react-bootstrap';
 import LoginImg from "../../download.svg";
 import axios from "axios";
 import {store} from "react-notifications-component";
-import AuthService from "../services/auth.service";
+import AuthService from "./services/auth.service";
 
 export default class UserManagement extends Component{
 
@@ -37,7 +37,7 @@ export default class UserManagement extends Component{
             this.setState({
                 Username: user,
             }, () => {
-                axios.post('http://localhost:4000/users/getOne' + this.state.Username)
+                axios.post('https://servershopping.azurewebsites.net/users/getOne' + this.state.Username)
                     .then(res => {
                         console.log(res.data);
                         this.setState({
@@ -65,7 +65,7 @@ export default class UserManagement extends Component{
         };
 
         console.log(newDetails);
-        axios.put('http://localhost:4000/users/edit-details'+this.state.Email, newDetails)
+        axios.put('https://servershopping.azurewebsites.net/users/edit-details'+this.state.Email, newDetails)
             .then(res =>{
                 alert(res.data);
             });

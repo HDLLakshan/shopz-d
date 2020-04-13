@@ -3,8 +3,7 @@ import LoaderComponent from "./LoaderComponent";
 import Figure from "react-bootstrap/Figure";
 import {Link} from 'react-router-dom'
 import ImageView from "./ImageView";
-import AddToWishlist from "../../Wishlist/AddToWishlist";
-import AddToShoppingCart from "../../Shopping Cart/AddToShoppingCart";
+
 
 
 class ShowItem extends Component {

@@ -6,11 +6,11 @@ import AddProduct from "./Component/ProductMangement/Add-Product/Add-Product";
 import MainView from "./Component/ProductMangement/ViewProducts/MainView";
 import ProductFullDetails from "./Component/ProductMangement/ViewSingleProduct/ProductFullDetails";
 import 'react-notifications-component/dist/theme.css';
-import LoginRegView from "./Component/Login/loginRegView";
+import LoginRegView from "./Component/UserManagement/Login/loginRegView";
 import ReactNotification from 'react-notifications-component';
 import UserManagement from "./Component/UserManagement/userManagement";
-import GetWishlist from "./Component/Wishlist/GetWishlist";
-import GetShoppingCart from "./Component/Shopping Cart/getShoppingCart";
+import GetWishlist from "./Component/UserManagement/Wishlist/GetWishlist";
+import GetShoppingCart from "./Component/UserManagement/Shopping Cart/getShoppingCart";
 import ViewSerchedItem from "./Component/ProductMangement/Search/ViewSerchedItem";
 
 class App extends Component{

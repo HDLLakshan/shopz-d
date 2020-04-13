@@ -2,7 +2,7 @@ import React from 'react';
 import { Login } from "./login"
 import { Register } from "./register"
 import './style.scss';
-import '../../App.css';
+// import '../../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import "bootstrap/dist/css/bootstrap.css";
 import AuthService from "../services/auth.service";

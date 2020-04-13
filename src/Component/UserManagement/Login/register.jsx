@@ -89,6 +89,7 @@ export class Register extends React.Component {
 
         AuthService.register(userObject).then(
             response => {
+                alert("Okay Now login")
                 this.setState({
                     message: response.data.message,
                     successful: true
