@@ -1,8 +1,8 @@
 import React from "react";
-import LoginImg from "../../download.svg";
+import LoginImg from "../../../download.svg";
 import AuthService from "../services/auth.service";
 import {LoginRegView} from "./loginRegView";
-import MainView from "../ProductMangement/ViewProducts/MainView";
+
 
 
 export class Login extends React.Component {
@@ -74,6 +74,8 @@ export class Login extends React.Component {
                     Username:'',
                     Password:''
                 });
+
+                alert("Logged in click home!!!")
                 //this.props.history.push("/");
             },
             error => {

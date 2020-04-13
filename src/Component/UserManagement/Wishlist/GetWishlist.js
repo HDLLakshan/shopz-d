@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import axios from 'axios';
 import {WishlistProductRow} from "./wishlishProductRow";
 import {Modal,Button} from "react-bootstrap";
-import authHeader from '../services/auth-header';
 
 
 export default class GetWishlist extends Component{

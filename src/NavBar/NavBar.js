@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
-import AuthService from "../Component/services/auth.service";
+import AuthService from "../Component/UserManagement/services/auth.service";
 import {BrowserRouter, Link} from "react-router-dom";
 
 let username='';
