@@ -50,7 +50,7 @@ export default class LoginRegView extends React.Component{
                 {/*<div onClick={this.state.loading ? (<Home/>) : (*/}
                 <div className="App">
                     <div className="login">
-                        <div className="container" ref={ref => (this.container = ref)}>
+                        <div className="container2" ref={ref => (this.container = ref)}>
                             {isLogginActive && (
                                 <Login containerRef={ref => (this.current = ref)} />
                             )}

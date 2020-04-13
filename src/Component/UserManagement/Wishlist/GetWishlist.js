@@ -51,7 +51,7 @@ export default class GetWishlist extends Component{
     render(){
         return(
         <div>
-            <div className='container'>
+            <div className='container2'>
                 {/*<Modal show={this.props.show} aria-labelledby="contained-modal-title-vcenter">*/}
                 {/*    <Modal.Header closeButton onClick={this.props.onHide}>*/}
                 {/*        <Modal.Title id="contained-modal-title-vcenter">*/}

@@ -25,8 +25,8 @@ class Details extends Component{
             <div onChange={this.handleFormChange} className={"container"}>
                 <div className={"row"}>
 
-                    <div className={"col-md-5"}>
-                        <img src={this.props.product.ImageOfProduct[this.state.position]} className="d-block " alt="..." style={{'width':'12vw','height':'25vw'}}/>
+                    <div className={"col-md-4"}>
+                        <img src={this.props.product.ImageOfProduct[this.state.position]} className="d-block " alt="..." style={{'width':'20vw','height':'20vw'}}/>
                     </div>
 
 
