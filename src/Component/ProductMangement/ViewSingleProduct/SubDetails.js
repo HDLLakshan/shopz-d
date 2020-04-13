@@ -3,6 +3,8 @@ import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
 import {Rating} from "@material-ui/lab";
 import axios from "axios";
+import AddToShoppingCart from "../../Shopping Cart/AddToShoppingCart";
+import AddToWishlist from "../../Wishlist/AddToWishlist";
 
 class SubDetails extends Component{
 
@@ -13,6 +15,7 @@ class SubDetails extends Component{
             size:'S',
             AvailableAmount:'',
             OrderQuantity:0,
+            productId:this.props.product._id
 
         }
         console.log(this.props.product.StockSmall[0])
@@ -26,7 +29,9 @@ class SubDetails extends Component{
         })
     }
 
+    componentWillMount() {
 
+    }
 
 
     setAvailability = () => {
@@ -98,7 +103,8 @@ class SubDetails extends Component{
                      <input className={' col-md-2'} placeholder="Enter Quantity" required type="number" value={this.state.OrderQuantity} min="1" max={this.setAvailability()}
                      onChange={(event)=> this.setState({OrderQuantity:event.target.value})}/>
 
-                     <button type={"button"} className={"btn btn-default cart"}>Add to cart</button>
+                     <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.ImageOfProduct[this.props.position]} quantity={this.state.OrderQuantity} />
+                     <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.ImageOfProduct[this.props.position]} quantity={this.state.OrderQuantity} />
 
 
                  </div>
