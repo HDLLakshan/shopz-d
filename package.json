@@ -15,10 +15,14 @@
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
+    "react-country-region-selector": "^2.1.0",
     "react-dom": "^16.13.1",
     "react-notifications-component": "^2.4.0",
+    "react-phone-number-input": "^3.0.22",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "reactstrap": "^8.4.1",
+    "history": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

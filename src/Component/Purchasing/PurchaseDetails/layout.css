@@ -1,0 +1,37 @@
+.layout {
+    width: auto;
+    alignment: center;
+}
+
+.dropdowns{
+
+    width:280px;
+    height:40px
+}
+
+.phone{
+    height:40px;
+}
+
+.paper {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 300px;
+    margin-right: auto;
+    padding: 5px;
+    width: 900px;
+}
+
+.buttons{
+    display: flex;
+    margin-top: 3px;
+    margin-left: 350px;
+
+}
+.button{
+
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-bottom: 3px;
+}
+

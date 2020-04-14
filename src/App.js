@@ -12,6 +12,9 @@ import UserManagement from "./Component/UserManagement/userManagement";
 import GetWishlist from "./Component/UserManagement/Wishlist/GetWishlist";
 import GetShoppingCart from "./Component/UserManagement/Shopping Cart/getShoppingCart";
 import ViewSerchedItem from "./Component/ProductMangement/Search/ViewSerchedItem";
+import BillingDetails from "./Component/Purchasing/PurchaseDetails/BillingDetails";
+
+
 
 class App extends Component{
 
@@ -29,7 +32,9 @@ class App extends Component{
                     <Route path="/loginRegView" component={LoginRegView} exact/>
                     <Route path="/add" component={AddProduct} exact/>
                     <Route path="/details/:id" component={ProductFullDetails} exact/>
+                    <Route path="/billing" component={BillingDetails} exact/>
                     <Route path="/" component={MainView}/>
+
 
                 </Switch>
             </BrowserRouter>

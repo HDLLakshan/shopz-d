@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import {ShoppingCartRow} from "./ShoppingCartRow";
 import axios from "axios";
+import Button from "@material-ui/core/Button/Button";
 
 export default class GetShoppingCart extends Component{
     constructor(props) {
@@ -63,7 +64,15 @@ export default class GetShoppingCart extends Component{
             <div>
                 <div className='container2'>
                     {this.getShoppingCartTemplate()}
+
                 </div>
+                <br/>
+                <div align="center"> <Button variant="contained" size="md" type="submit" alignment={"center"} color="secondary"
+                              onClick={() => this.props.history.push('/billing')}
+                >
+                    PAYMENT
+                </Button></div>
+
             </div>
         )
     }
