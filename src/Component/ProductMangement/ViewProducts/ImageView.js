@@ -1,21 +1,25 @@
 import React, {Component} from "react";
-import Figure from "react-bootstrap/Figure";
 import Carousel from "react-bootstrap/Carousel";
+import LoaderComponent from "./LoaderComponent";
 
 
 class ImageView extends Component{
     constructor(props) {
         super(props);
         this.state ={
-            ImgPath : []
+           loading:true
+
         }
 
-       for(let i=0; i<this.props.ImgArr.length-1; i++) {
-           this.state.ImgPath.push(this.props.ImgArr[i + 1]);
-       }
+
     }
 
 
+    onLoad = () => {
+        this.setState({
+            loading: false
+        })
+    }
 
     render() {
         return(
@@ -24,10 +28,8 @@ class ImageView extends Component{
 
                 {this.props.ImgArr.map(txt =>
                     <Carousel.Item>
-                        <img
-
-                            src={txt}
-                            style={{'width': '15vw', 'height': '15vw'}}
+                        {this.state.loading ? <LoaderComponent /> : null}
+                        <img onLoad={this.onLoad} className={"img-thumbnail"} src={txt} style={{'width': '15vw', 'height': '15vw'}}
                         />
 
                     </Carousel.Item>

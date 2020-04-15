@@ -51,8 +51,9 @@ class AddImage extends Component{
                this.state.Arr.map(txt =>
 
 
-        <div className="">
-            <div className={"row"}>
+        <div >
+            <p>Add Image {txt+1}</p>
+            <div className={"form-group row"}>
             <div className="col col-md-3">
                 <input type="text" className="form-control" placeholder="clr" name={"ColorOfImg"}
                        onChange={(event) => this.props.Products.ColorOfImg[txt] = event.target.value}/>

@@ -11,6 +11,7 @@ class ProductFullDetails extends Component{
         super(props);
         this.state = {
             didLoad: true,
+            didLoadrel:true,
             relateProduct:[],
             Products:{
                 ProductName:'',
@@ -24,17 +25,14 @@ class ProductFullDetails extends Component{
                 StockMedium:[],
                 StockLarge:[],
                 StockXL:[],
+                AddDate:''
 
 
             }
         }
     }
 
-    onLoad = () => {
-        this.setState({
-            didLoad: false
-        })
-    }
+
 
    getFullDetails = () => {
        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.match.params.id)
@@ -50,11 +48,12 @@ class ProductFullDetails extends Component{
    }
 
    getRelavantProduct = () => {
+        this.setState({didLoad:false})
        axios.get('https://servershopping.azurewebsites.net/products/get-products/' + this.state.Products.SubCategory)
            .then(res => {
                this.setState({
                    relateProduct: res.data,
-               })
+               },() => this.setState({didLoadrel:false}))
            }).catch((error) => {
                console.log(error + 'error in get relevant products')
        })
@@ -78,13 +77,21 @@ class ProductFullDetails extends Component{
     render() {
         return(
             <div>
+                {this.state.didLoad ? <div className="d-flex justify-content-center">
+                    <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div> : null}
+                <Details product={this.state.Products} />
 
-                <Details product={this.state.Products} clr={this.state.colors} src={this.state.images} small={this.state.smallArr}/>
 
 
-
-                <h3>Related</h3>
-
+                <h3 >Similar Products</h3>
+                {this.state.didLoadrel ? <div className="d-flex justify-content-center">
+                    <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div> : null}
                 <div className={"container1"}>
                 {this.state.relateProduct.map((item, index) =>
                         <ShowItem cid={this.state.Products._id} key={index} product={item} cat={'none'}/>

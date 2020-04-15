@@ -5,7 +5,7 @@ import React, {Component} from "react";
 class LoaderComponent extends Component{
     render() {
         return(
-            <div className="divLoader container-sm">
+            <div className="divLoader container-sm justify-content-center" style={{position:'absolute',margin:'0 '}}>
                 <svg className="svgLoader" viewBox="0 0 100 100" width="6em" height="10em">
 
                     <path stroke="none" d="M10 50A40 40 0 0 0 90 50A40 42 0 0 1 10 50" fill="#51CACC"

@@ -37,12 +37,17 @@ class MainView extends Component{
         return(
 
             <div>
+                {this.state.loading ? <div className="d-flex justify-content-center">
+                    <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div> : null}
                 {
                     this.state.CategoryName.map(txt =>
                         <div>
-                            <h3>{txt} Latest (More Item)</h3>
+                            <h3 class="h3" hidden={this.state.loading}>{txt} Latest </h3>
                             <div className="container1">
-                                {this.state.loading ? <LoaderComponent /> : null}
+
                                 {
                                     this.state.ProductArray.map((item, index) =>
 

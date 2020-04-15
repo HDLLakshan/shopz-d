@@ -15,11 +15,7 @@ class ShowItem extends Component {
         }
     }
 
-    onLoad = () => {
-        this.setState({
-            didLoad: false
-        })
-    }
+
 
 
     setHidden = () =>{

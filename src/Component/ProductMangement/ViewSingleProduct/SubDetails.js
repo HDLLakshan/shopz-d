@@ -82,15 +82,17 @@ class SubDetails extends Component{
                      <h2>{this.props.product.ProductName}</h2>
                      <p>Brand: {this.props.product.ProductBrand}</p>
                      <Rating name="size-small" defaultValue={2} size="small" disabled={true} />
-                     <p className={"price"}></p>
+                     <p>Added On: {this.props.product.AddDate}</p>
+                     <p className={"lead"}>Rs. <b>{this.props.product.PricePerUnit}</b></p>
+
 
                      <div className={"row"}>
                      <FormLabel>Select Color</FormLabel>
-                     <FormControl className={"col-md-4"}  as="select" size="sm" name={"color"} value={this.props.product.ColorOfImg[this.props.position]} onChange={(event ) => this.ChangeEventFn(event)} custom>
+                     <FormControl className={"col-md-2"}  as="select" size="sm" name={"color"} value={this.props.product.ColorOfImg[this.props.position]} onChange={(event ) => this.ChangeEventFn(event)} custom>
                          {this.props.product.ColorOfImg.map((text) => <option value={text}>{text}</option>)}
                      </FormControl>
                          <FormLabel>Select Size</FormLabel>
-                         <FormControl className={"col-md-4"}  as="select" size="sm" name={"size"} value={this.state.size} onChange={(e ) => this.setState({size: e.target.value})} custom>
+                         <FormControl className={"col-md-2"}  as="select" size="sm" name={"size"} value={this.state.size} onChange={(e ) => this.setState({size: e.target.value})} custom>
                              <option value={"S"}>Small</option>
                              <option value={"M"}>Medium</option>
                              <option value={"L"}>Large</option>

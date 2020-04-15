@@ -25,7 +25,7 @@ class App extends Component{
             <BrowserRouter>
                 <ReactNotification/>
                 <Switch>
-                    <Route exact path="/search/:keyword" component={ViewSerchedItem} />
+                    <Route exact path="/search/:id" component={ViewSerchedItem} />
                     <Route path="/cart" component={GetShoppingCart} exact/>
                     <Route path="/wishlist" component={GetWishlist} exact/>
                     <Route path="/userMan" component={UserManagement} exact/>

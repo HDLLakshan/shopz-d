@@ -43,7 +43,7 @@ class NavBar extends Component{
         const { currentUser } = this.state;
         return(
             <Navbar bg="info" variant="dark">
-                <Navbar.Brand href="add">Add</Navbar.Brand>
+                <Navbar.Brand href="/add">Add</Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link href="/">Home</Nav.Link>
                     {currentUser ? (
@@ -66,7 +66,7 @@ class NavBar extends Component{
                     <Form inline>
                         <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={(e) => this.setState({SearchVal:e.target.value})}/>
 
-                      <Nav.Link href={'search/'+this.state.SearchVal}>
+                      <Nav.Link href={'/search/'+this.state.SearchVal}>
                         <Button variant="outline-light" >Search</Button>
                         </Nav.Link>
 

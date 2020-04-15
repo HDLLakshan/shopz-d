@@ -35,6 +35,7 @@ class AddProduct extends Component{
             image:'',
             CategoryList:['Select','Men','Women','Watch'],
             SubCat:['Select'],
+            show:false
 
         }
 
@@ -59,50 +60,51 @@ class AddProduct extends Component{
     onSubmit = (e) => {
         e.preventDefault()
 
-        const formData = new FormData()
-        formData.append("ProductName", this.state.Products.ProductName);
-        formData.append("Category", this.state.Products.Category);
-        formData.append("PricePerUnit", this.state.Products.PricePerUnit);
-        formData.append("SubCategory", this.state.Products.SubCategory);
-        formData.append("ProductBrand", this.state.Products.ProductBrand);
 
-        for(let l=0;l<this.state.Products.ImageOfProduct.length;l++) {
-            formData.append('ImageOfProduct', this.state.Products.ImageOfProduct[l]);
-        }
+            const formData = new FormData()
+            formData.append("ProductName", this.state.Products.ProductName);
+            formData.append("Category", this.state.Products.Category);
+            formData.append("PricePerUnit", this.state.Products.PricePerUnit);
+            formData.append("SubCategory", this.state.Products.SubCategory);
+            formData.append("ProductBrand", this.state.Products.ProductBrand);
 
-        for(let m=0;m<this.state.Products.ColorOfImg.length;m++) {
-            console.log(this.state.Products.ColorOfImg[m])
-            formData.append('ColorOfImg', this.state.Products.ColorOfImg[m]);
-            formData.append('StockSmall', this.state.Products.StockSmall[m]);
-            formData.append('StockMedium', this.state.Products.StockMedium[m]);
-            formData.append('StockLarge', this.state.Products.StockLarge[m]);
-            formData.append('StockXL', this.state.Products.StockXL[m]);
+            for (let l = 0; l < this.state.Products.ImageOfProduct.length; l++) {
+                formData.append('ImageOfProduct', this.state.Products.ImageOfProduct[l]);
+            }
 
-
-        }
-
-
-        formData.append("StockAmount", this.state.Products.StockAmount);
-        axios.post('https://servershopping.azurewebsites.net/products/add-product', formData, {headers: {"Content-type": "multipart/form-data"}})
-            .then(res => console.log(res.data));
-
-        this.setState({
-            Products:{
-                ProductName:'',
-                Category: '',
-                PricePerUnit: '',
-                StockAmount:'',
-                ProductBrand: '',
-                ImageOfProduct:[],
-                ColorOfImg: [],
-                StockSmall:[],
-                StockMedium:[],
-                StockLarge:[],
-                StockXL:[],
+            for (let m = 0; m < this.state.Products.ColorOfImg.length; m++) {
+                console.log(this.state.Products.ColorOfImg[m])
+                formData.append('ColorOfImg', this.state.Products.ColorOfImg[m]);
+                formData.append('StockSmall', this.state.Products.StockSmall[m]);
+                formData.append('StockMedium', this.state.Products.StockMedium[m]);
+                formData.append('StockLarge', this.state.Products.StockLarge[m]);
+                formData.append('StockXL', this.state.Products.StockXL[m]);
 
 
             }
-        })
+
+
+            formData.append("StockAmount", this.state.Products.StockAmount);
+            axios.post('https://servershopping.azurewebsites.net/products/add-product', formData, {headers: {"Content-type": "multipart/form-data"}})
+                .then(res => console.log(res.data));
+
+            this.setState({
+                Products: {
+                    ProductName: '',
+                    Category: '',
+                    PricePerUnit: '',
+                    StockAmount: '',
+                    ProductBrand: '',
+                    ImageOfProduct: [],
+                    ColorOfImg: [],
+                    StockSmall: [],
+                    StockMedium: [],
+                    StockLarge: [],
+                    StockXL: [],
+                },
+                show:false
+            })
+
     }
 
 
@@ -114,13 +116,13 @@ class AddProduct extends Component{
         return(
             <div className="container">
                 <div >
-                    <form noValidate autoComplete="off" onSubmit={this.onSubmit}>
+                    <form  autoComplete="off" onSubmit={this.onSubmit}>
 
                         <div className={"container-sm"}>
-                        <TextField id="outlined-basic" name={"ProductName"} value={this.state.Products.ProductName} label="Product Name" variant="outlined" onChange={(event ) => this.ChangeEventFn(event)}/>
+                        <TextField id="outlined-basic" name={"ProductName"} value={this.state.Products.ProductName} label="Product Name" variant="outlined" onChange={(event ) => this.ChangeEventFn(event)} required/>
                         <br/><br/>
 
-                        <TextField id="outlined-basic" name={"ProductBrand"} value={this.state.Products.ProductBrand} label="Product Brand" variant="outlined" onChange={(event ) => this.ChangeEventFn(event)}/>
+                        <TextField id="outlined-basic" name={"ProductBrand"} value={this.state.Products.ProductBrand} label="Product Brand" variant="outlined" onChange={(event ) => this.ChangeEventFn(event)} required/>
                         <br/><br/>
 
 
@@ -150,11 +152,11 @@ class AddProduct extends Component{
                                 startAdornment: <InputAdornment position="start">Rs</InputAdornment>,
                             }}
                             variant="outlined"
-                        />
+                       required />
                         <br/><br/>
 
 
-                        <TextField value={this.state.Products.StockAmount} type={"number"} id="outlined-basic" name={"StockAmount"} label="Full Stock Amount" variant="outlined" onChange={(event ) => this.ChangeEventFn(event)} />
+                        <TextField value={this.state.Products.StockAmount} type={"number"} id="outlined-basic" name={"StockAmount"} label="Full Stock Amount" variant="outlined" onChange={(event ) => this.ChangeEventFn(event)} required/>
                         <br/><br/>
 
 
@@ -197,6 +199,8 @@ class AddProduct extends Component{
         return this.state.SubCat
 
     }
+
+
 
 }
 

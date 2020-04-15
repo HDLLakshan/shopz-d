@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import SubDetails from "./SubDetails";
+import LoaderComponent from "../ViewProducts/LoaderComponent";
 
 
 class Details extends Component{
@@ -7,10 +8,19 @@ class Details extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            position : 0
+            position : 0,
+            loading:true
         }
-      //  this.setPosition = this.setPosition().bind(this)
+
     }
+
+    onLoad = () => {
+        this.setState({
+            loading:false
+        })
+    }
+
+
 
     setPosition = (value) => {
         let x;
@@ -25,8 +35,9 @@ class Details extends Component{
             <div onChange={this.handleFormChange} className={"container"}>
                 <div className={"row"}>
 
-                    <div className={"col-md-4"}>
-                        <img src={this.props.product.ImageOfProduct[this.state.position]} className="d-block " alt="..." style={{'width':'20vw','height':'20vw'}}/>
+                    <div className={"col-md-4"} >
+                        {this.state.loading ? <LoaderComponent /> : null}
+                        <img onLoad={this.onLoad} src={this.props.product.ImageOfProduct[this.state.position]} className="d-block "  style={{'width':'20vw','height':'20vw'}}/>
                     </div>
 
 
