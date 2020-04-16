@@ -12,6 +12,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "generate-password": "^1.5.1",
+    "history": "latest",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
@@ -21,8 +22,8 @@
     "react-phone-number-input": "^3.0.22",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "reactstrap": "^8.4.1",
-    "history": "latest"
+    "react-star-rating-component": "^1.4.1",
+    "reactstrap": "^8.4.1"
   },
   "scripts": {
     "start": "react-scripts start",

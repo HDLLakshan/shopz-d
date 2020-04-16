@@ -17,6 +17,7 @@ import CardDetails from "./Component/Purchasing/PurchaseDetails/CardDetails";
 import ReviewDetails from "./Component/Purchasing/PurchaseDetails/ReviewDetails";
 import EditCreditCard from "./Component/Purchasing/EditPurchaseDetails/EditCreditCard";
 import EditBilling from "./Component/Purchasing/EditPurchaseDetails/EditBilling";
+import DisplayRateComment from "./Component/RateComment/DisplayRateComment";
 
 
 
@@ -43,6 +44,7 @@ class App extends Component{
                     <Route path="/edit-credit-card/:id" component={EditCreditCard} exact/>
                     <Route path="/edit-billing/:id" component={EditBilling} exact/>
                     <Route path="/review-order-details/:id" component={ReviewDetails} exact/>
+                    <Route path="/rate-comment/:id" component={DisplayRateComment} exact/>
                     <Route path="/" component={MainView}/>
 
 

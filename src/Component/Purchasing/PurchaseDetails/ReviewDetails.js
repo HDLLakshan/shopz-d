@@ -148,34 +148,43 @@ export default class ReviewDetails extends Component {
                                             <h6 align="center" > Delivery Details</h6><br/>
                                             <p className="facts">Delivery address :  {this.state.deliveryadd}</p>
                                             <p className="facts">Delivery Instructions :  {this.state.instructions}</p>
-
+                                            {(() => {
+                                                if (this.state.cashDelivery==true) {
+                                                    return   <p className="facts">Payment Type : Cash on Delivery</p>
+                                                }
+                                            })()}
                                         </Paper>
 
                                     </Grid>
 
-                                    <Grid item xs={4}>
-                                        <Paper className="papers1">
-                                            <h6 align="center" >Payment Details</h6>
-                                            <p className="facts">Card Number : {this.state.cno} </p>
-                                            <p className="facts">Card Holder Name : {this.state.nameCard}</p>
-                                            <p className="facts">Expire Date: {this.state.month}/{this.state.year} </p>
-                                            <p className="facts">CCV Number :  {this.state.cvc}</p><br/>
-                                            <div align="center">
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={() => this.props.history.push('/edit-credit-card/'+this.state.s)}
-                                                >
-                                                    Edit Payment Details
-                                                </Button></div>
+                                    {(() => {
+                                        if (this.state.cashDelivery==false) {
+                                            return  <Grid item xs={4}>
+                                                <Paper className="papers1">
+                                                    <h6 align="center" >Payment Details</h6>
+                                                    <p className="facts">Card Number : {this.state.cno} </p>
+                                                    <p className="facts">Card Holder Name : {this.state.nameCard}</p>
+                                                    <p className="facts">Expire Date: {this.state.month}/{this.state.year} </p>
+                                                    <p className="facts">CCV Number :  {this.state.cvc}</p><br/>
+                                                    <div align="center">
+                                                        <Button
+                                                            variant="contained"
+                                                            onClick={() => this.props.history.push('/edit-credit-card/'+this.state.s)}
+                                                        >
+                                                            Edit Payment Details
+                                                        </Button></div>
 
-                                        </Paper>
-                                    </Grid>
+                                                </Paper>
+                                            </Grid>
+                                        }
+                                    })()}
+
 
                                     <Grid item xs={12} >
                                         <div align="center" >
                                             <Button
                                                 variant="contained"  type="submit"
-                                                onClick={() => this.props.history.push('/rating/')}
+                                                onClick={() => this.props.history.push('/rate-comment/'+this.state.s)}
                                                 color="secondary"
 
                                             >

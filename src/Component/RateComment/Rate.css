@@ -1,0 +1,30 @@
+
+.Ratess {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+input[type="radio"]{
+    display: none;
+}
+
+.Hide{
+
+    display: none;
+
+}
+
+.star {
+    cursor: pointer;
+    transition: color 200ms;
+}
+
+
+
+.Ratingss{
+    margin-top: 30px;
+    font-size: 40px; }
+
+

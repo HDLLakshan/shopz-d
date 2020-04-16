@@ -113,7 +113,6 @@ class  BillingDetails extends Component{
       this.state.userName   = AuthService.getUsername();
 
 
-
     }
 
     onSubmit(e) {
@@ -154,6 +153,8 @@ class  BillingDetails extends Component{
         })
 
         alert("filled , move next..")
+
+
     }
 
 
