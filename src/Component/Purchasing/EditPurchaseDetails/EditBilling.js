@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import 'react-phone-number-input/style.css'
-import './layout.css'
+import '../PurchaseDetails/layout.css'
 import { Col, Button, Form, FormGroup, Input } from 'reactstrap';
 import Paper from "@material-ui/core/Paper/Paper";
 import {CountryDropdown} from "react-country-region-selector";
@@ -12,7 +12,7 @@ import AuthService from "../../UserManagement/services/auth.service";
 
 
 
-class  BillingDetails extends Component{
+export default class  EditBilling extends Component{
 
     constructor(props){
         super(props)
@@ -28,10 +28,10 @@ class  BillingDetails extends Component{
         this.onChangePhoneNo = this.onChangePhoneNo.bind(this);
         this.onChangeInstructions = this.onChangeInstructions.bind(this);
         this.onChangeDeliveryAddress = this.onChangeDeliveryAddress.bind(this);
-        this.onChangeCashDelivery = this.onChangeCashDelivery.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
+            idd:'',
             userName:'',
             firstName:'',
             lastName:'',
@@ -43,8 +43,8 @@ class  BillingDetails extends Component{
             country:'',
             pno:'',
             instructions:'',
-            deliveryadd:'',
-            cashDelivery:false,
+            deliveryadd:''
+
 
         }
     }
@@ -101,17 +101,38 @@ class  BillingDetails extends Component{
         this.setState({instructions: e.target.value})
     }
 
-    onChangeCashDelivery(){
 
-        this.setState({
-            cashDelivery: !this.state.cashDelivery
-        });
-    }
 
     componentDidMount() {
 
-      this.state.userName   = AuthService.getUsername();
+        this.state.userName   = AuthService.getUsername();
 
+
+        axios.get('https://servershopping.azurewebsites.net/billing/getbill/' + this.state.userName)
+            .then(res => {
+
+
+                this.setState(
+
+                    {
+                    idd:res.data[0]._id,
+                    firstName:res.data[0].firstName,
+                    lastName:res.data[0].lastName,
+                    add1: res.data[0].add1,
+                    add2:res.data[0].add2,
+                    city: res.data[0].city,
+                    State: res.data[0].State,
+                    zip:res.data[0].zip,
+                    country:res.data[0].country,
+                    pno:res.data[0].pno,
+                    instructions: res.data[0].instructions,
+                    deliveryadd:res.data[0].deliveryadd,
+
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
 
     }
@@ -119,8 +140,7 @@ class  BillingDetails extends Component{
     onSubmit(e) {
         e.preventDefault()
 
-        const purchaseObject = {
-            userName:this.state.userName,
+        const editbillingObject = {
             firstName:this.state.firstName,
             lastName:this.state.lastName,
             add1: this.state.add1,
@@ -130,30 +150,23 @@ class  BillingDetails extends Component{
             zip:this.state.zip,
             country:this.state.country,
             pno:this.state.pno,
-            instructions:this.state.instructions,
-            deliveryadd: this.state.deliveryadd,
-            cashDelivery: this.state.cashDelivery
-        };
-        axios.post('https://servershopping.azurewebsites.net/billing/add-billing', purchaseObject)
-            .then(res => console.log(res.data));
+            instructions: this.state.instructions,
+            deliveryadd:this.state.deliveryadd
 
-        this.setState({
-            userName:'',
-            firstName:'',
-            lastName:'',
-            add1: '',
-            add2:'',
-            city: '',
-            State: '',
-            zip:'',
-            country:'',
-            pno:'',
-            instructions:'',
-            deliveryadd:'',
-            cashDelivery:''
+        };
+
+        axios.put('https://servershopping.azurewebsites.net/billing/update-billing/' + this.state.idd, editbillingObject)
+            .then((res) => {
+                console.log(res.data)
+                console.log('Billing  successfully updated');
+
+            }).catch((error) => {
+            console.log(error)
         })
 
-        alert("filled , move next..")
+        // Redirect to Student List
+
+
     }
 
 
@@ -181,7 +194,7 @@ class  BillingDetails extends Component{
 
                             <React.Fragment>
                                 <Typography variant="h6" gutterBottom align="center">
-                                    Billing Details
+                                  Edit  Billing and Delivery Details
                                 </Typography>
                                 <br/>
                                 <Grid container spacing={1} justify="center" >
@@ -319,33 +332,19 @@ class  BillingDetails extends Component{
                                                     />
                                                 </Col>
                                             </FormGroup> <br/>
-                                            <FormGroup row>
-                                                <Col sm={1}>
 
-                                                    <input
-                                                        id="completedCheckbox"
-                                                        type="checkbox"
-                                                        name="completedCheckbox"
-                                                        onChange={this.onChangeCashDelivery}
-                                                        checked={this.state.cashDelivery}
-                                                        value={this.state.cashDelivery}
-                                                    />
-
-                                                </Col>
-                                                <Col sm={11}><label>Wish to do payment with cash on delivery</label> </Col>
-                                            </FormGroup>
                                             <FormGroup row >
-                                                <Col sm={10}>
+                                                <Col sm={9}>
 
                                                     <Button variant="danger" size="md"  type="submit" float-center="true" >
-                                                        Save Delivery Details
+                                                        Update Details
                                                     </Button>
                                                 </Col>
-                                                <Col sm={2}>
+                                                <Col sm={3}>
                                                     <Button variant="danger" size="md" type="submit"
-                                                            onClick={() => this.props.history.push('/credit-card')}
+                                                            onClick={() => this.props.history.push('/review-order-details/'+this.state.userName)}
                                                     >
-                                                        Next Step
+                                                        Back to Review
                                                     </Button>
                                                 </Col>
                                             </FormGroup> <br/>
@@ -363,4 +362,3 @@ class  BillingDetails extends Component{
 
         );
     }}
-export default BillingDetails;

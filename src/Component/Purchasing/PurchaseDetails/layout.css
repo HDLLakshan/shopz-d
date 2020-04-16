@@ -22,6 +22,15 @@
     width: 900px;
 }
 
+.paper2 {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 300px;
+    margin-right: auto;
+    padding: 5px;
+    width: 1000px;
+}
+
 .buttons{
     display: flex;
     margin-top: 3px;
@@ -35,3 +44,30 @@
     margin-bottom: 3px;
 }
 
+.roots{
+    flexGrow: 1,
+}
+
+.papers{
+    padding: 3px;
+    text-align: left;
+    margin-left: 10px;
+
+
+}
+
+.papers1{
+    padding: 3px;
+    text-align: left;
+    margin-left: 10px;
+    height: 400px;
+
+}
+
+.facts{
+    margin-left: 8px;
+}
+
+.bt{
+    margin-bottom: 10px;
+}
