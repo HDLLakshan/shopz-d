@@ -5,8 +5,6 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import AuthService from "../Component/UserManagement/services/auth.service";
-import {Link, Redirect} from 'react-router-dom'
-
 let username='';
 
 
@@ -43,8 +41,11 @@ class NavBar extends Component{
         const { currentUser } = this.state;
         return(
             <Navbar bg="info" variant="dark">
-                <Navbar.Brand href="/add">Add</Navbar.Brand>
+                {currentUser ? (
+                    <Navbar.Brand href="/userMan"> Hi {username}! </Navbar.Brand>
+                ) : ( null )}
                 <Nav className="mr-auto">
+                    <Nav.Link href="/add">Add</Nav.Link>
                     <Nav.Link href="/">Home</Nav.Link>
                     {currentUser ? (
                     <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>
@@ -72,14 +73,6 @@ class NavBar extends Component{
 
                     </Form>
                 </Nav>
-
-                <Nav inline className="mr-auto">
-                    {currentUser ? (
-                        <Nav.Link href="/userMan"> Hey {username} </Nav.Link>
-                    ) : ( null )}
-                </Nav>
-
-
 
             </Navbar>
         )

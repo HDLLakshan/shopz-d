@@ -22,7 +22,7 @@ export default class LoginRegView extends React.Component{
         this.rightSide.classList.add("right");
         this.setState({
             currentuser:AuthService.getCurrentUser()
-        })
+        });
         if(this.state.currentuser)
             this.setState({logged:true});
 

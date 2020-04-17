@@ -3,8 +3,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: scroll;
 
   .header {
+    color: #17a2b8;
     font-size: 24px;
     font-family: "Open Sans", sans-serif;
   }
@@ -54,7 +56,7 @@
 
           &:focus {
             outline: none;
-            box-shadow: 0px 0px 12px 0.8px #3474dbb2;
+            box-shadow: 0px 0px 12px 0.8px #17a2b8;
           }
         }
       }
@@ -93,7 +95,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #17a2b8;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -117,7 +119,7 @@
 }
 .login {
   width: 27em;
-  height: 40em;
+  height: 50em;
   //min-height: 44 em;
   display: flex;
   justify-content: center;
@@ -127,6 +129,7 @@
   z-index: 99;
 }
 .container2 {
+  overflow: scroll;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -146,7 +149,7 @@
   flex-direction: column;
   justify-content: center;
   height: 90%;
-  background-color: #3498db;
+  background-color: #17a2b8;
   width: 100%;
   position: absolute;
   right: -34%;
@@ -160,8 +163,8 @@
   font-size: 21px;
   padding: 5px 20px;
   border: 0;
-  background-color: #3498db;
-  color: #fff;
+  background-color: #17a2b8;
+  color: #17a2b8;
   border-radius: 3px;
   transition: all 250ms ease-in-out;
   cursor: pointer;
@@ -171,7 +174,7 @@
   flex-direction: column;
   justify-content: center;
   height: 90%;
-  background-color: #3498db;
+  background-color: #17a2b8;
   width: 100%;
   position: absolute;
   right: -34%;

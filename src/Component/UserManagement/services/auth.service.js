@@ -2,11 +2,11 @@ import axios from "axios";
 let Username='';
 
 const API_URL = "https://servershopping.azurewebsites.net/users/";
+//const API_URL = "http://localhost:4000/users/";
 
 class AuthService {
 
     login(userObject) {
-        console.log(userObject);
         return axios
             .post(API_URL + "login", userObject)
             .then(response => {
@@ -32,7 +32,6 @@ class AuthService {
     }
 
     register(userObj) {
-        console.log(userObj);
         return axios.post(API_URL + "register", userObj);
     }
 

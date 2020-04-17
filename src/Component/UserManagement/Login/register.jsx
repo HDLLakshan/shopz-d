@@ -27,20 +27,6 @@ export class Register extends React.Component {
         this.handlePassword = this.handlePassword.bind(this);
         this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
     }
-    // componentDidMount() {
-    //     // If logged in and user navigates to Register page, should redirect them to dashboard
-    //     if (this.props.auth.isAuthenticated) {
-    //         this.props.history.push("/home");
-    //     }
-    // }
-
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.errors) {
-    //         this.setState({
-    //             errors: nextProps.errors
-    //         });
-    //     }
-    // }
 
     handleValidation(){
         if(!this.state.FirstName)
@@ -59,82 +45,59 @@ export class Register extends React.Component {
             this.setState({isValidated : true});
 
     }
-    handleSubmit(event){
+    handleSubmit(event) {
 
         event.preventDefault();
-        if(this.state.errors)
-            this.setState({errors:''});
+        if (this.state.errors)
+            this.setState({errors: ''});
         this.setState({
             successful: false
         });
-
-        console.log(`Student successfully created!`);
-        console.log(`FirstName: ${this.state.FirstName}`);
-        console.log(`LastName: ${this.state.LastName}`);
-        console.log(`Username: ${this.state.Username}`);
-        console.log(`Email: ${this.state.Email}`);
-        console.log(`PasswordOne: ${this.state.PasswordOne}`);
-        console.log(`PasswordTwo: ${this.state.PasswordTwo}`);
-
         // this.handleValidation(res => {
-        //     if(!this.state.isValidated){
-                const userObject ={
+        //     if (!this.state.isValidated) {
+                const userObject = {
                     FirstName: this.state.FirstName,
                     LastName: this.state.LastName,
                     Username: this.state.Username,
-                    Email : this.state.Email,
-                    PasswordOne : this.state.PasswordOne,
+                    Email: this.state.Email,
+                    PasswordOne: this.state.PasswordOne,
                     PasswordTwo: this.state.PasswordTwo
                 };
 
-        AuthService.register(userObject).then(
-            response => {
-                alert("Okay Now login")
-                this.setState({
-                    message: response.data.message,
-                    successful: true
-                });
-            },
-            error => {
-                const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
+                AuthService.register(userObject).then(
+                    response => {
+                        console.log(response.data);
+                        this.setState({
+                            errors: response.data,
+                            successful: true
+                        });
+                    },
+                    error => {
+                        const resMessage =
+                            (error.response &&
+                                error.response.data &&
+                                error.response.data.message) ||
+                            error.message ||
+                            error.toString();
+
+                        this.setState({
+                            successful: false,
+                            message: resMessage
+                        });
+                    }
+                );
 
                 this.setState({
-                    successful: false,
-                    message: resMessage
+                    FirstName: '',
+                    LastName: '',
+                    Username: '',
+                    Email: '',
+                    PasswordOne: '',
+                    PasswordTwo: ''
                 });
-            }
-            );
-                // this.props.registerUser(userObject, this.props.history);
-//hereeeeeeeeeeeee
-                 // axios.post('http://localhost:4000/users/register', userObject)
-                 //     .then(res => {
-                 //
-                 //            this.setState({errors: res.data});
-                 //
-                 //         console.log(this.state.errors.FirstName);
-                 //         // console.log(res.data)
-                 //     });
-//hereeeeeeeeeee
 
-
-                 this.setState({FirstName: '',
-                     LastName: '',
-                     Username : '',
-                     Email: '',
-                     PasswordOne: '',
-                     PasswordTwo: ''});
-            // }
-            //  else {
-            //      console.log('Not valid');
-            //  }
     }
 
-    //}
 
     handleFirstName(event){
         this.setState({
@@ -208,63 +171,35 @@ export class Register extends React.Component {
                         <div className="form-group">
                             <label htmlFor="firstname">FirstName</label>
                             <span style={{color: "red", fontSize:10}}>{this.state.errors.FirstName}</span>
-                            <input type="text"
-                                //    error={errors.FirstName}
-                                //    id="FirstName"
-                                //    className={classnames("", {
-                                // invalid: errors.FirstName})}
-                                   value={this.state.FirstName} onChange={this.handleFirstName} placeholder="First Name" />
+                            <input type="text" value={this.state.FirstName} onChange={this.handleFirstName} placeholder="First Name" />
                         </div>
                         <div className="form-group">
                             <label htmlFor="lastName">LastName</label>
                             <span style={{color: "red", fontSize:10}}>{this.state.errors.LastName}</span>
-                            <input type="text"
-                                //    error={errors.LastName}
-                                //    id="LastName"
-                                //    className={classnames("", {
-                                // invalid: errors.LastName})}
-                                   value={this.state.LastName} onChange={this.handleLastName} placeholder="Last Name" />
+                            <input type="text" value={this.state.LastName} onChange={this.handleLastName} placeholder="Last Name" />
                         </div>
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
                             <span style={{color: "red", fontSize:10}}>{this.state.errors.Username}</span>
-                            <input type="text"
-                                //    error={errors.Username}
-                                //    id="Username" className={classnames("", {
-                                // invalid: errors.Username})}
-                                   value={this.state.Username} onChange={this.handleUserName} placeholder="Username" />
+                            <input type="text" value={this.state.Username} onChange={this.handleUserName} placeholder="Username" />
                         </div>
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
                             <span style={{color: "red", fontSize:10}}>{this.state.errors.Email}</span>
-                            <input type="email"
-                                //    error={errors.Email}
-                                //    id="Email"
-                                //    className={classnames("", {
-                                // invalid: errors.Email})}
-                                   value={this.state.Email} onChange={this.handleEmail} placeholder="Email" />
+                            <input type="email" value={this.state.Email} onChange={this.handleEmail} placeholder="Email" />
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">Password</label>
                             <span style={{color: "red", fontSize:10}}>{this.state.errors.PasswordOne}</span>
-                            <input type="password"
-                                //    error={errors.PasswordOne}
-                                //    id="PasswordOne" className={classnames("", {
-                                // invalid: errors.PasswordOne})}
-                                   value={this.state.PasswordOne} onChange={this.handlePassword} placeholder="Password" />
+                            <input type="password" value={this.state.PasswordOne} onChange={this.handlePassword} placeholder="Password" />
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">Confirm Password</label><span style={{color: "red", fontSize:10}}>{this.state.errors.PasswordTwo}</span>
 
-                            <input type="password"
-                                //    error={errors.PasswordTwo}
-                                //    id="PasswordTwo"
-                                //    className={classnames("", {
-                                // invalid: errors.PasswordTwo})}
-                                   value={this.state.PasswordTwo} onChange={this.handleConfirmPassword} placeholder="Confirm Password" />
+                            <input type="password" value={this.state.PasswordTwo} onChange={this.handleConfirmPassword} placeholder="Confirm Password" />
                         </div>
                         <div className="footer">
-                            <button type="submit" className="btn">
+                            <button type="submit" className="btn btn-info">
                                 Register
                             </button>
                         </div>

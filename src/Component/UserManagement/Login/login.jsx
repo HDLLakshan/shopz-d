@@ -3,38 +3,22 @@ import LoginImg from "../../../download.svg";
 import AuthService from "../services/auth.service";
 import {LoginRegView} from "./loginRegView";
 
-
-
 export class Login extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
             Username: '',
             Password: '',
             isValidated:false,
-            loading:false
+            loading:false,
+            errors:[]
         };
+
         this.handleUserName = this.handleUserName.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
-     // componentDidMount() {
-    //      //     // If logged in and user navigates to Register page, should redirect them to dashboard
-    //      //     if (this.props.auth.isAuthenticated) {
-    //      //         this.props.history.push("/home");
-    //      //     }
-    //      // }
-    //      // componentWillReceiveProps(nextProps) {
-    //      //     if (nextProps.auth.isAuthenticated) {
-    //      //         this.props.history.push("/home"); // push user to dashboard when they login
-    //      //     }
-    //      //     if (nextProps.errors) {
-    //      //         this.setState({
-    //      //             errors: nextProps.errors
-    //      //         });
-    //      //     }
-    //      // }
 
     handleValidation(){
         if(!this.state.Username)
@@ -47,36 +31,23 @@ export class Login extends React.Component {
 
     handleSubmit(event){
         event.preventDefault();
-
-
         const userData = {
             Username: this.state.Username,
             Password: this.state.Password
         };
-        //this.props.loginUser(userData);
-
-        console.log(this.state.isValidated);
-        this.handleValidation();
-            console.log(this.state.isValidated);
-            //Have to change here
-            //-----------------------------------
-            // if(this.state.isValidated){
-                console.log('csd');
-                console.log(`Username: ${this.state.Username}`);
-                console.log(`PasswordOne: ${this.state.Password}`);
 
         AuthService.login(userData).then(
-            () => {
-                console.log("----------------------------");
-
+            res => {
+                console.log(res);
                 this.setState({
+                    errors:res,
                     loading: true,
                     Username:'',
                     Password:''
                 });
-
-                alert("Logged in click home!!!")
-                //this.props.history.push("/");
+                if(res.success){
+                    window.location.assign('http://localhost:3000/');
+                }
             },
             error => {
                 const resMessage =
@@ -85,53 +56,25 @@ export class Login extends React.Component {
                         error.response.data.message) ||
                     error.message ||
                     error.toString();
+                alert(resMessage);
 
             });
-
-
-
-
-                //thissssssssssssssssssssssssssssssssssssssss
-                // axios.post('http://localhost:4000/users/login', userData)
-                //     .then(res => {
-                //         console.log(res.data);
-                //         if(res.data.success)
-                //             alert('okay');
-                //         else
-                //             alert('nonono');
-                //until thissssssssssssssssssssssssssssss
-                        // console.log(res.data[0].PasswordOne);
-                        // if(res.data[0].PasswordOne === this.state.Password)
-                        //     alert('okay');
-                        // else
-                        //     alert('nonono');
-        //hereeeeeeeeeeeeeeeeeeeeeeee
-                //     });
-                //
-                // this.setState({
-                //     Username:'',
-                //     Password:''
-                // })
-//hereeeeeeeeeeeeeeeeeee
-            // }else{
-            //     console.log('Not validated');
-            // }
     }
 
-handleUserName(event)
-{
-    this.setState({
-        Username: event.target.value,
+    handleUserName(event)
+    {
+        this.setState({
+            Username: event.target.value,
 
     });
-}
-handlePassword(event)
-{
-    this.setState({
-        Password: event.target.value,
+    }
+    handlePassword(event)
+    {
+         this.setState({
+              Password: event.target.value,
 
-    });
-}
+        });
+    }
 
 render(){
     const { errors } = this.state;
@@ -147,33 +90,19 @@ render(){
                         <div className="form">
                             <div className="form-group">
                                 <label htmlFor="Username">Username</label>
-                                {/*<span className="red-text">*/}
-                                {/*    {errors.Username}*/}
-                                {/*    {errors.usernamenotfound}*/}
-                                {/*</span>*/}
-                                <input type="text" value={this.state.Username} onChange={this.handleUserName}
-                                    //error={errors.Username} id="Username" className={classnames("", {
-                                    //invalid: errors.Username || errors.usernamenotfound })}
-                                       placeholder="Username"/>
+                                <span style={{color: "red", fontSize:14}}>{this.state.errors.Username}</span>
+                                <input type="text" value={this.state.Username} onChange={this.handleUserName} placeholder="Username"/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="Password">Password</label>
-                                {/*<span className="red-text">*/}
-                                {/*    {errors.Password}*/}
-                                {/*    {errors.passwordincorrect}*/}
-                                {/*</span>*/}
-                                <input type="password"
-                                    // error={errors.Password}
-                                    // id="Password"
-                                    // className={classnames("", {
-                                    //     invalid: errors.Password || errors.Password})}
-                                       value={this.state.Password} onChange={this.handlePassword}
+                                <span style={{color: "red", fontSize:14}}>{this.state.errors.Password}</span>
+                                <input type="password" value={this.state.Password} onChange={this.handlePassword}
                                        placeholder="Password"/>
                             </div>
 
                         </div>
                         <div className="footer">
-                            <button type="submit" className="btn">
+                            <button type="submit" className="btn btn-info">
                                 Login
                             </button>
                         </div>
@@ -181,7 +110,6 @@ render(){
                 </div>
             </div>
 
-    );
-}
+    );}
 
 }
