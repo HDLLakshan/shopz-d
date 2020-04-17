@@ -6,84 +6,82 @@ export default class AddToShoppingCart extends Component{
         super(props);
 
         this.state={
-            ProductId:'',
+            index:0,
+            ToDelete:false,
             isInList:false,
-            ProductIds:[]
+            ProductId:'',
+            PricePerUnit:'',
+            ImagePath:''
+
         };
         this.handleClick= this.handleClick.bind(this);
     }
 
 
-    componentWillReceiveProps(nextProps, nextContext) {
-        if(nextProps.productId !==null){
-            console.log(nextProps.productId);
-            this.setState({
-                ProductId:nextProps.productId
-            });
-            axios.post('https://servershopping.azurewebsites.net/shoppingcart/check-product' + nextProps.productId)
-                .then(res => {
+    componentDidMount() {
 
-                    console.log("tatewaki");
-                    console.log(res.data.length);
-                    this.setState({
-                        length: res.data.length
-                    });
-
-                    if (res.data.length > 0) {
-                        this.setState({
-                            isInList: true,
-
-                        });
-                    }
-                });
+        let oldproduct = localStorage.getItem('products');
+        const arrayproduct =  JSON.parse(oldproduct);
+        console.log(arrayproduct);
+        for(var i= 0 ; i <arrayproduct.length ; i++){
+            if(arrayproduct[i].ProductId===this.props.productId){
+                this.setState({
+                    isInList:true,
+                    index:i,
+                })
+            }
         }
-
-
     }
 
+    componentWillReceiveProps(nextProps, nextContext) {
 
-    handleClick() {
-        axios.post('https://servershopping.azurewebsites.net/shoppingcart/check-product' + this.props.productId)
+        let oldproduct = localStorage.getItem('products') ? localStorage.getItem('products') : "[]";
+        const arrayproduct =  JSON.parse(oldproduct);
+        console.log(arrayproduct);
+        for(var i= 0 ; i <arrayproduct.length ; i++){
+            if(arrayproduct[i].ProductId===nextProps.productId){
+                this.setState({
+                    isInList:true,
+                    index:i,
+                })
+            }
+        }
+    }
+
+    handleClick()
+    {
+    let oldproduct = [];
+    oldproduct = localStorage.getItem('products') ? localStorage.getItem('products') : "[]";
+    const arrayproduct = JSON.parse(oldproduct);
+
+    if(this.state.isInList){
+        console.log("came in")
+                arrayproduct.splice(this.state.index, 1);
+                localStorage.setItem('products', JSON.stringify(arrayproduct));
+            }
+
+    else{
+        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.productId)
             .then(res => {
-                console.log(res.data.length);
-
-
-                if (res.data.length > 0) {
-                    // this.setState({
-                    //     addToWishList : true
-                    // });
-                    axios.delete('https://servershopping.azurewebsites.net/shoppingcart/delete-product' + this.props.productId)
-                        .then(res => {
-                            console.log('deleted');
-                            this.setState({
-                                isInList: false
-                            });
-                        })
-
-                } else {
-                    axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.productId)
-                        .then(res => {
-                            console.log(this.props.imagePath);
-                            //console.log(res.data);
-                            const productObj = {
-                                ProductId: res.data._id,
-                                PricePerUnit: res.data.PricePerUnit,
-                                Quantity:this.props.quantity,
-                                ImagePath: this.props.imagePath
-                            };
-                            axios.post('https://servershopping.azurewebsites.net/shoppingcart/add-to-cart', productObj)
-                                .then(res => {
-                                    console.log("okay done");
-                                    console.log(res.data);
-                                });
-                            this.setState({isInList: true});
-                        });
-
-
-                }
-
-
+                const productObj = {
+                    ProductId: res.data._id,
+                    PricePerUnit: res.data.PricePerUnit,
+                    Quantity: this.props.quantity,
+                    ImagePath: this.props.imagePath
+                };
+                arrayproduct.push(productObj);
+                console.log("added");
+                console.log(arrayproduct);
+                localStorage.setItem('products', JSON.stringify(arrayproduct));
             });
+    }
+        this.setState({
+            isInList:!this.state.isInList
+        }, ()=>{
+            console.log(arrayproduct);
+            localStorage.setItem('products', JSON.stringify(arrayproduct));
+        });
+
     }
 
     render() {

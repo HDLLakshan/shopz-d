@@ -15,27 +15,16 @@ export default class GetShoppingCart extends Component{
         this.getShoppingCartTemplate= this.getShoppingCartTemplate.bind(this);
     }
     componentDidMount() {
-        axios.get('https://servershopping.azurewebsites.net/shoppingcart/get-cart').then(
-            res => {
-                this.setState({
-                    products : res.data,
-                    //productIds:res.data.ProductId
-                });
-                console.log(this.state.products);
+        console.log("came");
+        let oldproduct = [];
+        oldproduct = localStorage.getItem('products') ? localStorage.getItem('products') : "[]";
+        const arrayproduct = JSON.parse(oldproduct);
+        console.log(arrayproduct);
 
-
-
-                // this.state.products.map((res, i)=>{
-                //     this.setState({
-                //         productIds:this.state.productIds.push(res.ProductId)
-                //     })
-                // });
-
-
-
-            }).catch((error)=>{
-            console.log(error);
+        this.setState({
+            products : arrayproduct
         });
+
 
     }
     getShoppingCartTemplate(){
@@ -43,20 +32,16 @@ export default class GetShoppingCart extends Component{
             return <ShoppingCartRow obj={res} key={i} handleRemoveButton={this.handleRemoveButton} />;
         });
     }
-    handleRemoveButton(name){
-        axios.delete('https://servershopping.azurewebsites.net/shoppingcart/delete-product'+name)
-            .then(res => {
-                console.log('deleted');
-
-                axios.get('https://servershopping.azurewebsites.net/shoppingcart/get-cart').then(
-                    res => {
-                        this.setState({
-                            products : res.data
-                        });
-                    }).catch((error)=>{
-                    console.log(error);
-                });
-            })
+    handleRemoveButton(id){
+        const oldList = JSON.parse(localStorage.getItem("products"));
+        console.log(oldList.productId);
+        for(var i = 0 ; i<oldList.length;i++){
+            if(oldList[i].productId===id){
+                var index = oldList.indexOf(id);
+                oldList.splice(index,1);
+            }
+        }
+        localStorage.setItem('products', JSON.stringify(oldList));
     }
 
     render(){
