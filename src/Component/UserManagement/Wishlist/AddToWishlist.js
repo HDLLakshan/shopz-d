@@ -1,13 +1,15 @@
 import React, {Component} from "react";
 import axios from "axios";
-
+import AuthService from '../services/auth.service';
 
 export default class AddToWishlist extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            userId:'',
+            objId:'',
             productId: this.props.productId,
-            price: '',
+            isInList:false,
             addToWishList: false,
             product: [],
             length: 0
@@ -17,146 +19,116 @@ export default class AddToWishlist extends Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.productId !== null) {
-            console.log(nextProps.productId);
             this.setState({
                 productId: nextProps.productId
             });
-            axios.post('https://servershopping.azurewebsites.net/wishlist/check-product' + this.props.productId)
-                .then(res => {
-                    console.log('ddddddd');
-                    // console.log(res.data.length);
-                    this.setState({
-                        length: res.data.length
-                    });
+            axios.post("https://servershopping.azurewebsites.net/users/getOne"+AuthService.getUsername()).then(response=>{
+                this.setState({
+                    userId:response.data._id
+                }, ()=>{
+                    axios.post('https://servershopping.azurewebsites.net/wishlist/check-product' + response.data._id)
+                        .then(res => {
+                            if(res.data.length>0){
+                                this.setState({
+                                    product:res.data[0].ProductObject,
+                                    objId:res.data._id,
+                                    isInList:true,
+                                    length:res.data.length
+                                });
 
-                    if (res.data.length > 0) {
-                        this.setState({
-                            addToWishList: true,
 
+                                    for(var i= 0 ; i<res.data[0].ProductObject.length;i++){
+                                        if(res.data[0].ProductObject[i].ProductId===nextProps.productId){
+                                            this.setState({
+                                                addToWishList: true,
+                                            });
+                                        }
+
+                                }
+
+                            }else{
+                                this.setState({
+                                    isInList:false
+                                })
+                            }
                         });
-                    }
-
-
-                });
+                })
+            });
         }
     }
-    // componentDidMount() {
-    //
-    //     //console.log("aaaaa");
-    //     //console.log(this.props.productId);
-    //
-    //     axios.post('http://localhost:4000/wishlist/check-product' + this.props.productId)
-    //         .then(res => {
-    //             console.log('ddddddd');
-    //            // console.log(res.data.length);
-    //             this.setState({
-    //                 length: res.data.length
-    //             });
-    //
-    //             if (res.data.length > 0) {
-    //                 this.setState({
-    //                     addToWishList: true,
-    //
-    //                 });
-    //             }
-    //
-    //
-    //         });
-    // }
 
     handleWishlist() {
 
-        axios.post('https://servershopping.azurewebsites.net/wishlist/check-product' + this.state.productId)
-            .then(res => {
-                console.log(res.data.length);
-
-                if (res.data.length > 0) {
-                    // this.setState({
-                    //     addToWishList : true
-                    // });
-                    axios.delete('https://servershopping.azurewebsites.net/wishlist/delete-product' + this.state.productId)
+                if (this.state.addToWishList) {
+                    for(var i= 0 ; i<this.state.product.length;i++){
+                        if(this.state.product[i].ProductId===this.state.productId){
+                            this.state.product.splice(i, 1);
+                        }
+                    }
+                    axios.put('https://servershopping.azurewebsites.net/wishlist/edit-details' + this.state.userId, this.state.product)
                         .then(res => {
-                            console.log('deleted');
                             this.setState({
                                 addToWishList: false
                             });
-                        })
+                })
 
-                } else {
-        console.log('aaaaaaa')
-        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.productId)
-            .then(res => {
-               // console.log(res.data);
-                const productObj = {
-                    // productId: res.data[0].name,
-                    //                                 // price: res.data[0].price
-                    ProductId: res.data._id,
-                    ProductName: res.data.ProductName,
-                    Category: res.data.Category,
-                    PricePerUnit: res.data.PricePerUnit,
-                    SubCategory: res.data.SubCategory,
-                    ImageOfProduct: this.props.imagePath,
-                    Quantity: this.props.quantity
+            } else {
 
-                };
-                axios.post('https://servershopping.azurewebsites.net/wishlist/add-to-wishlist', productObj)
-                    .then(res => {
-                        console.log("okay done");
-                        console.log(res.data);
-                    });
-                this.setState({addToWishList: true});
-            });
+                    if(this.state.length>0){
+                        //User list is there
+                        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.productId)
+                            .then(res => {
+                                const productObj = {
+                                    ProductId: res.data._id,
+                                    ProductName: res.data.ProductName,
+                                    Category: res.data.Category,
+                                    PricePerUnit: res.data.PricePerUnit,
+                                    SubCategory: res.data.SubCategory,
+                                    ImageOfProduct: this.props.imagePath,
+                                    Quantity: this.props.quantity
+
+                                };
+                                this.state.product.push(productObj);
+                                axios.put('https://servershopping.azurewebsites.net/wishlist/edit-details' + this.state.userId, this.state.product)
+                                    .then(res => {
+                                        this.setState({
+                                            addToWishList: true
+                                        });
+                                    });
+                            });
 
 
+
+                    }else{
+                        //User list is not there
+                        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.productId)
+                            .then(res => {
+                                const productObj = {
+                                    ProductId: res.data._id,
+                                    ProductName: res.data.ProductName,
+                                    Category: res.data.Category,
+                                    PricePerUnit: res.data.PricePerUnit,
+                                    SubCategory: res.data.SubCategory,
+                                    ImageOfProduct: this.props.imagePath,
+                                    Quantity: this.props.quantity
+
+                                };
+                                const proObj=[];
+                                proObj.push(productObj);
+                                const finalObj={
+                                    UserId:this.state.userId,
+                                    ProductObject:proObj
+                                };
+                                axios.post('https://servershopping.azurewebsites.net/wishlist/add-to-wishlist', finalObj)
+                                    .then(res => {
+                                    });
+                                this.setState({addToWishList: true});
+
+                            });
+
+                    }
     }
-
-
-      });
 }
-
-
-
-        // console.log("came to the handler");
-        // this.setState({
-        //     addToWishList:!this.state.addToWishList
-        // });
-        // axios.post('http://localhost:4000/products/get-product'+this.state.name)
-        //     .then(res => {
-        //         console.log(res.data);
-        //         const productObj = {
-        //             name: res.data[0].name,
-        //             price:res.data[0].price
-        //         };
-        //         if(this.state.addToWishList === true){
-        //             axios.post('http://localhost:4000/wishlist/add-to-wishlist',productObj)
-        //                 .then(res =>{
-        //                     console.log("okay done");
-        //                     console.log(res.data);
-        //                 })
-        //         }else
-        //         {
-        //             axios.post('http://localhost:4000/wishlist/check-product'+this.state.name)
-        //                 .then(res =>{
-        //                     console.log(res.data.length);
-        //                     if(res.data.length >0)
-        //                     {
-        //                         axios.delete('http://localhost:4000/wishlist/delete-product'+this.state.name)
-        //                             .then(res => {
-        //                                 console.log('deleted');
-        //                             })
-        //
-        //                     }
-        //                     else
-        //                     {
-        //
-        //                     }
-        //                     }
-        //                 )
-        //         }
-        //
-        //
-        //     });
-
 
     render() {
         const {productId, imagePath , quantity}= this.props;

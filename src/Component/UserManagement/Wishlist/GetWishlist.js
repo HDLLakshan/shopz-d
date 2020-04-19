@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import axios from 'axios';
 import {WishlistProductRow} from "./wishlishProductRow";
-import {Modal,Button} from "react-bootstrap";
-
+import AuthService from '../services/auth.service';
 
 export default class GetWishlist extends Component{
     constructor(props) {
@@ -16,13 +15,22 @@ export default class GetWishlist extends Component{
 
 
     componentDidMount() {
-        axios.get('https://servershopping.azurewebsites.net/wishlist/get-wishlist').then(
-            res => {
-                this.setState({
-                    products : res.data
-                });
-            }).catch((error)=>{
-            console.log(error);
+        axios.post("https://servershopping.azurewebsites.net/users/getOne"+AuthService.getUsername())
+            .then(response=>{
+            this.setState({
+                userId:response.data._id
+            }, ()=>{
+                axios.post('https://servershopping.azurewebsites.net/wishlist/check-product' + response.data._id)
+                    .then(res => {
+                        if (res.data.length > 0) {
+                            this.setState({
+                                products: res.data[0].ProductObject,
+
+                            });
+                        }
+                    })
+            }
+        )
         });
 
     }
@@ -32,20 +40,23 @@ export default class GetWishlist extends Component{
             return <WishlistProductRow obj={res} key={i} handleRemoveButton={this.handleRemoveButton} />;
         });
     }
-    handleRemoveButton(name){
-        axios.delete('https://servershopping.azurewebsites.net/wishlist/delete-product'+name)
+    handleRemoveButton(pid){
+        for(var i= 0 ; i<this.state.products.length;i++){
+            if(this.state.products[i].ProductId===pid){
+                this.state.products.splice(i, 1);
+            }
+        }
+        axios.put('https://servershopping.azurewebsites.net/wishlist/edit-details' + this.state.userId, this.state.products)
             .then(res => {
-                console.log('deleted');
-
-                axios.get('https://servershopping.azurewebsites.net/wishlist/get-wishlist').then(
-                    res => {
-                        this.setState({
-                            products : res.data
-                        });
-                    }).catch((error)=>{
-                    console.log(error);
-                });
-            })
+                axios.post('https://servershopping.azurewebsites.net/wishlist/check-product' + this.state.userId)
+                    .then(res => {
+                        if (res.data.length > 0) {
+                            this.setState({
+                                products: res.data[0].ProductObject,
+                            });
+                        }
+                    })
+            });
     }
 
     render(){
@@ -59,7 +70,10 @@ export default class GetWishlist extends Component{
                 {/*        </Modal.Title>*/}
                 {/*    </Modal.Header>*/}
                 {/*    <Modal.Body>*/}
-                         {this.WishlistComponentTemplate()}
+                <div className="row">
+                    {this.WishlistComponentTemplate()}
+                </div>
+
                 {/*    </Modal.Body>*/}
                 {/*    <Modal.Footer>*/}
                 {/*        <Button onClick={this.props.onHide}>Close</Button>*/}
