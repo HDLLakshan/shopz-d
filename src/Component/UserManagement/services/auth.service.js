@@ -29,7 +29,9 @@ class AuthService {
     logout() {
         sessionStorage.removeItem("user");
         sessionStorage.removeItem("username");
+        sessionStorage.removeItem("products");
     }
+
 
     register(userObj) {
         return axios.post(API_URL + "register", userObj);

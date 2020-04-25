@@ -17,7 +17,7 @@ export default class GetShoppingCart extends Component{
     componentDidMount() {
         console.log("came");
         let oldproduct = [];
-        oldproduct = localStorage.getItem('products') ? localStorage.getItem('products') : "[]";
+        oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
         const arrayproduct = JSON.parse(oldproduct);
         console.log(arrayproduct);
 
@@ -33,15 +33,19 @@ export default class GetShoppingCart extends Component{
         });
     }
     handleRemoveButton(id){
-        const oldList = JSON.parse(localStorage.getItem("products"));
-        console.log(oldList.productId);
+        const oldList = JSON.parse(sessionStorage.getItem("products"));
+        console.log(oldList);
         for(var i = 0 ; i<oldList.length;i++){
-            if(oldList[i].productId===id){
+            if(oldList[i].ProductId===id){
+
                 var index = oldList.indexOf(id);
                 oldList.splice(index,1);
             }
         }
-        localStorage.setItem('products', JSON.stringify(oldList));
+        sessionStorage.setItem('products', JSON.stringify(oldList));
+        console.log(oldList);
+        window.location.reload();
+
     }
 
     render(){

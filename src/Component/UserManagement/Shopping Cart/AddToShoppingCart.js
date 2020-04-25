@@ -18,24 +18,10 @@ export default class AddToShoppingCart extends Component{
     }
 
 
-    componentDidMount() {
-
-        let oldproduct = localStorage.getItem('products');
-        const arrayproduct =  JSON.parse(oldproduct);
-        console.log(arrayproduct);
-        for(var i= 0 ; i <arrayproduct.length ; i++){
-            if(arrayproduct[i].ProductId===this.props.productId){
-                this.setState({
-                    isInList:true,
-                    index:i,
-                })
-            }
-        }
-    }
 
     componentWillReceiveProps(nextProps, nextContext) {
 
-        let oldproduct = localStorage.getItem('products') ? localStorage.getItem('products') : "[]";
+        let oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
         const arrayproduct =  JSON.parse(oldproduct);
         console.log(arrayproduct);
         for(var i= 0 ; i <arrayproduct.length ; i++){
@@ -46,18 +32,19 @@ export default class AddToShoppingCart extends Component{
                 })
             }
         }
+
     }
 
     handleClick()
     {
     let oldproduct = [];
-    oldproduct = localStorage.getItem('products') ? localStorage.getItem('products') : "[]";
+    oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
     const arrayproduct = JSON.parse(oldproduct);
 
     if(this.state.isInList){
-        console.log("came in")
-                arrayproduct.splice(this.state.index, 1);
-                localStorage.setItem('products', JSON.stringify(arrayproduct));
+        console.log("came in");
+        arrayproduct.splice(this.state.index, 1);
+        sessionStorage.setItem('products', JSON.stringify(arrayproduct));
             }
 
     else{
@@ -72,14 +59,14 @@ export default class AddToShoppingCart extends Component{
                 arrayproduct.push(productObj);
                 console.log("added");
                 console.log(arrayproduct);
-                localStorage.setItem('products', JSON.stringify(arrayproduct));
+                sessionStorage.setItem('products', JSON.stringify(arrayproduct));
             });
     }
         this.setState({
             isInList:!this.state.isInList
         }, ()=>{
             console.log(arrayproduct);
-            localStorage.setItem('products', JSON.stringify(arrayproduct));
+            sessionStorage.setItem('products', JSON.stringify(arrayproduct));
         });
 
     }

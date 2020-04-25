@@ -22,19 +22,20 @@ export default class AddToWishlist extends Component {
             this.setState({
                 productId: nextProps.productId
             });
-            axios.post("https://servershopping.azurewebsites.net/users/getOne"+AuthService.getUsername()).then(response=>{
-                this.setState({
-                    userId:response.data._id
-                }, ()=>{
-                    axios.post('https://servershopping.azurewebsites.net/wishlist/check-product' + response.data._id)
-                        .then(res => {
-                            if(res.data.length>0){
-                                this.setState({
-                                    product:res.data[0].ProductObject,
-                                    objId:res.data._id,
-                                    isInList:true,
-                                    length:res.data.length
-                                });
+            if(AuthService.getUsername()){
+                axios.post("https://servershopping.azurewebsites.net/users/getOne"+AuthService.getUsername()).then(response=>{
+                    this.setState({
+                        userId:response.data._id
+                    }, ()=>{
+                        axios.post('https://servershopping.azurewebsites.net/wishlist/check-product' + response.data._id)
+                            .then(res => {
+                                if(res.data.length>0){
+                                    this.setState({
+                                        product:res.data[0].ProductObject,
+                                        objId:res.data._id,
+                                        isInList:true,
+                                        length:res.data.length
+                                    });
 
 
                                     for(var i= 0 ; i<res.data[0].ProductObject.length;i++){
@@ -44,16 +45,17 @@ export default class AddToWishlist extends Component {
                                             });
                                         }
 
-                                }
+                                    }
 
-                            }else{
-                                this.setState({
-                                    isInList:false
-                                })
-                            }
-                        });
-                })
-            });
+                                }else{
+                                    this.setState({
+                                        isInList:false
+                                    })
+                                }
+                            });
+                    })
+                });
+            }
         }
     }
 
