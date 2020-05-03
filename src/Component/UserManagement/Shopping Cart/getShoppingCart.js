@@ -50,13 +50,12 @@ export default class GetShoppingCart extends Component{
 
     render(){
         return(
-            <div>
-                <div className='container2'>
+            <div align="center">
+                <div >
                     {this.getShoppingCartTemplate()}
-
                 </div>
                 <br/>
-                <div align="center"> <Button variant="contained" size="md" type="submit" alignment={"center"} color="secondary"
+                <div> <Button variant="contained" size="md" type="submit" alignment={"center"} color="secondary"
                               onClick={() => this.props.history.push('/billing')}
                 >
                     PAYMENT

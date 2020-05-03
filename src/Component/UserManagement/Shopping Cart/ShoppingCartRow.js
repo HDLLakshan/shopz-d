@@ -24,7 +24,7 @@ export class ShoppingCartRow extends Component{
         const {key, obj, handleRemoveButton}= this.props;
         return(
 
-                   <div className="card mb-3 card border-info" style={{"min-width": "70%", "height":"300px", "align":"left"}}>
+                   <div className="card mb-3 card border-info" style={{"max-width": "50%", "height":"300px"}}>
                         <div className="card-header text-info">{this.state.products.ProductName}</div>
                         <div className="row no-gutters">
                             <div className="col-md-4">

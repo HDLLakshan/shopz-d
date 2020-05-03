@@ -35,11 +35,12 @@ export default class GetWishlist extends Component{
 
     }
 
-     WishlistComponentTemplate(){
+    WishlistComponentTemplate(){
         return this.state.products.map((res , i )=>{
-            return <WishlistProductRow obj={res} key={i} handleRemoveButton={this.handleRemoveButton} />;
+            return  <WishlistProductRow obj={res} key={i} handleRemoveButton={this.handleRemoveButton} /> ;
         });
     }
+
     handleRemoveButton(pid){
         for(var i= 0 ; i<this.state.products.length;i++){
             if(this.state.products[i].ProductId===pid){
@@ -62,7 +63,7 @@ export default class GetWishlist extends Component{
     render(){
         return(
         <div>
-            <div className='container2'>
+            <div >
                 {/*<Modal show={this.props.show} aria-labelledby="contained-modal-title-vcenter">*/}
                 {/*    <Modal.Header closeButton onClick={this.props.onHide}>*/}
                 {/*        <Modal.Title id="contained-modal-title-vcenter">*/}
@@ -70,9 +71,9 @@ export default class GetWishlist extends Component{
                 {/*        </Modal.Title>*/}
                 {/*    </Modal.Header>*/}
                 {/*    <Modal.Body>*/}
-                <div className="row">
-                    {this.WishlistComponentTemplate()}
-                </div>
+                    <div align="center">
+                        {this.WishlistComponentTemplate()}
+                    </div>
 
                 {/*    </Modal.Body>*/}
                 {/*    <Modal.Footer>*/}
