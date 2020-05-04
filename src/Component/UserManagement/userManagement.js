@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import {Form, Row, Col, Button} from 'react-bootstrap';
-import LoginImg from "../../download.svg";
+import LoginImg from "../../Assests/download.svg";
 import axios from "axios";
 import {store} from "react-notifications-component";
 import AuthService from "./services/auth.service";

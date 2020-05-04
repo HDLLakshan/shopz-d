@@ -3,7 +3,7 @@ import axios from "axios";
 import './ProductFile Details.css'
 import ShowItem from "../ViewProducts/ShowItem";
 import Details from "./Details";
-import '../../../App.css'
+import '../../../css/App.css'
 
 class ProductFullDetails extends Component{
 

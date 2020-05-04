@@ -1,5 +1,5 @@
 import React from "react";
-import LoginImg from "../../../download.svg";
+import LoginImg from "../../../Assests/download.svg";
 import AuthService from "../services/auth.service";
 import {LoginRegView} from "./loginRegView";
 
