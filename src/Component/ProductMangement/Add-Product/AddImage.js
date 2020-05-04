@@ -1,8 +1,5 @@
 import React, {Component} from "react";
-import FormFile from "react-bootstrap/FormFile";
-import TextField from "@material-ui/core/TextField";
-import Tooltip from '@material-ui/core/Tooltip'
-import Fab from "@material-ui/core/Fab";
+
 
 class AddImage extends Component{
 
@@ -41,59 +38,58 @@ class AddImage extends Component{
     }
 
 
-
-
-
     render() {
         return (
-<div>
+       <div>
             {
                this.state.Arr.map(txt =>
 
+                       <div >
 
-        <div >
-            <p>Add Image {txt+1}</p>
-            <div className={"form-group row"}>
-            <div className="col col-md-3">
-                <input type="text" className="form-control" placeholder="clr" name={"ColorOfImg"}
+                           <p>Add Image {txt+1}</p>
+                           <div className={"form-group row"}>
+
+                               <div className="col col-md-3">
+                                   <input type="text" className="form-control" placeholder="clr" name={"ColorOfImg"}
                        onChange={(event) => this.props.Products.ColorOfImg[txt] = event.target.value}/>
-            </div>
-                <div className="col col-md-2">
-                    <input type="number" min={0} className="form-control" placeholder="Small" name={"StockSmall"}
-                           onChange={(event) => this.props.Products.StockSmall[txt]=event.target.value}/>
-                </div>
-                <div className="col col-md-2">
-                    <input type="number" min={0} className="form-control" placeholder="Medium" name={"StockMedium"}
-                           onChange={(event) => this.props.Products.StockMedium[txt]=event.target.value}/>
-                </div>
-                <div className="col col-md-2">
-                    <input type="number" min={0} className="form-control" placeholder="Large" name={"StockLarge"}
-                           onChange={(event) =>this.props.Products.StockLarge[txt]=event.target.value}/>
-                </div>
-                <div className="col col-md-2">
-                    <input type="number" min={0} className="form-control" placeholder="XL" name={"StockXL"}
-                           onChange={(event) => this.props.Products.StockXL[txt]=event.target.value}/>
-                </div>
+                               </div>
 
-            </div>
-            <div className={"row"}>
-                <div className="col-md-4  custom-file">
-                    <input type="file" className="custom-file-input" id="inputGroupFile01"
+                               <div className="col col-md-2">
+                                   <input type="number" min={0} className="form-control" placeholder="Small" name={"StockSmall"}
+                           onChange={(event) => this.props.Products.StockSmall[txt]=event.target.value}/>
+                               </div>
+
+                               <div className="col col-md-2">
+                                   <input type="number" min={0} className="form-control" placeholder="Medium" name={"StockMedium"}
+                           onChange={(event) => this.props.Products.StockMedium[txt]=event.target.value}/>
+                               </div>
+
+                               <div className="col col-md-2">
+                                   <input type="number" min={0} className="form-control" placeholder="Large" name={"StockLarge"}
+                           onChange={(event) =>this.props.Products.StockLarge[txt]=event.target.value}/>
+                               </div>
+
+                               <div className="col col-md-2">
+                                   <input type="number" min={0} className="form-control" placeholder="XL" name={"StockXL"}
+                           onChange={(event) => this.props.Products.StockXL[txt]=event.target.value}/>
+                               </div>
+
+                           </div>
+
+                           <div className={"row"}>
+                               <div className="col-md-4  custom-file">
+                                   <input type="file" className="custom-file-input" id="inputGroupFile01"
                            aria-describedby="inputGroupFileAddon01"  name={"ImageOfProduct"}
                            onChange={(event => this.onFileChange(event, txt))}/>
-                    <label className="custom-file-label"  htmlFor="inputGroupFile01">{this.state.imageURL[txt]}</label>
-                </div>
-            </div>
-            <br/>
-
-        </div>
-
-                )}
-</div>
+                           <label className="custom-file-label"  htmlFor="inputGroupFile01">{this.state.imageURL[txt]}</label>
+                               </div>
+                           </div>
+                           <br/>
+                       </div>
+               )}
+       </div>
         );
     }
-
-
 }
 export default AddImage
 

@@ -19,16 +19,9 @@ class ProductFullDetails extends Component{
                 PricePerUnit: '',
                 StockAmount:'',
                 ProductBrand: '',
-                ImageOfProduct:[],
-                ColorOfImg: [],
-                StockSmall:[],
-                StockMedium:[],
-                StockLarge:[],
-                StockXL:[],
-                AddDate:''
-
-
-            }
+                AddDate:'',
+                Details:[],
+            },
         }
     }
 
@@ -37,8 +30,9 @@ class ProductFullDetails extends Component{
    getFullDetails = () => {
        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.match.params.id)
            .then(res => {
+
                this.setState({
-                   Products:res.data
+                   Products:res.data,
                }, () => this.getRelavantProduct());
            })
            .catch((error) => {
@@ -57,10 +51,7 @@ class ProductFullDetails extends Component{
            }).catch((error) => {
                console.log(error + 'error in get relevant products')
        })
-
-
-
-   }
+    }
 
 
     componentDidMount() {

@@ -15,10 +15,9 @@ class SubDetails extends Component{
             size:'S',
             AvailableAmount:'',
             OrderQuantity:0,
-            productId:this.props.product._id
-
+            productId:this.props.product._id,
         }
-        console.log(this.props.product.StockSmall[0])
+
     }
 
 
@@ -29,46 +28,43 @@ class SubDetails extends Component{
         })
     }
 
-    componentWillMount() {
-
-    }
-
 
     setAvailability = () => {
+
         if(this.state.size==='S'){
-             if(parseInt(this.props.product.StockSmall[this.props.position]) > 0 ){
-                 return this.props.product.StockSmall[this.props.position]
+             if(parseInt(this.props.product.Details[this.props.position].small) > 0 ){
+                 return this.props.product.Details[this.props.position].small
              }
              else {
-                 return this.props.product.StockSmall[this.props.position]
+                 return this.props.product.Details[this.props.position].small
              }
 
         }
         else if(this.state.size==='M'){
-            if(parseInt(this.props.product.StockMedium[this.props.position]) > 0 ){
-                return this.props.product.StockMedium[this.props.position]
+            if(parseInt(this.props.product.Details[this.props.position].medium) > 0 ){
+                return this.props.product.Details[this.props.position].medium
             }
             else {
-                return this.props.product.StockMedium[this.props.position]
+                return this.props.product.Details[this.props.position].medium
 
             }
 
         }
         else if(this.state.size==='L'){
-            if(parseInt(this.props.product.StockLarge[this.props.position]) > 0 ){
-                return this.props.product.StockLarge[this.props.position]
+            if(parseInt(this.props.product.Details[this.props.position].large) > 0 ){
+                return this.props.product.Details[this.props.position].large
             }
             else {
-                return this.props.product.StockLarge[this.props.position]
+                return this.props.product.Details[this.props.position].large
             }
 
         }
         else if(this.state.size==='XL'){
-            if(parseInt(this.props.product.StockXL[this.props.position]) > 0 ){
-                return this.props.product.StockXL[this.props.position]
+            if(parseInt(this.props.product.Details[this.props.position].xl) > 0 ){
+                return this.props.product.Details[this.props.position].xl
             }
             else {
-                return this.props.product.StockXL[this.props.position]
+                return this.props.product.Details[this.props.position].xl
             }
         }
     }
@@ -76,6 +72,8 @@ class SubDetails extends Component{
 
 
     render() {
+        if (this.props.product.Details.length === 0)
+            return null;
         return(
                  <div>
                      <p className={"newarrival text-center"}>NEW</p>
@@ -88,8 +86,8 @@ class SubDetails extends Component{
 
                      <div className={"row"}>
                      <FormLabel>Select Color</FormLabel>
-                     <FormControl className={"col-md-2"}  as="select" size="sm" name={"color"} value={this.props.product.ColorOfImg[this.props.position]} onChange={(event ) => this.ChangeEventFn(event)} custom>
-                         {this.props.product.ColorOfImg.map((text) => <option value={text}>{text}</option>)}
+                     <FormControl className={"col-md-2"}  as="select" size="sm" name={"color"} value={this.props.product.Details[this.props.position].color} onChange={(event ) => this.ChangeEventFn(event)} custom>
+                         {this.props.product.Details.map((text) => <option value={text.color}>{text.color}</option>)}
                      </FormControl>
                          <FormLabel>Select Size</FormLabel>
                          <FormControl className={"col-md-2"}  as="select" size="sm" name={"size"} value={this.state.size} onChange={(e ) => this.setState({size: e.target.value})} custom>
@@ -105,8 +103,8 @@ class SubDetails extends Component{
                      <input className={' col-md-2'} placeholder="Enter Quantity" required type="number" value={this.state.OrderQuantity} min="1" max={this.setAvailability()}
                      onChange={(event)=> this.setState({OrderQuantity:event.target.value})}/>
 
-                     <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.ImageOfProduct[this.props.position]} quantity={this.state.OrderQuantity} />
-                     <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.ImageOfProduct[this.props.position]} quantity={this.state.OrderQuantity} />
+                     <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity} />
+                     <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity} />
 
 
                  </div>

@@ -16,7 +16,19 @@ export default class AddToShoppingCart extends Component{
         };
         this.handleClick= this.handleClick.bind(this);
     }
-
+    componentDidMount() {
+        let oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
+        const arrayproduct =  JSON.parse(oldproduct);
+        console.log(arrayproduct);
+        for(var i= 0 ; i <arrayproduct.length ; i++){
+            if(arrayproduct[i].ProductId===this.props.productId){
+                this.setState({
+                    isInList:true,
+                    index:i,
+                })
+            }
+        }
+    }
 
 
     componentWillReceiveProps(nextProps, nextContext) {

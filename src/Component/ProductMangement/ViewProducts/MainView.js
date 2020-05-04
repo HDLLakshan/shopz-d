@@ -1,10 +1,6 @@
 import React, {Component, lazy, Suspense} from "react";
 import axios from "axios";
-
-import LoaderComponent from "./LoaderComponent";
 import ShowItem from "./ShowItem";
-
-
 
 
 class MainView extends Component{
