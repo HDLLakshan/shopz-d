@@ -163,11 +163,7 @@ class AddProduct extends Component{
                         </div>
      <div >
 
-
                                 <AddImage keyss={1} Products={this.state.Products}/>
-
-
-
 
      </div>
 

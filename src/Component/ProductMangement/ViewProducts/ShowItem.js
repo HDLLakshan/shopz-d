@@ -44,7 +44,7 @@ class ShowItem extends Component {
         <div hidden={this.setHidden()}>
             <Figure style={{ border: "5px solid white" }}>
 
-                <ImageView ImgArr={this.props.product.ImageOfProduct}/>
+                <ImageView ImgArr={this.props.product.Details}/>
 
                 <figcaption className="text-xl-center">
                     Rs {this.props.product.PricePerUnit}

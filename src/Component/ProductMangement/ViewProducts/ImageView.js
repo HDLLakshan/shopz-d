@@ -8,10 +8,7 @@ class ImageView extends Component{
         super(props);
         this.state ={
            loading:true
-
         }
-
-
     }
 
 
@@ -29,7 +26,7 @@ class ImageView extends Component{
                 {this.props.ImgArr.map(txt =>
                     <Carousel.Item>
                         {this.state.loading ? <LoaderComponent /> : null}
-                        <img onLoad={this.onLoad} className={"img-thumbnail"} src={txt} style={{'width': '15vw', 'height': '15vw'}}
+                        <img onLoad={this.onLoad} className={"img-thumbnail"} src={txt.imgPath} style={{'width': '15vw', 'height': '15vw'}}
                         />
 
                     </Carousel.Item>

@@ -7,7 +7,7 @@ export class ShoppingCartRow extends Component{
         super(props);
         this.state={
             ProductId:this.props.obj.ProductId,
-            products:[]
+            products:{}
         };
 
     }

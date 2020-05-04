@@ -59,7 +59,7 @@ componentDidMount() {
                             <Link to={'/details/'+ obj._id }>
                         <Card  style={{ width: '14rem' }}>
                             <div >
-                            <ImageView ImgArr={obj.ImageOfProduct}/>
+                            <ImageView ImgArr={obj.Details}/>
                             </div >
                             <Card.Body>
                                 <Card.Title>{obj.ProductName}</Card.Title>
