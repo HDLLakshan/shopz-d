@@ -1,0 +1,11 @@
+.listDiv {
+    width: 50%;
+}
+
+.column {
+    margin-top: 70px;
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: 100px; /* Should be removed. Only for demonstration */
+}

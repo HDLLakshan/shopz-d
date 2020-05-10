@@ -22,7 +22,6 @@ class ImageView extends Component{
         return(
 
             <Carousel fade={true} pause={'hover'} slide={false} interval={5000} >
-
                 {this.props.ImgArr.map(txt =>
                     <Carousel.Item>
                         {this.state.loading ? <LoaderComponent /> : null}
