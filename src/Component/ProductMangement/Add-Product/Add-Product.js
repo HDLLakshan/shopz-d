@@ -104,7 +104,7 @@ class AddProduct extends Component{
                         <TextField id="outlined-basic" name={"ProductName"} value={this.state.Products.ProductName} label="Product Name" variant="outlined" onChange={(event ) => this.ChangeEventFn(event)} required/>
                         <br/><br/>
 
-                            <TextField id="outlined-basic" name={"ProductBrand"} value={this.state.Products.ProductBrand} label="Product Name" variant="outlined" onChange={(event ) => this.ChangeEventFn(event)} required/>
+                            <TextField id="outlined-basic" name={"ProductBrand"} value={this.state.Products.ProductBrand} label="Product Brand" variant="outlined" onChange={(event ) => this.ChangeEventFn(event)} required/>
                             <br/><br/>
 
                         <FormLabel>Select Category</FormLabel>

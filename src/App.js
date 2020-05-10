@@ -23,6 +23,10 @@ import {applyMiddleware, compose, createStore} from "redux";
 import allReducers from "./ReduxStore/reducers";
 import thunk from "redux-thunk";
 import {Admin} from "./Component/Admin/Admin";
+import ShowAllProdcuts from "./Component/ProductMangement/EditProducts/ShowAllProdcuts";
+import EditProductsDetails from "./Component/ProductMangement/EditProducts/EditProductsDetails";
+import EditItemsOfProduct from "./Component/ProductMangement/EditProducts/EditItemsOfProduct";
+import AddNewItemToProduct from "./Component/ProductMangement/EditProducts/AddNewItemToProduct";
 
 
 class App extends Component {
@@ -48,6 +52,10 @@ class App extends Component {
                             <Route path="/edit-billing/:id" component={EditBilling} exact/>
                             <Route path="/review-order-details/:id" component={ReviewDetails} exact/>
                             <Route path="/rate-comment/:id" component={DisplayRateComment} exact/>
+                            <Route path="/viewListOfProduct" component={ShowAllProdcuts} exact />
+                            <Route path="/editProductDetails/:id" exact component={EditProductsDetails}/>
+                            <Route path="/editItemsDetails/:id" exact component={EditItemsOfProduct} />
+                            <Route path="/addnewItemsToProduct/:id" exact component={AddNewItemToProduct} />
                             <Route path="/" exact component={MainView}/>
                         </Switch>
                     </BrowserRouter>
