@@ -15,7 +15,7 @@ class MainView extends Component{
     }
 
     componentDidMount() {
-        axios.get('https://servershopping.azurewebsites.net/products/')
+        axios.get('http://localhost:4000/products/')
             .then(res => {
                 this.setState({
                     loading:false,

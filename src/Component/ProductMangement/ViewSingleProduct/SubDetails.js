@@ -5,6 +5,7 @@ import {Rating} from "@material-ui/lab";
 import axios from "axios";
 import AddToShoppingCart from "../../UserManagement/Shopping Cart/AddToShoppingCart";
 import AddToWishlist from "../../UserManagement/Wishlist/AddToWishlist";
+import Nav from "react-bootstrap/Nav";
 
 class SubDetails extends Component{
 
@@ -78,7 +79,7 @@ class SubDetails extends Component{
                  <div>
                      <p className={"newarrival text-center"}>NEW</p>
                      <h2>{this.props.product.ProductName}</h2>
-                     <p>Brand: {this.props.product.ProductBrand}</p>
+                     <p>Brand:<a  href={'/search/'+this.props.product.ProductBrand}>{this.props.product.ProductBrand}</a></p>
                      <Rating name="size-small" defaultValue={2} size="small" disabled={true} />
                      <p>Added On: {this.props.product.AddDate}</p>
                      <p className={"lead"}>Rs. <b>{this.props.product.PricePerUnit}</b></p>
