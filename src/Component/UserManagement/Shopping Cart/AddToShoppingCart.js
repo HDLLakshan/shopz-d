@@ -60,17 +60,18 @@ export default class AddToShoppingCart extends Component{
             }
 
     else{
-        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.productId)
+        axios.get('http://localhost:4000/products/view-product/' + this.props.productId)
             .then(res => {
                 const productObj = {
                     ProductId: res.data._id,
                     PricePerUnit: res.data.PricePerUnit,
                     Quantity: this.props.quantity,
-                    ImagePath: this.props.imagePath
+                    ImagePath: this.props.imagePath,
+                    Size:this.props.size,
+                    Color:this.props.color
                 };
+                console.log(productObj);
                 arrayproduct.push(productObj);
-                console.log("added");
-                console.log(arrayproduct);
                 sessionStorage.setItem('products', JSON.stringify(arrayproduct));
             });
     }
@@ -84,7 +85,7 @@ export default class AddToShoppingCart extends Component{
     }
 
     render() {
-        const {productId, imagePath , quantity}= this.props;
+        const {productId, imagePath , quantity, size, color}= this.props;
 
         return(
             <button className={this.state.isInList? 'btn btn-danger': 'btn btn-info'} onClick={this.handleClick}>

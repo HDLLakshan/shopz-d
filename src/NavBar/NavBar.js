@@ -14,8 +14,10 @@ class NavBar extends Component{
         this.logOut = this.logOut.bind(this);
 
         this.state = {
-            currentUser: undefined,
+            currentUser: false,
             SearchVal:'',
+            salesUser:false,
+            adminUser:false
         };
     }
 
@@ -26,11 +28,20 @@ class NavBar extends Component{
 
         const user = AuthService.getCurrentUser();
         username = AuthService.getUsername();
-
         if (user) {
-            this.setState({
-                currentUser: AuthService.getCurrentUser(),
-            });
+            if (AuthService.getCurrentUser().roles[0] === "ROLE_USER") {
+                this.setState({
+                    currentUser: true,
+                });
+            } else if (AuthService.getCurrentUser().roles[0] === "ROLE_MODERATOR") {
+                this.setState({
+                    salesUser: true,
+                });
+            } else if(AuthService.getCurrentUser().roles[0]==="ROLE_ADMIN") {
+                this.setState({
+                    adminUser: true,
+                });
+            }
         }
     }
     logOut() {
@@ -38,7 +49,7 @@ class NavBar extends Component{
     }
 
     render() {
-        const { currentUser } = this.state;
+        const { currentUser, salesUser , adminUser} = this.state;
         return(
             <Navbar bg="info" variant="dark">
                 {currentUser ? (
@@ -59,7 +70,9 @@ class NavBar extends Component{
                     {currentUser ? (
                     <Nav.Link href="/cart">Shopping cart</Nav.Link>
                     ) : ( null )}
-
+                    {salesUser && (
+                        <Nav.Link href="/check">Admin</Nav.Link>
+                    )}
 
 
                 </Nav>

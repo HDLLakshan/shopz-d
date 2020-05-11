@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import axios from 'axios';
 import {WishlistProductRow} from "./wishlishProductRow";
 import AuthService from '../services/auth.service';
+import authHeader from "../services/auth-header";
 
 export default class GetWishlist extends Component{
     constructor(props) {
@@ -15,13 +16,14 @@ export default class GetWishlist extends Component{
 
 
     componentDidMount() {
-        axios.post("https://servershopping.azurewebsites.net/users/getOne"+AuthService.getUsername())
+        axios.post("http://localhost:4000/users/getOne"+AuthService.getUsername())
             .then(response=>{
             this.setState({
                 userId:response.data._id
             }, ()=>{
-                axios.post('https://servershopping.azurewebsites.net/wishlist/check-product' + response.data._id)
+                axios.post('http://localhost:4000/wishlist/check-product' + response.data._id, null, { headers: authHeader() })
                     .then(res => {
+                        console.log(res.data);
                         if (res.data.length > 0) {
                             this.setState({
                                 products: res.data[0].ProductObject,
@@ -47,9 +49,9 @@ export default class GetWishlist extends Component{
                 this.state.products.splice(i, 1);
             }
         }
-        axios.put('https://servershopping.azurewebsites.net/wishlist/edit-details' + this.state.userId, this.state.products)
+        axios.put('http://localhost:4000/wishlist/edit-details' + this.state.userId, this.state.products)
             .then(res => {
-                axios.post('https://servershopping.azurewebsites.net/wishlist/check-product' + this.state.userId)
+                axios.post('http://localhost:4000/wishlist/check-product' + this.state.userId, null, { headers: authHeader() })
                     .then(res => {
                         if (res.data.length > 0) {
                             this.setState({
