@@ -5,6 +5,7 @@ import {Rating} from "@material-ui/lab";
 import axios from "axios";
 import AddToShoppingCart from "../../UserManagement/Shopping Cart/AddToShoppingCart";
 import AddToWishlist from "../../UserManagement/Wishlist/AddToWishlist";
+import Nav from "react-bootstrap/Nav";
 
 class SubDetails extends Component{
 
@@ -14,7 +15,7 @@ class SubDetails extends Component{
             color:'',
             size:'S',
             AvailableAmount:'',
-            OrderQuantity:0,
+            OrderQuantity:1,
             productId:this.props.product._id,
         }
 
@@ -78,10 +79,15 @@ class SubDetails extends Component{
                  <div>
                      <p className={"newarrival text-center"}>NEW</p>
                      <h2>{this.props.product.ProductName}</h2>
-                     <p>Brand: {this.props.product.ProductBrand}</p>
+                     <p>Brand:<a  href={'/search/'+this.props.product.ProductBrand}>{this.props.product.ProductBrand}</a></p>
                      <Rating name="size-small" defaultValue={2} size="small" disabled={true} />
                      <p>Added On: {this.props.product.AddDate}</p>
-                     <p className={"lead"}>Rs. <b>{this.props.product.PricePerUnit}</b></p>
+                     <div >
+                         {this.props.product.Discount > 0 ?<div>
+                     <p style={{display:'inline', 'text-decoration-line':'line-through'}} className={"lead"}>LKR. <b>{this.props.product.PricePerUnit}</b></p>
+                         <p style={{display:'inline'}} className={"lead"}>LKR <b>{this.props.product.PricePerUnit * (100-this.props.product.Discount)/100}</b></p>
+                         </div>:<p  className={"lead"}>LKR. <b>{this.props.product.PricePerUnit}</b></p>}
+                     </div>
 
 
                      <div className={"row"}>
@@ -104,7 +110,8 @@ class SubDetails extends Component{
                      onChange={(event)=> this.setState({OrderQuantity:event.target.value})}/>
 
                      <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity} />
-                     <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity} />
+                     <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity}
+                     size={this.state.size} color={this.state.color}/>
 
 
                  </div>

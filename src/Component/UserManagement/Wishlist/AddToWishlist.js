@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import AuthService from '../services/auth.service';
+import authHeader from "../services/auth-header";
 
 export default class AddToWishlist extends Component {
     constructor(props) {
@@ -23,11 +24,11 @@ export default class AddToWishlist extends Component {
                 productId: nextProps.productId
             });
             if(AuthService.getUsername()){
-                axios.post("https://servershopping.azurewebsites.net/users/getOne"+AuthService.getUsername()).then(response=>{
+                axios.post("http://localhost:4000/users/getOne"+AuthService.getUsername()).then(response=>{
                     this.setState({
                         userId:response.data._id
                     }, ()=>{
-                        axios.post('https://servershopping.azurewebsites.net/wishlist/check-product' + response.data._id)
+                        axios.post('http://localhost:4000/wishlist/check-product' + response.data._id, null, { headers: authHeader() })
                             .then(res => {
                                 if(res.data.length>0){
                                     this.setState({
@@ -67,7 +68,7 @@ export default class AddToWishlist extends Component {
                             this.state.product.splice(i, 1);
                         }
                     }
-                    axios.put('https://servershopping.azurewebsites.net/wishlist/edit-details' + this.state.userId, this.state.product)
+                    axios.put('http://localhost:4000/wishlist/edit-details' + this.state.userId, this.state.product)
                         .then(res => {
                             this.setState({
                                 addToWishList: false
@@ -78,7 +79,7 @@ export default class AddToWishlist extends Component {
 
                     if(this.state.length>0){
                         //User list is there
-                        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.productId)
+                        axios.get('http://localhost:4000/products/view-product/' + this.props.productId)
                             .then(res => {
                                 const productObj = {
                                     ProductId: res.data._id,
@@ -91,7 +92,7 @@ export default class AddToWishlist extends Component {
 
                                 };
                                 this.state.product.push(productObj);
-                                axios.put('https://servershopping.azurewebsites.net/wishlist/edit-details' + this.state.userId, this.state.product)
+                                axios.put('http://localhost:4000/wishlist/edit-details' + this.state.userId, this.state.product)
                                     .then(res => {
                                         this.setState({
                                             addToWishList: true
@@ -103,7 +104,7 @@ export default class AddToWishlist extends Component {
 
                     }else{
                         //User list is not there
-                        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.productId)
+                        axios.get('http://localhost:4000/products/view-product/' + this.props.productId)
                             .then(res => {
                                 const productObj = {
                                     ProductId: res.data._id,
@@ -121,7 +122,7 @@ export default class AddToWishlist extends Component {
                                     UserId:this.state.userId,
                                     ProductObject:proObj
                                 };
-                                axios.post('https://servershopping.azurewebsites.net/wishlist/add-to-wishlist', finalObj)
+                                axios.post('http://localhost:4000/wishlist/add-to-wishlist', finalObj)
                                     .then(res => {
                                     });
                                 this.setState({addToWishList: true});

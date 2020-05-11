@@ -30,7 +30,7 @@ checkNoResult = () => {
 
 componentDidMount() {
     console.log(this.props.match.params.id)
-    axios.get('https://servershopping.azurewebsites.net/products/search/' + this.props.match.params.id)
+    axios.get('http://localhost:4000/products/search/' + this.props.match.params.id)
         .then(res => {
             this.setState({
                 product: res.data

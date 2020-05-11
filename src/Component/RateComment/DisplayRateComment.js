@@ -23,7 +23,6 @@ export default class DisplayRateComment extends Component {
             .then(res => {
                 this.setState({
                     products: res.data
-
                 });
             })
             .catch((error) => {

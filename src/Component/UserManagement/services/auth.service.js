@@ -1,8 +1,8 @@
 import axios from "axios";
 let Username='';
 
-const API_URL = "https://servershopping.azurewebsites.net/users/";
-//const API_URL = "http://localhost:4000/users/";
+// const API_URL = "https://servershopping.azurewebsites.net/users/";
+const API_URL = "http://localhost:4000/users/";
 
 class AuthService {
 
@@ -13,7 +13,7 @@ class AuthService {
                 console.log(response.data);
                 sessionStorage.setItem("username", JSON.stringify(userObject.Username));
                 //localStorage.setItem("username", JSON.stringify(userObject.Username));
-                if (response.data.token) {
+                if (response.data.accessToken) {
                     sessionStorage.setItem("user", JSON.stringify(response.data));
                     console.log(response.data.token);
                 }
@@ -34,6 +34,8 @@ class AuthService {
 
 
     register(userObj) {
+        console.log("came");
+        console.log(userObj);
         return axios.post(API_URL + "register", userObj);
     }
 

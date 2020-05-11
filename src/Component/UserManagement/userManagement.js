@@ -37,7 +37,7 @@ export default class UserManagement extends Component{
             this.setState({
                 Username: user,
             }, () => {
-                axios.post('https://servershopping.azurewebsites.net/users/getOne' + this.state.Username)
+                axios.post('http://localhost:4000/users/getOne' + this.state.Username)
                     .then(res => {
                         console.log(res.data);
                         this.setState({
@@ -65,7 +65,7 @@ export default class UserManagement extends Component{
         };
 
         console.log(newDetails);
-        axios.put('https://servershopping.azurewebsites.net/users/edit-details'+this.state.Email, newDetails)
+        axios.put('http://localhost:4000/users/edit-details'+this.state.Email, newDetails)
             .then(res =>{
                 alert(res.data);
             });

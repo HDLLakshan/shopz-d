@@ -28,7 +28,7 @@ class ProductFullDetails extends Component{
 
 
    getFullDetails = () => {
-       axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.match.params.id)
+       axios.get('http://localhost:4000/products/view-product/' + this.props.match.params.id)
            .then(res => {
 
                this.setState({
@@ -43,7 +43,7 @@ class ProductFullDetails extends Component{
 
    getRelavantProduct = () => {
         this.setState({didLoad:false})
-       axios.get('https://servershopping.azurewebsites.net/products/get-products/' + this.state.Products.SubCategory)
+       axios.get('http://localhost:4000/products/get-products/' + this.state.Products.SubCategory)
            .then(res => {
                this.setState({
                    relateProduct: res.data,

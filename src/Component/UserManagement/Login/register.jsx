@@ -17,6 +17,7 @@ export class Register extends React.Component {
             isValidated:false,
             errors:[],
             successful: false,
+            role:[]
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,7 +52,8 @@ export class Register extends React.Component {
         if (this.state.errors)
             this.setState({errors: ''});
         this.setState({
-            successful: false
+            successful: false,
+            role:this.state.role.push("user")
         });
         // this.handleValidation(res => {
         //     if (!this.state.isValidated) {
@@ -61,7 +63,8 @@ export class Register extends React.Component {
                     Username: this.state.Username,
                     Email: this.state.Email,
                     PasswordOne: this.state.PasswordOne,
-                    PasswordTwo: this.state.PasswordTwo
+                    PasswordTwo: this.state.PasswordTwo,
+                    roles:this.state.role
                 };
 
                 AuthService.register(userObject).then(

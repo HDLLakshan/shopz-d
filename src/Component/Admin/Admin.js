@@ -11,7 +11,7 @@ import {Category} from "./CategoryComponents/Category";
 import {HomeAdmin} from "./HomeAdmin/HomeAdmin";
 
 
-const store = createStore(allReducers, compose(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+const store = createStore(allReducers, compose(applyMiddleware(thunk), ));
 store.dispatch(fetchAllPMs());
 store.dispatch(fetchAllCats());
 
