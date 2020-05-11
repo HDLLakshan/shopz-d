@@ -46,8 +46,13 @@ class ShowItem extends Component {
 
                 <ImageView ImgArr={this.props.product.Details}/>
 
-                <figcaption className="text-xl-center">
-                    Rs {this.props.product.PricePerUnit}
+                <figcaption >
+                    {this.props.product.Discount > 0 ?
+                    <div style={{overflow: 'hidden'}}>
+                        <p style={{float: 'left'}}> Rs {this.props.product.PricePerUnit}</p>
+                        <p style={{float: 'right', color:'red', 'margin-left':'10px'}}> {this.props.product.Discount}% OFF</p>
+                    </div>:  <p style={{float: 'center'}}> Rs {this.props.product.PricePerUnit}</p>}
+
                 </figcaption>
 
             </Figure>

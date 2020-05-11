@@ -46,6 +46,7 @@ class NavBar extends Component{
                 ) : ( null )}
                 <Nav className="mr-auto">
                     <Nav.Link href="/add">Add</Nav.Link>
+                    <Nav.Link href="/viewListOfProduct">View</Nav.Link>
                     <Nav.Link href="/">Home</Nav.Link>
                     {currentUser ? (
                     <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>

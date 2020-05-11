@@ -38,12 +38,11 @@ class EditItemsOfProduct extends Component{
             .then((res) => {
                 console.log(res.data)
                 console.log('Student successfully updated')
-            }).catch((error) => {
+            })
+            .then(()=> this.props.history.push('/viewListOfProduct'))
+            .catch((error) => {
             console.log(error)
         })
-
-        // Redirect to Product List
-        this.props.history.push('/add')
     }
 
     onDelete = (e,color) => {
@@ -52,13 +51,13 @@ class EditItemsOfProduct extends Component{
         axios.put('http://localhost:4000/products/deleteOneItemFromProduct/' + this.props.match.params.id + "/" + color)
             .then((res) => {
                 console.log(res.data)
-                console.log('Student successfully updated')
-            }).catch((error) => {
+                console.log('Product successfully updated')
+            })
+            .then(()=> this.props.history.push('/viewListOfProduct'))
+            .catch((error) => {
             console.log(error)
         })
 
-        // Redirect to Product List
-        this.props.history.push('/add')
 
 
     }

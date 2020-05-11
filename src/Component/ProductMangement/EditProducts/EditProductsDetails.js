@@ -19,9 +19,11 @@ class EditProductsDetails extends Component{
                 Category: '',
                 PricePerUnit: '',
                 SubCategory:'',
+                Discount: '',
             },
             CategoryList:['Select','Men','Women','Watch'],
             SubCat:['Select'],
+            loading: false
         }
     }
 
@@ -31,7 +33,7 @@ class EditProductsDetails extends Component{
                 this.setState({
                     Products:res.data,
                 })
-            })
+            }).then(() => this.setState({loading:true}))
             .catch((error) => {
                 console.log(error + 'mko aul');
             })
@@ -57,12 +59,12 @@ class EditProductsDetails extends Component{
             .then((res) => {
                 console.log(res.data)
                 console.log('Student successfully updated')
-            }).catch((error) => {
+            })
+            .then(()=> this.props.history.push('/viewListOfProduct'))
+            .catch((error) => {
             console.log(error)
         })
 
-        // Redirect to Student List
-        this.props.history.push('/add')
     }
 
     render() {
@@ -73,57 +75,80 @@ class EditProductsDetails extends Component{
                 <Typography component="h1" variant="h4" align="center">
                     Edit Products Details
                 </Typography>
+                {this.state.loading &&
+
+                    <div className={"container-sm"}>
+                        <TextField name={"ProductName"} value={this.state.Products.ProductName} label="Product Name"
+                                   variant="outlined"
+                                   InputLabelProps={{
+                                       shrink: true,
+                                   }} onChange={(event) => this.ChangeEventFn(event)} required/>
+                        <br/><br/>
+
+                        <TextField name={"ProductBrand"} value={this.state.Products.ProductBrand} label="Product Brand"
+                                   variant="outlined"
+                                   InputLabelProps={{
+                                       shrink: true,
+                                   }} onChange={(event) => this.ChangeEventFn(event)} required/>
+                        <br/><br/>
+
+                        <FormLabel>Select Category</FormLabel>
+                        <FormControl value={this.state.Products.Category} as="select" size="sm" name={"Category"}
+                                     onChange={(event) => this.ChangeEventFn(event)} custom>
+                            {
+                                this.state.CategoryList.map((text) =>
+                                    <option value={text}>{text}</option>
+                                )
+                            }
+                        </FormControl>
+                        <br/><br/>
+
+                        <FormLabel>Select Sub Category</FormLabel>
+                        <FormControl value={this.state.Products.SubCategory} as="select" size="sm" name={"SubCategory"}
+                                     onChange={(event) => this.ChangeEventFn(event)} custom>
+                            {
+                                this.setArray().map((text) =>
+                                    <option value={text}>{text}</option>
+                                )
+                            }
+                        </FormControl>
+                        <br/><br/>
 
 
-                        <div className={"container-sm"}>
-                            <TextField  name={"ProductName"} value={this.state.Products.ProductName} label="Product Name" variant="outlined"
-                                       InputLabelProps={{
-                                           shrink: true,
-                                       }} onChange={(event ) => this.ChangeEventFn(event)} required/>
-                            <br/><br/>
+                        <TextField type="number" min="0" label="Price pre Unit" name={"PricePerUnit"}
+                                   value={this.state.Products.PricePerUnit}
+                                   onChange={(event) => this.ChangeEventFn(event)}
+                                   InputProps={{
+                                       startAdornment: <InputAdornment position="start">Rs</InputAdornment>,
+                                   }}
+                                   variant="outlined"
+                                   required/>
+                        <br/><br/>
 
-                            <TextField  name={"ProductBrand"} value={this.state.Products.ProductBrand} label="Product Brand" variant="outlined"
-                                       InputLabelProps={{
-                                           shrink: true,
-                                       }} onChange={(event ) => this.ChangeEventFn(event)} required/>
-                            <br/><br/>
+                        <TextField type="number" min="0" label="Discount" name={"Discount"}
+                                   value={this.state.Products.Discount}
+                                   onChange={(event) => this.ChangeEventFn(event)}
+                                   InputProps={{
+                                       endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                   }}
+                                   variant="outlined"
+                                   required/>
+                        <br/><br/>
 
-                            <FormLabel>Select Category</FormLabel>
-                            <FormControl value={this.state.Products.Category} as="select" size="sm" name={"Category"} onChange={(event ) => this.ChangeEventFn(event)} custom>
-                                {
-                                    this.state.CategoryList.map((text) =>
-                                        <option value={text}>{text}</option>
-                                    )
-                                }
-                            </FormControl>
-                            <br/><br/>
+                        <Button className={"center"} type={"submit"} variant="contained" color="primary" size="large"
+                                onClick={(e) => this.onSumbit(e)}>
+                            Edit
+                        </Button>
 
-                            <FormLabel>Select Sub Category</FormLabel>
-                            <FormControl value={this.state.Products.SubCategory} as="select" size="sm" name={"SubCategory"} onChange={(event ) => this.ChangeEventFn(event)} custom>
-                                {
-                                    this.setArray().map((text) =>
-                                        <option value={text}>{text}</option>
-                                    )
-                                }
-                            </FormControl>
-                            <br/><br/>
-
-
-                            <TextField type="number" min="0" label="Price pre Unit" name={"PricePerUnit"} value={this.state.Products.PricePerUnit} onChange={(event ) => this.ChangeEventFn(event)}
-                                       InputProps={{
-                                           startAdornment: <InputAdornment position="start">Rs</InputAdornment>,
-                                       }}
-                                       variant="outlined"
-                                       required />
-                            <br/><br/>
-
-                            <Button className={"center"} type={"submit"} variant="contained" color="primary" size="large"
-                            onClick={(e)=>this.onSumbit(e)}>
-                                Edit
-                            </Button>
-
-                        </div>
-
+                    </div>
+                }
+                { !this.state.loading &&
+                <div className="d-flex justify-content-center">
+                    <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+                }
             </div>
         )
     }

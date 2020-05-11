@@ -8,6 +8,7 @@ import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
 
 import AddImage from "./AddImage";
+import Typography from "@material-ui/core/Typography";
 
 
 class AddProduct extends Component{
@@ -21,6 +22,7 @@ class AddProduct extends Component{
                 ProductBrand:'',
                 Category: '',
                 PricePerUnit: '',
+                Discount:'',
                 SubCategory:'',
                 ImageOfProduct:[],
                 ColorOfImg:[],
@@ -63,7 +65,7 @@ class AddProduct extends Component{
         formData.append("Category", this.state.Products.Category);
         formData.append("PricePerUnit", this.state.Products.PricePerUnit);
         formData.append("SubCategory", this.state.Products.SubCategory);
-
+        formData.append("Discount", this.state.Products.Discount);
         for (let l = 0; l < this.state.Products.ImageOfProduct.length; l++) {
             formData.append('ImageOfProduct', this.state.Products.ImageOfProduct[l]);
         }
@@ -80,7 +82,8 @@ class AddProduct extends Component{
 
             formData.append("StockAmount", this.state.Products.StockAmount);
             axios.post('http://localhost:4000/products/add-product', formData, {headers: {"Content-type": "multipart/form-data"}})
-                .then(res => console.log(res.data));
+                .then(()=> this.props.history.push('/viewListOfProduct'))
+            ;
 
             this.setState({
                 Products: '',
@@ -96,8 +99,10 @@ class AddProduct extends Component{
 
 
         return(
-            <div className="container">
-                <h3 className="display-3 text-center">Add Product</h3>
+            <div className="container-fluid">
+                <Typography component="h1" variant="h4" align="center">
+                    Add New Product
+                </Typography>
                 <div >
                      <form onSubmit={this.onSubmit}>
                         <div className={"container-sm"}>
@@ -128,13 +133,21 @@ class AddProduct extends Component{
                             <br/><br/>
 
 
-                        <TextField type={"number"} min="0" label="Price pre Unit" id="outlined-start-adornment" name={"PricePerUnit"} value={this.state.Products.PricePerUnit} onChange={(event ) => this.ChangeEventFn(event)}
+                        <TextField type="number" min={0} label="Price pre Unit" name={"PricePerUnit"} value={this.state.Products.PricePerUnit} onChange={(event ) => this.ChangeEventFn(event)}
                             InputProps={{
                                 startAdornment: <InputAdornment position="start">Rs</InputAdornment>,
                             }}
                             variant="outlined"
                        required />
                         <br/><br/>
+
+                            <TextField type="number" min={0} label="Discount" value={0} name={"Discount"} value={this.state.Products.Discount} onChange={(event ) => this.ChangeEventFn(event)}
+                                       InputProps={{
+                                           endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                       }}
+                                       variant="outlined"
+                                       required />
+                            <br/><br/>
 
                         </div>
 

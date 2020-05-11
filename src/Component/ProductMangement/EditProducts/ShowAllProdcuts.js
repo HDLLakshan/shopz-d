@@ -28,6 +28,16 @@ class ShowAllProdcuts extends Component{
 
     }
 
+    deleteProduct = (e,id) => {
+        e.preventDefault();
+        axios.delete('http://localhost:4000/products/deleteProduct/' + id)
+            .then((res) => {
+                window.location.reload();
+            }).catch((error) => {
+            console.log(error)
+        })
+    }
+
     render() {
         const columns = [
             {
@@ -64,8 +74,16 @@ class ShowAllProdcuts extends Component{
                 width: 120, minwidth: 200, maxwidth: 200
             },
             {
-                Header: "Price",
+                Header: "Price LKR",
                 accessor: "PricePerUnit",
+                style:{
+                    textAlign:"center"
+                },
+                width: 100, minwidth: 200, maxwidth: 200
+            },
+            {
+                Header: "Discount %",
+                accessor: "Discount",
                 style:{
                     textAlign:"center"
                 },
@@ -96,7 +114,8 @@ class ShowAllProdcuts extends Component{
                         <div>
                             <Button size="small" variant="btn btn-warning"
                                     onClick={() => this.props.history.push('/editProductDetails/' + props.original._id)}>Edit</Button>
-                            <Button size="small" variant="btn btn-danger">Delete</Button>
+                            <Button size="small" variant="btn btn-danger"
+                              onClick={(e) => this.deleteProduct(e, props.original._id)} >Delete</Button>
                         </div>
                     )
                 },width: 200, minwidth: 200, maxwidth: 200,

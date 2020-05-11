@@ -82,7 +82,12 @@ class SubDetails extends Component{
                      <p>Brand:<a  href={'/search/'+this.props.product.ProductBrand}>{this.props.product.ProductBrand}</a></p>
                      <Rating name="size-small" defaultValue={2} size="small" disabled={true} />
                      <p>Added On: {this.props.product.AddDate}</p>
-                     <p className={"lead"}>Rs. <b>{this.props.product.PricePerUnit}</b></p>
+                     <div >
+                         {this.props.product.Discount > 0 ?<div>
+                     <p style={{display:'inline', 'text-decoration-line':'line-through'}} className={"lead"}>LKR. <b>{this.props.product.PricePerUnit}</b></p>
+                         <p style={{display:'inline'}} className={"lead"}>LKR <b>{this.props.product.PricePerUnit * (100-this.props.product.Discount)/100}</b></p>
+                         </div>:<p  className={"lead"}>LKR. <b>{this.props.product.PricePerUnit}</b></p>}
+                     </div>
 
 
                      <div className={"row"}>
