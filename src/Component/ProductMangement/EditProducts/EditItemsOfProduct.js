@@ -34,7 +34,7 @@ class EditItemsOfProduct extends Component{
 
     onEdit = (e,index) => {
         e.preventDefault();
-        axios.put('http://localhost:4000/products/editItemOfProduct/' + this.props.match.params.id, this.state.Products.Details[index])
+        axios.put('https://the-hanger-af.el.r.appspot.com/products/editItemOfProduct/' + this.props.match.params.id, this.state.Products.Details[index])
             .then((res) => {
                 console.log(res.data)
                 console.log('Student successfully updated')
@@ -48,7 +48,7 @@ class EditItemsOfProduct extends Component{
     onDelete = (e,color) => {
         e.preventDefault();
 
-        axios.put('http://localhost:4000/products/deleteOneItemFromProduct/' + this.props.match.params.id + "/" + color)
+        axios.put('https://the-hanger-af.el.r.appspot.com/products/deleteOneItemFromProduct/' + this.props.match.params.id + "/" + color)
             .then((res) => {
                 console.log(res.data)
                 console.log('Product successfully updated')

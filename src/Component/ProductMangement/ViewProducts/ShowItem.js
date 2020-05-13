@@ -3,7 +3,7 @@ import LoaderComponent from "./LoaderComponent";
 import Figure from "react-bootstrap/Figure";
 import {Link} from 'react-router-dom'
 import ImageView from "./ImageView";
-
+import '../../../css/App.css'
 
 
 class ShowItem extends Component {
@@ -41,7 +41,7 @@ class ShowItem extends Component {
 
     return(
         <Link to={'/details/'+ this.props.product._id }>
-        <div hidden={this.setHidden()}>
+        <div  hidden={this.setHidden()}>
             <Figure style={{ border: "5px solid white" }}>
 
                 <ImageView ImgArr={this.props.product.Details}/>

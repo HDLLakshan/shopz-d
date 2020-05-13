@@ -28,7 +28,7 @@ class EditProductsDetails extends Component{
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/products/view-product/' + this.props.match.params.id)
+        axios.get('https://the-hanger-af.el.r.appspot.com/products/view-product/' + this.props.match.params.id)
             .then(res => {
                 this.setState({
                     Products:res.data,
@@ -55,7 +55,7 @@ class EditProductsDetails extends Component{
     onSumbit(e){
         e.preventDefault();
 
-        axios.put('http://localhost:4000/products/editProductsDetails/' + this.props.match.params.id, this.state.Products)
+        axios.put('https://the-hanger-af.el.r.appspot.com/products/editProductsDetails/' + this.props.match.params.id, this.state.Products)
             .then((res) => {
                 console.log(res.data)
                 console.log('Student successfully updated')
