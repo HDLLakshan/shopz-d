@@ -5,15 +5,15 @@ const API_URL = 'http://localhost:4000/';
 
 class UserService {
     getPublicContent() {
-        return axios.get(API_URL + 'home');
+        return axios.get(API_URL + 'all');
     }
 
     getUserBoard() {
-        return axios.get(API_URL + 'wishlist/get-wishlist', { headers: authHeader() });
+        return axios.get(API_URL + 'user', { headers: authHeader() });
     }
 
     getModeratorBoard() {
-        return axios.get(API_URL + 'shoppingcart/get-cart', { headers: authHeader() });
+        return axios.get(API_URL + 'mod', { headers: authHeader() });
     }
 
     getAdminBoard() {

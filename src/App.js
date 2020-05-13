@@ -18,6 +18,7 @@ import ReviewDetails from "./Component/Purchasing/PurchaseDetails/ReviewDetails"
 import EditCreditCard from "./Component/Purchasing/EditPurchaseDetails/EditCreditCard";
 import EditBilling from "./Component/Purchasing/EditPurchaseDetails/EditBilling";
 import DisplayRateComment from "./Component/RateComment/DisplayRateComment";
+import BoardUser from "./Component/UserManagement/check";
 import {Provider} from "react-redux";
 import {applyMiddleware, compose, createStore} from "redux";
 import allReducers from "./ReduxStore/reducers";
@@ -29,7 +30,7 @@ import EditItemsOfProduct from "./Component/ProductMangement/EditProducts/EditIt
 import AddNewItemToProduct from "./Component/ProductMangement/EditProducts/AddNewItemToProduct";
 
 
-class App extends Component {
+class App extends Component{
 
     render() {
         return (
@@ -38,6 +39,7 @@ class App extends Component {
                     <BrowserRouter>
                         <ReactNotification/>
                         <Switch>
+                            <Route path="/check" component={BoardUser} exact/>
                             <Route path="/Admin" exact component={Admin}/>
                             <Route exact path="/search/:id" component={ViewSerchedItem}/>
                             <Route path="/cart" component={GetShoppingCart} exact/>
