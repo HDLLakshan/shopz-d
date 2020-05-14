@@ -59,14 +59,14 @@ export default class RateCommentRow extends Component{
 
 
         };
-        axios.post('https://servershopping.azurewebsites.net/rating/add-rating', ratingObject)
+        axios.post('http://localhost:4000/rating/add-rating', ratingObject)
             .then(res => console.log(res.data));
 
         this.setState({
 
             userName:'',
             productId:'',
-            ratingno:'',
+            ratingno:0,
             comment:'',
 
         })
@@ -82,49 +82,49 @@ export default class RateCommentRow extends Component{
 
                 <td>
                     <Grid container spacing={3} justify="center"  >
-                     <Grid item xs={4} >
-                    < img src={this.props.obj.ImagePath}/>
-                     </Grid>
+                        <Grid item xs={4} >
+                            < img src={this.props.obj.ImagePath}/>
+                        </Grid>
 
 
-                    <Grid item xs={8}>
-                        <Form onSubmit={this.onSubmit}>
-                            <FormGroup row inline  justify="center" >
-                                <Col sm={8}>
-                            <StarRatingComponent
-                                className={"Ratingss"}
-                                name="rate1"
-                                starCount={5}
-                                size={100}
-                                value={this.state.ratingno}
-                                onStarClick={this.onStarClick.bind(this)}
-                                onStarHover={this.onStarHover.bind(this)}
-                            />
-                            <input  className="Hide" value={this.state.ratingno}/>
-                                    <input className="Hide" value={this.state.productId=this.props.obj.ProductId}/>
+                        <Grid item xs={8}>
+                            <Form onSubmit={this.onSubmit}>
+                                <FormGroup row inline  justify="center" >
+                                    <Col sm={8}>
+                                        <StarRatingComponent
+                                            className={"Ratingss"}
+                                            name="rate1"
+                                            starCount={5}
+                                            size={100}
+                                            value={this.state.ratingno}
+                                            onStarClick={this.onStarClick.bind(this)}
+                                            onStarHover={this.onStarHover.bind(this)}
+                                        />
+                                        <input  className="Hide" value={this.state.ratingno}/>
+                                        <input className="Hide" value={this.state.productId=this.props.obj.ProductId}/>
 
-                                    <br/>
+                                        <br/>
 
-                                    <Input type="textarea"
-                                           placeholder="Add a comment..."
-                                           name="comment"
-                                           autoComplete="billing postal-code"
-                                           value={this.state.comment}
-                                           onChange={this.onChangeComment}
-                                           rowsMax={5}
-                                    />
-                                    <br/>
-                                    <Button variant="contained" size="sm"  type="submit" float-center="true">
-                                        Save Response
-                                    </Button>
-                            </Col><br/><br/>
+                                        <Input type="textarea"
+                                               placeholder="Add a comment..."
+                                               name="comment"
+                                               autoComplete="billing postal-code"
+                                               value={this.state.comment}
+                                               onChange={this.onChangeComment}
+                                               rowsMax={5}
+                                        />
+                                        <br/>
+                                        <Button variant="contained" size="sm"  type="submit" float-center="true">
+                                            Save Response
+                                        </Button>
+                                    </Col><br/><br/>
 
 
 
-                            </FormGroup>
-                        </Form>
-                    </Grid>
-                     </Grid><br/><br/>
+                                </FormGroup>
+                            </Form>
+                        </Grid>
+                    </Grid><br/><br/>
                 </td>
 
             </tr>
