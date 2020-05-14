@@ -1,0 +1,648 @@
+Index: .idea/inspectionProfiles/Project_Default.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/inspectionProfiles/Project_Default.xml	(date 1588536644802)
++++ .idea/inspectionProfiles/Project_Default.xml	(date 1588536644802)
+@@ -0,0 +1,6 @@
++<component name="InspectionProjectProfileManager">
++  <profile version="1.0">
++    <option name="myName" value="Project Default" />
++    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
++  </profile>
++</component>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(date 1588536644769)
++++ .idea/misc.xml	(date 1588536644769)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="JavaScriptSettings">
++    <option name="languageLevel" value="JSX" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_04-May-20_1_40_AM__Default_Changelist_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_04-May-20_1_40_AM__Default_Changelist_.xml	(date 1589085507949)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_04-May-20_1_40_AM__Default_Changelist_.xml	(date 1589085507949)
+@@ -0,0 +1,4 @@
++<changelist name="Uncommitted_changes_before_Update_at_04-May-20_1_40_AM_[Default_Changelist]" date="1588536645186" recycled="true" deleted="true">
++  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_04-May-20_1_40_AM_[Default_Changelist]/shelved.patch" />
++  <option name="DESCRIPTION" value="Uncommitted changes before Update at 04-May-20 1:40 AM [Default Changelist]" />
++</changelist>
+\ No newline at end of file
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/.gitignore	(date 1588536644776)
++++ .idea/.gitignore	(date 1588536644776)
+@@ -0,0 +1,2 @@
++# Default ignored files
++/workspace.xml
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/modules.xml	(date 1588536644782)
++++ .idea/modules.xml	(date 1588536644782)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/.idea/shopz-d.iml" filepath="$PROJECT_DIR$/.idea/shopz-d.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_04-May-20_1_40_AM_[Default_Changelist]/shelved.patch
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_04-May-20_1_40_AM_[Default_Changelist]/shelved.patch	(date 1588536643745)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_04-May-20_1_40_AM_[Default_Changelist]/shelved.patch	(date 1588536643745)
+@@ -0,0 +1,538 @@
++Index: src/Component/UserManagement/Shopping Cart/ShoppingCartRow.js
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>import React, {Component} from \"react\";\r\nimport {Col, Container, Row} from \"react-bootstrap\";\r\nimport axios from \"axios\";\r\n\r\nexport class ShoppingCartRow extends Component{\r\n    constructor(props) {\r\n        super(props);\r\n        this.state={\r\n            ProductId:this.props.obj.ProductId,\r\n            products:[]\r\n        };\r\n\r\n    }\r\n    componentDidMount() {\r\n        axios.get('https://servershopping.azurewebsites.net/products/view-product/' +this.props.obj.ProductId)\r\n            .then(res => {\r\n                console.log(res.data);\r\n                this.setState({\r\n                    products:res.data\r\n                });\r\n            })\r\n    }\r\n\r\n    render(){\r\n        const {key, obj, handleRemoveButton}= this.props;\r\n        return(\r\n                    <div className=\"card mb-3\" style={{\"max-width\": \"540px\"}}>\r\n                        <div className=\"row no-gutters\">\r\n                            <div className=\"col-md-4\">\r\n                                <img src={this.props.obj.ImagePath} className=\"card-img\" alt=\"...\"/>\r\n                            </div>\r\n                            <div className=\"col-md-8\">\r\n                                <div className=\"card-body\">\r\n                                    <h5 className=\"card-title\">{this.state.products.ProductName}</h5>\r\n                                    <p className=\"card-text\">{this.state.products.Category}</p>\r\n                                    <p className=\"card-text\">{this.state.products.PricePerUnit}</p>\r\n                                    <p className=\"card-text\">{this.props.obj.Quantity}</p>\r\n                                    <p className=\"card-text\">{this.state.products.PricePerUnit}</p>\r\n                                    <p className=\"card-text\"><small className=\"text-muted\">{this.state.products.SubCategory}</small></p>\r\n                                    <button type='button' onClick={() => handleRemoveButton(this.state.ProductId)}>Remove</button>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n        );\r\n                    {/*<Row className=\"show-grid\">*/}\r\n                    {/*    <Col xs={12} md={8}>*/}\r\n                    {/*    <code>{this.state.products.ProductName}</code>*/}\r\n                    {/*</Col>*/}\r\n                    {/*    <Col xs={10} md={6}>*/}\r\n                    {/*        <code>{this.state.products.Category}</code>*/}\r\n                    {/*    </Col>*/}\r\n                    {/*    <Col xs={12} md={8}>*/}\r\n                    {/*        <code>{this.state.products.PricePerUnit}</code>*/}\r\n                    {/*    </Col>*/}\r\n                    {/*    <Col xs={10} md={6}>*/}\r\n                    {/*        <code>{this.state.products.SubCategory}</code>*/}\r\n                    {/*    </Col>*/}\r\n                    {/*    <Col xs={12} md={8}>*/}\r\n                    {/*        <code><img src={this.state.products.ImageOfProduct}/></code>*/}\r\n                    {/*    </Col>*/}\r\n                    {/*    <Col xs={10} md={6}>*/}\r\n                    {/*        <code>{this.state.products.Quantity}</code>*/}\r\n                    {/*    </Col>*/}\r\n                    {/*    <button type='button' onClick={() => handleRemoveButton(this.state.name)}>Remove</button>*/}\r\n                    {/*</Row>*/}\r\n\r\n\r\n    }\r\n\r\n}
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/Component/UserManagement/Shopping Cart/ShoppingCartRow.js	(revision 5898862d745c9f64391094610afa3d62fb04b95a)
+++++ src/Component/UserManagement/Shopping Cart/ShoppingCartRow.js	(date 1588536527496)
++@@ -7,7 +7,7 @@
++         super(props);
++         this.state={
++             ProductId:this.props.obj.ProductId,
++-            products:[]
+++            products:{}
++         };
++ 
++     }
++Index: src/Component/ProductMangement/ViewSingleProduct/SubDetails.js
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>import React, {Component} from \"react\";\r\nimport FormLabel from \"react-bootstrap/FormLabel\";\r\nimport FormControl from \"react-bootstrap/FormControl\";\r\nimport {Rating} from \"@material-ui/lab\";\r\nimport axios from \"axios\";\r\nimport AddToShoppingCart from \"../../UserManagement/Shopping Cart/AddToShoppingCart\";\r\nimport AddToWishlist from \"../../UserManagement/Wishlist/AddToWishlist\";\r\n\r\nclass SubDetails extends Component{\r\n\r\n    constructor(props) {\r\n        super(props);\r\n        this.state = {\r\n            color:'',\r\n            size:'S',\r\n            AvailableAmount:'',\r\n            OrderQuantity:0,\r\n            productId:this.props.product._id\r\n\r\n        }\r\n        console.log(this.props.product.StockSmall[0])\r\n    }\r\n\r\n\r\n    ChangeEventFn = (event) => {\r\n        this.setState({color: event.target.value}, () => {\r\n            this.props.setPosition(this.state.color)\r\n            console.log(this.state.color)\r\n        })\r\n    }\r\n\r\n    componentWillMount() {\r\n\r\n    }\r\n\r\n\r\n    setAvailability = () => {\r\n        if(this.state.size==='S'){\r\n             if(parseInt(this.props.product.StockSmall[this.props.position]) > 0 ){\r\n                 return this.props.product.StockSmall[this.props.position]\r\n             }\r\n             else {\r\n                 return this.props.product.StockSmall[this.props.position]\r\n             }\r\n\r\n        }\r\n        else if(this.state.size==='M'){\r\n            if(parseInt(this.props.product.StockMedium[this.props.position]) > 0 ){\r\n                return this.props.product.StockMedium[this.props.position]\r\n            }\r\n            else {\r\n                return this.props.product.StockMedium[this.props.position]\r\n\r\n            }\r\n\r\n        }\r\n        else if(this.state.size==='L'){\r\n            if(parseInt(this.props.product.StockLarge[this.props.position]) > 0 ){\r\n                return this.props.product.StockLarge[this.props.position]\r\n            }\r\n            else {\r\n                return this.props.product.StockLarge[this.props.position]\r\n            }\r\n\r\n        }\r\n        else if(this.state.size==='XL'){\r\n            if(parseInt(this.props.product.StockXL[this.props.position]) > 0 ){\r\n                return this.props.product.StockXL[this.props.position]\r\n            }\r\n            else {\r\n                return this.props.product.StockXL[this.props.position]\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n\r\n    render() {\r\n        return(\r\n                 <div>\r\n                     <p className={\"newarrival text-center\"}>NEW</p>\r\n                     <h2>{this.props.product.ProductName}</h2>\r\n                     <p>Brand: {this.props.product.ProductBrand}</p>\r\n                     <Rating name=\"size-small\" defaultValue={2} size=\"small\" disabled={true} />\r\n                     <p>Added On: {this.props.product.AddDate}</p>\r\n                     <p className={\"lead\"}>Rs. <b>{this.props.product.PricePerUnit}</b></p>\r\n\r\n\r\n                     <div className={\"row\"}>\r\n                     <FormLabel>Select Color</FormLabel>\r\n                     <FormControl className={\"col-md-2\"}  as=\"select\" size=\"sm\" name={\"color\"} value={this.props.product.ColorOfImg[this.props.position]} onChange={(event ) => this.ChangeEventFn(event)} custom>\r\n                         {this.props.product.ColorOfImg.map((text) => <option value={text}>{text}</option>)}\r\n                     </FormControl>\r\n                         <FormLabel>Select Size</FormLabel>\r\n                         <FormControl className={\"col-md-2\"}  as=\"select\" size=\"sm\" name={\"size\"} value={this.state.size} onChange={(e ) => this.setState({size: e.target.value})} custom>\r\n                             <option value={\"S\"}>Small</option>\r\n                             <option value={\"M\"}>Medium</option>\r\n                             <option value={\"L\"}>Large</option>\r\n                             <option value={\"XL\"}>XL</option>\r\n                         </FormControl>\r\n                     </div>\r\n\r\n                     <p><b>Availability:</b>{this.setAvailability()} </p>\r\n\r\n                     <input className={' col-md-2'} placeholder=\"Enter Quantity\" required type=\"number\" value={this.state.OrderQuantity} min=\"1\" max={this.setAvailability()}\r\n                     onChange={(event)=> this.setState({OrderQuantity:event.target.value})}/>\r\n\r\n                     <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.ImageOfProduct[this.props.position]} quantity={this.state.OrderQuantity} />\r\n                     <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.ImageOfProduct[this.props.position]} quantity={this.state.OrderQuantity} />\r\n\r\n\r\n                 </div>\r\n        )\r\n    }\r\n\r\n}\r\n\r\nexport default SubDetails
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/Component/ProductMangement/ViewSingleProduct/SubDetails.js	(revision 5898862d745c9f64391094610afa3d62fb04b95a)
+++++ src/Component/ProductMangement/ViewSingleProduct/SubDetails.js	(date 1588535640605)
++@@ -15,10 +15,9 @@
++             size:'S',
++             AvailableAmount:'',
++             OrderQuantity:0,
++-            productId:this.props.product._id
++-
+++            productId:this.props.product._id,
++         }
++-        console.log(this.props.product.StockSmall[0])
+++
++     }
++ 
++ 
++@@ -29,46 +28,46 @@
++         })
++     }
++ 
++-    componentWillMount() {
++-
+++    componentDidMount() {
++     }
++ 
++ 
++     setAvailability = () => {
+++
++         if(this.state.size==='S'){
++-             if(parseInt(this.props.product.StockSmall[this.props.position]) > 0 ){
++-                 return this.props.product.StockSmall[this.props.position]
+++             if(parseInt(this.props.small[this.props.position]) > 0 ){
+++                 return this.props.small[this.props.position]
++              }
++              else {
++-                 return this.props.product.StockSmall[this.props.position]
+++                 return this.props.small[this.props.position]
++              }
++ 
++         }
++         else if(this.state.size==='M'){
++-            if(parseInt(this.props.product.StockMedium[this.props.position]) > 0 ){
++-                return this.props.product.StockMedium[this.props.position]
+++            if(parseInt(this.props.product.Details[this.props.position].medium) > 0 ){
+++                return this.props.product.Details[this.props.position].medium
++             }
++             else {
++-                return this.props.product.StockMedium[this.props.position]
+++                return this.props.product.StockMedium[this.props.position].medium
++ 
++             }
++ 
++         }
++         else if(this.state.size==='L'){
++-            if(parseInt(this.props.product.StockLarge[this.props.position]) > 0 ){
++-                return this.props.product.StockLarge[this.props.position]
+++            if(parseInt(this.props.product.Details[this.props.position].large) > 0 ){
+++                return this.props.product.Details[this.props.position].large
++             }
++             else {
++-                return this.props.product.StockLarge[this.props.position]
+++                return this.props.product.Details[this.props.position].large
++             }
++ 
++         }
++         else if(this.state.size==='XL'){
++-            if(parseInt(this.props.product.StockXL[this.props.position]) > 0 ){
++-                return this.props.product.StockXL[this.props.position]
+++            if(parseInt(this.props.product.Details[this.props.position].xl) > 0 ){
+++                return this.props.product.Details[this.props.position].xl
++             }
++             else {
++-                return this.props.product.StockXL[this.props.position]
+++                return this.props.product.Details[this.props.position].xl
++             }
++         }
++     }
++@@ -88,8 +87,8 @@
++ 
++                      <div className={"row"}>
++                      <FormLabel>Select Color</FormLabel>
++-                     <FormControl className={"col-md-2"}  as="select" size="sm" name={"color"} value={this.props.product.ColorOfImg[this.props.position]} onChange={(event ) => this.ChangeEventFn(event)} custom>
++-                         {this.props.product.ColorOfImg.map((text) => <option value={text}>{text}</option>)}
+++                     <FormControl className={"col-md-2"}  as="select" size="sm" name={"color"} value={this.state.color} onChange={(event ) => this.ChangeEventFn(event)} custom>
+++                         {this.props.product.Details.map((text) => <option value={text.color}>{text.color}</option>)}
++                      </FormControl>
++                          <FormLabel>Select Size</FormLabel>
++                          <FormControl className={"col-md-2"}  as="select" size="sm" name={"size"} value={this.state.size} onChange={(e ) => this.setState({size: e.target.value})} custom>
++@@ -105,8 +104,8 @@
++                      <input className={' col-md-2'} placeholder="Enter Quantity" required type="number" value={this.state.OrderQuantity} min="1" max={this.setAvailability()}
++                      onChange={(event)=> this.setState({OrderQuantity:event.target.value})}/>
++ 
++-                     <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.ImageOfProduct[this.props.position]} quantity={this.state.OrderQuantity} />
++-                     <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.ImageOfProduct[this.props.position]} quantity={this.state.OrderQuantity} />
+++                     <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.img[this.props.position]} quantity={this.state.OrderQuantity} />
+++                     <AddToWishlist productId={this.props.product._id} imagePath={this.props.img[this.props.position]} quantity={this.state.OrderQuantity} />
++ 
++ 
++                  </div>
++Index: src/Component/ProductMangement/ViewSingleProduct/Details.js
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>import React, {Component} from \"react\";\r\nimport SubDetails from \"./SubDetails\";\r\nimport LoaderComponent from \"../ViewProducts/LoaderComponent\";\r\n\r\n\r\nclass Details extends Component{\r\n\r\n    constructor(props) {\r\n        super(props);\r\n        this.state = {\r\n            position : 0,\r\n            loading:true\r\n        }\r\n\r\n    }\r\n\r\n    onLoad = () => {\r\n        this.setState({\r\n            loading:false\r\n        })\r\n    }\r\n\r\n\r\n\r\n    setPosition = (value) => {\r\n        let x;\r\n        x = this.props.product.ColorOfImg.indexOf(value);\r\n        this.setState({\r\n            position:x\r\n        })\r\n    }\r\n\r\n    render() {\r\n        return (\r\n            <div onChange={this.handleFormChange} className={\"container\"}>\r\n                <div className={\"row\"}>\r\n\r\n                    <div className={\"col-md-4\"} >\r\n                        {this.state.loading ? <LoaderComponent /> : null}\r\n                        <img onLoad={this.onLoad} src={this.props.product.ImageOfProduct[this.state.position]} className=\"d-block \"  style={{'width':'20vw','height':'20vw'}}/>\r\n                    </div>\r\n\r\n\r\n                    <div className={\"col-md-7\"}>\r\n                       <SubDetails position={this.state.position} product={this.props.product}  setPosition={this.setPosition}/>\r\n                    </div>\r\n\r\n                </div>\r\n\r\n\r\n            </div>\r\n        )\r\n    }\r\n}\r\n\r\nexport default Details
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/Component/ProductMangement/ViewSingleProduct/Details.js	(revision 5898862d745c9f64391094610afa3d62fb04b95a)
+++++ src/Component/ProductMangement/ViewSingleProduct/Details.js	(date 1588535504165)
++@@ -9,9 +9,13 @@
++         super(props);
++         this.state = {
++             position : 0,
++-            loading:true
+++            loading:true,
+++            img : [],
+++            Details : [],
++         }
++-
+++       this.setState({
+++           Details : this.props.detail
+++       })
++     }
++ 
++     onLoad = () => {
++@@ -24,25 +28,26 @@
++ 
++     setPosition = (value) => {
++         let x;
++-        x = this.props.product.ColorOfImg.indexOf(value);
+++        x = this.props.product.Details.map(e => e.color).indexOf(value);
++         this.setState({
++             position:x
++         })
++     }
++ 
++     render() {
+++
++         return (
++             <div onChange={this.handleFormChange} className={"container"}>
++                 <div className={"row"}>
++ 
++                     <div className={"col-md-4"} >
++                         {this.state.loading ? <LoaderComponent /> : null}
++-                        <img onLoad={this.onLoad} src={this.props.product.ImageOfProduct[this.state.position]} className="d-block "  style={{'width':'20vw','height':'20vw'}}/>
+++                        <img onLoad={this.onLoad} src={this.props.src[this.state.position]} className="d-block "  style={{'width':'20vw','height':'20vw'}}/>
++                     </div>
++ 
++ 
++                     <div className={"col-md-7"}>
++-                       <SubDetails position={this.state.position} product={this.props.product}  setPosition={this.setPosition}/>
+++                       <SubDetails position={this.state.position} product={this.props.product}  setPosition={this.setPosition} img={this.props.src} small={this.props.small}/>
++                     </div>
++ 
++                 </div>
++Index: src/Component/ProductMangement/ViewSingleProduct/ProductFullDetails.js
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>import React, {Component} from \"react\";\r\nimport axios from \"axios\";\r\nimport './ProductFile Details.css'\r\nimport ShowItem from \"../ViewProducts/ShowItem\";\r\nimport Details from \"./Details\";\r\nimport '../../../App.css'\r\n\r\nclass ProductFullDetails extends Component{\r\n\r\n    constructor(props) {\r\n        super(props);\r\n        this.state = {\r\n            didLoad: true,\r\n            didLoadrel:true,\r\n            relateProduct:[],\r\n            Products:{\r\n                ProductName:'',\r\n                Category: '',\r\n                PricePerUnit: '',\r\n                StockAmount:'',\r\n                ProductBrand: '',\r\n                ImageOfProduct:[],\r\n                ColorOfImg: [],\r\n                StockSmall:[],\r\n                StockMedium:[],\r\n                StockLarge:[],\r\n                StockXL:[],\r\n                AddDate:''\r\n\r\n\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n\r\n   getFullDetails = () => {\r\n       axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.match.params.id)\r\n           .then(res => {\r\n               this.setState({\r\n                   Products:res.data\r\n               }, () => this.getRelavantProduct());\r\n           })\r\n           .catch((error) => {\r\n               console.log(error + 'mko aul');\r\n\r\n           })\r\n   }\r\n\r\n   getRelavantProduct = () => {\r\n        this.setState({didLoad:false})\r\n       axios.get('https://servershopping.azurewebsites.net/products/get-products/' + this.state.Products.SubCategory)\r\n           .then(res => {\r\n               this.setState({\r\n                   relateProduct: res.data,\r\n               },() => this.setState({didLoadrel:false}))\r\n           }).catch((error) => {\r\n               console.log(error + 'error in get relevant products')\r\n       })\r\n\r\n\r\n\r\n   }\r\n\r\n\r\n    componentDidMount() {\r\n        this.getFullDetails();\r\n    }\r\n\r\n    componentDidUpdate() {\r\n        if (this.props.match.params.id !== this.state.Products._id) {\r\n            this.getFullDetails();\r\n        }\r\n\r\n    }\r\n\r\n    render() {\r\n        return(\r\n            <div>\r\n                {this.state.didLoad ? <div className=\"d-flex justify-content-center\">\r\n                    <div className=\"spinner-border\" role=\"status\">\r\n                        <span className=\"sr-only\">Loading...</span>\r\n                    </div>\r\n                </div> : null}\r\n                <Details product={this.state.Products} />\r\n\r\n\r\n\r\n                <h3 >Similar Products</h3>\r\n                {this.state.didLoadrel ? <div className=\"d-flex justify-content-center\">\r\n                    <div className=\"spinner-border\" role=\"status\">\r\n                        <span className=\"sr-only\">Loading...</span>\r\n                    </div>\r\n                </div> : null}\r\n                <div className={\"container1\"}>\r\n                {this.state.relateProduct.map((item, index) =>\r\n                        <ShowItem cid={this.state.Products._id} key={index} product={item} cat={'none'}/>\r\n\r\n                    )\r\n                }\r\n                </div>\r\n\r\n\r\n            </div>\r\n        )\r\n    }\r\n\r\n}\r\n\r\nexport default ProductFullDetails;
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/Component/ProductMangement/ViewSingleProduct/ProductFullDetails.js	(revision 5898862d745c9f64391094610afa3d62fb04b95a)
+++++ src/Component/ProductMangement/ViewSingleProduct/ProductFullDetails.js	(date 1588535987788)
++@@ -19,16 +19,11 @@
++                 PricePerUnit: '',
++                 StockAmount:'',
++                 ProductBrand: '',
++-                ImageOfProduct:[],
++-                ColorOfImg: [],
++-                StockSmall:[],
++-                StockMedium:[],
++-                StockLarge:[],
++-                StockXL:[],
++-                AddDate:''
++-
++-
++-            }
+++                AddDate:'',
+++                Details:[],
+++            },
+++            img:[],
+++            SmallArray:[]
++         }
++     }
++ 
++@@ -38,7 +33,7 @@
++        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.match.params.id)
++            .then(res => {
++                this.setState({
++-                   Products:res.data
+++                   Products:res.data,
++                }, () => this.getRelavantProduct());
++            })
++            .catch((error) => {
++@@ -58,8 +53,12 @@
++                console.log(error + 'error in get relevant products')
++        })
++ 
++-
++-
+++   console.log(this.state.Products.Details[0].color);
+++    this.state.Products.Details.map(item =>
+++    {
+++        this.state.img.push(item.imgPath)
+++        this.state.SmallArray.push(item.small)
+++    })
++    }
++ 
++ 
++@@ -82,7 +81,7 @@
++                         <span className="sr-only">Loading...</span>
++                     </div>
++                 </div> : null}
++-                <Details product={this.state.Products} />
+++                <Details product={this.state.Products} src={this.state.img} detail={this.state.details} small={this.state.SmallArray}/>
++ 
++ 
++ 
++Index: .idea/misc.xml
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- .idea/misc.xml	(date 1586861538722)
+++++ .idea/misc.xml	(date 1586861538722)
++@@ -0,0 +1,6 @@
+++<?xml version="1.0" encoding="UTF-8"?>
+++<project version="4">
+++  <component name="JavaScriptSettings">
+++    <option name="languageLevel" value="JSX" />
+++  </component>
+++</project>
++\ No newline at end of file
++Index: .idea/.gitignore
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- .idea/.gitignore	(date 1586861538720)
+++++ .idea/.gitignore	(date 1586861538720)
++@@ -0,0 +1,2 @@
+++# Default ignored files
+++/workspace.xml
++Index: .idea/modules.xml
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- .idea/modules.xml	(date 1586861538723)
+++++ .idea/modules.xml	(date 1586861538723)
++@@ -0,0 +1,8 @@
+++<?xml version="1.0" encoding="UTF-8"?>
+++<project version="4">
+++  <component name="ProjectModuleManager">
+++    <modules>
+++      <module fileurl="file://$PROJECT_DIR$/.idea/shopz-d.iml" filepath="$PROJECT_DIR$/.idea/shopz-d.iml" />
+++    </modules>
+++  </component>
+++</project>
++\ No newline at end of file
++Index: .idea/vcs.xml
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- .idea/vcs.xml	(date 1586861538724)
+++++ .idea/vcs.xml	(date 1586861538724)
++@@ -0,0 +1,6 @@
+++<?xml version="1.0" encoding="UTF-8"?>
+++<project version="4">
+++  <component name="VcsDirectoryMappings">
+++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+++  </component>
+++</project>
++\ No newline at end of file
++Index: .idea/shopz-d.iml
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- .idea/shopz-d.iml	(date 1586861538723)
+++++ .idea/shopz-d.iml	(date 1586861538723)
++@@ -0,0 +1,8 @@
+++<?xml version="1.0" encoding="UTF-8"?>
+++<module type="WEB_MODULE" version="4">
+++  <component name="NewModuleRootManager">
+++    <content url="file://$MODULE_DIR$" />
+++    <orderEntry type="inheritedJdk" />
+++    <orderEntry type="sourceFolder" forTests="false" />
+++  </component>
+++</module>
++\ No newline at end of file
++Index: .idea/inspectionProfiles/Project_Default.xml
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- .idea/inspectionProfiles/Project_Default.xml	(date 1586861538721)
+++++ .idea/inspectionProfiles/Project_Default.xml	(date 1586861538721)
++@@ -0,0 +1,6 @@
+++<component name="InspectionProjectProfileManager">
+++  <profile version="1.0">
+++    <option name="myName" value="Project Default" />
+++    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
+++  </profile>
+++</component>
++\ No newline at end of file
++Index: src/Component/ProductMangement/ViewProducts/ImageView.js
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>import React, {Component} from \"react\";\r\nimport Carousel from \"react-bootstrap/Carousel\";\r\nimport LoaderComponent from \"./LoaderComponent\";\r\n\r\n\r\nclass ImageView extends Component{\r\n    constructor(props) {\r\n        super(props);\r\n        this.state ={\r\n           loading:true\r\n\r\n        }\r\n\r\n\r\n    }\r\n\r\n\r\n    onLoad = () => {\r\n        this.setState({\r\n            loading: false\r\n        })\r\n    }\r\n\r\n    render() {\r\n        return(\r\n\r\n            <Carousel fade={true} pause={'hover'} slide={false} interval={5000} >\r\n\r\n                {this.props.ImgArr.map(txt =>\r\n                    <Carousel.Item>\r\n                        {this.state.loading ? <LoaderComponent /> : null}\r\n                        <img onLoad={this.onLoad} className={\"img-thumbnail\"} src={txt} style={{'width': '15vw', 'height': '15vw'}}\r\n                        />\r\n\r\n                    </Carousel.Item>\r\n\r\n                    )}\r\n\r\n            </Carousel>\r\n        )\r\n    }\r\n}\r\nexport default ImageView
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/Component/ProductMangement/ViewProducts/ImageView.js	(revision 5898862d745c9f64391094610afa3d62fb04b95a)
+++++ src/Component/ProductMangement/ViewProducts/ImageView.js	(date 1588521869512)
++@@ -8,10 +8,7 @@
++         super(props);
++         this.state ={
++            loading:true
++-
++         }
++-
++-
++     }
++ 
++ 
++@@ -29,7 +26,7 @@
++                 {this.props.ImgArr.map(txt =>
++                     <Carousel.Item>
++                         {this.state.loading ? <LoaderComponent /> : null}
++-                        <img onLoad={this.onLoad} className={"img-thumbnail"} src={txt} style={{'width': '15vw', 'height': '15vw'}}
+++                        <img onLoad={this.onLoad} className={"img-thumbnail"} src={txt.imgPath} style={{'width': '15vw', 'height': '15vw'}}
++                         />
++ 
++                     </Carousel.Item>
++Index: src/Component/ProductMangement/Add-Product/Add-Product.js
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>import React, {Component} from \"react\";\r\nimport TextField from \"@material-ui/core/TextField\";\r\nimport SaveIcon from '@material-ui/icons/Save';\r\nimport Button from '@material-ui/core/Button';\r\nimport InputAdornment from \"@material-ui/core/InputAdornment\";\r\nimport axios from 'axios';\r\nimport FormLabel from \"react-bootstrap/FormLabel\";\r\nimport FormControl from \"react-bootstrap/FormControl\";\r\n\r\nimport AddImage from \"./AddImage\";\r\n\r\n\r\nclass AddProduct extends Component{\r\n\r\n    constructor(props) {\r\n        super(props);\r\n        this.onSubmit = this.onSubmit.bind(this);\r\n        this.state = {\r\n            Products:{\r\n                ProductName:'',\r\n                Category: '',\r\n                ProductBrand:'',\r\n                PricePerUnit: '',\r\n                StockAmount:'',\r\n                SubCategory:'',\r\n                ImageOfProduct:[],\r\n                ColorOfImg:[],\r\n                StockSmall:[],\r\n                StockMedium:[],\r\n                StockLarge:[],\r\n                StockXL:[],\r\n\r\n            },\r\n            imagePreviewUrl:'',\r\n            image:'',\r\n            CategoryList:['Select','Men','Women','Watch'],\r\n            SubCat:['Select'],\r\n            show:false\r\n\r\n        }\r\n\r\n    }\r\n\r\n    ChangeEventFn = (event) => {\r\n\r\n        this.setState({\r\n                Products: {\r\n                    ...this.state.Products,\r\n                    [event.target.name]: event.target.value,\r\n                }\r\n            },() =>\r\n                console.log(this.state.Products)\r\n\r\n        )\r\n        this.forceUpdate();\r\n    }\r\n\r\n\r\n\r\n    onSubmit = (e) => {\r\n        e.preventDefault()\r\n\r\n\r\n            const formData = new FormData()\r\n            formData.append(\"ProductName\", this.state.Products.ProductName);\r\n            formData.append(\"Category\", this.state.Products.Category);\r\n            formData.append(\"PricePerUnit\", this.state.Products.PricePerUnit);\r\n            formData.append(\"SubCategory\", this.state.Products.SubCategory);\r\n            formData.append(\"ProductBrand\", this.state.Products.ProductBrand);\r\n\r\n            for (let l = 0; l < this.state.Products.ImageOfProduct.length; l++) {\r\n                formData.append('ImageOfProduct', this.state.Products.ImageOfProduct[l]);\r\n            }\r\n\r\n            for (let m = 0; m < this.state.Products.ColorOfImg.length; m++) {\r\n                console.log(this.state.Products.ColorOfImg[m])\r\n                formData.append('ColorOfImg', this.state.Products.ColorOfImg[m]);\r\n                formData.append('StockSmall', this.state.Products.StockSmall[m]);\r\n                formData.append('StockMedium', this.state.Products.StockMedium[m]);\r\n                formData.append('StockLarge', this.state.Products.StockLarge[m]);\r\n                formData.append('StockXL', this.state.Products.StockXL[m]);\r\n\r\n\r\n            }\r\n\r\n\r\n            formData.append(\"StockAmount\", this.state.Products.StockAmount);\r\n            axios.post('https://servershopping.azurewebsites.net/products/add-product', formData, {headers: {\"Content-type\": \"multipart/form-data\"}})\r\n                .then(res => console.log(res.data));\r\n\r\n            this.setState({\r\n                Products: {\r\n                    ProductName: '',\r\n                    Category: '',\r\n                    PricePerUnit: '',\r\n                    StockAmount: '',\r\n                    ProductBrand: '',\r\n                    ImageOfProduct: [],\r\n                    ColorOfImg: [],\r\n                    StockSmall: [],\r\n                    StockMedium: [],\r\n                    StockLarge: [],\r\n                    StockXL: [],\r\n                },\r\n                show:false\r\n            })\r\n\r\n    }\r\n\r\n\r\n\r\n\r\n    render() {\r\n\r\n\r\n        return(\r\n            <div className=\"container\">\r\n                <div >\r\n                    <form  autoComplete=\"off\" onSubmit={this.onSubmit}>\r\n\r\n                        <div className={\"container-sm\"}>\r\n                        <TextField id=\"outlined-basic\" name={\"ProductName\"} value={this.state.Products.ProductName} label=\"Product Name\" variant=\"outlined\" onChange={(event ) => this.ChangeEventFn(event)} required/>\r\n                        <br/><br/>\r\n\r\n                        <TextField id=\"outlined-basic\" name={\"ProductBrand\"} value={this.state.Products.ProductBrand} label=\"Product Brand\" variant=\"outlined\" onChange={(event ) => this.ChangeEventFn(event)} required/>\r\n                        <br/><br/>\r\n\r\n\r\n                        <FormLabel>Select Category</FormLabel>\r\n                        <FormControl value={this.state.Products.Category} as=\"select\" size=\"sm\" name={\"Category\"} onChange={(event ) => this.ChangeEventFn(event)} custom>\r\n                            {\r\n                                this.state.CategoryList.map((text) =>\r\n                                    <option value={text}>{text}</option>\r\n                                )\r\n                            }\r\n                        </FormControl>\r\n                        <br/><br/>\r\n\r\n                        <FormLabel>Select Sub Category</FormLabel>\r\n                        <FormControl value={this.state.Products.SubCategory} as=\"select\" size=\"sm\" name={\"SubCategory\"} onChange={(event ) => this.ChangeEventFn(event)} custom>\r\n                            {\r\n                                this.setArray().map((text) =>\r\n                                    <option value={text}>{text}</option>\r\n                                )\r\n                            }\r\n                        </FormControl>\r\n                            <br/><br/>\r\n\r\n\r\n                        <TextField type={\"number\"} min=\"0\" label=\"Price pre Unit\" id=\"outlined-start-adornment\" name={\"PricePerUnit\"} value={this.state.Products.PricePerUnit} onChange={(event ) => this.ChangeEventFn(event)}\r\n                            InputProps={{\r\n                                startAdornment: <InputAdornment position=\"start\">Rs</InputAdornment>,\r\n                            }}\r\n                            variant=\"outlined\"\r\n                       required />\r\n                        <br/><br/>\r\n\r\n\r\n                        <TextField value={this.state.Products.StockAmount} type={\"number\"} id=\"outlined-basic\" name={\"StockAmount\"} label=\"Full Stock Amount\" variant=\"outlined\" onChange={(event ) => this.ChangeEventFn(event)} required/>\r\n                        <br/><br/>\r\n\r\n\r\n                        </div>\r\n     <div >\r\n\r\n\r\n                                <AddImage keyss={1} Products={this.state.Products}/>\r\n\r\n\r\n\r\n\r\n     </div>\r\n\r\n                        <Button variant=\"contained\" color=\"primary\" size=\"large\" type=\"submit\"  startIcon={<SaveIcon />}>\r\n                            Save\r\n                        </Button>\r\n\r\n                    </form>\r\n\r\n                </div>\r\n            </div>\r\n        )\r\n    }\r\n\r\n\r\n\r\n    setArray = () => {\r\n        if(this.state.Products.Category === 'Men'){\r\n            this.state.SubCat = ['Select','T-Shirt','Shirt','Trouser','Denim' ]\r\n        }\r\n\r\n        else if (this.state.Products.Category === 'Women'){\r\n            this.state.SubCat = ['Select','T-Shirt','Frock','Girl-Trouser','Denim' ]\r\n        }\r\n\r\n        else if (this.state.Products.Category === 'Watch'){\r\n            this.state.SubCat = ['Select','Casio','Citizen']\r\n        }\r\n        return this.state.SubCat\r\n\r\n    }\r\n\r\n\r\n\r\n}\r\n\r\n\r\n\r\n\r\n\r\n\r\nexport default  AddProduct;
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/Component/ProductMangement/Add-Product/Add-Product.js	(revision 5898862d745c9f64391094610afa3d62fb04b95a)
+++++ src/Component/ProductMangement/Add-Product/Add-Product.js	(date 1588521301949)
++@@ -163,12 +163,8 @@
++                         </div>
++      <div >
++ 
++-
++                                 <AddImage keyss={1} Products={this.state.Products}/>
++ 
++-
++-
++-
++      </div>
++ 
++                         <Button variant="contained" color="primary" size="large" type="submit"  startIcon={<SaveIcon />}>
++Index: src/Component/ProductMangement/Add-Product/AddImage.js
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>import React, {Component} from \"react\";\r\nimport FormFile from \"react-bootstrap/FormFile\";\r\nimport TextField from \"@material-ui/core/TextField\";\r\nimport Tooltip from '@material-ui/core/Tooltip'\r\nimport Fab from \"@material-ui/core/Fab\";\r\n\r\nclass AddImage extends Component{\r\n\r\n    constructor(props) {\r\n        super(props);\r\n        this.state={\r\n            imageURL:[],\r\n            Arr:[0],\r\n        }\r\n    }\r\n\r\n\r\n    onFileChange = (event,index) => {\r\n        let reader = new FileReader()\r\n        this.props.Products.ImageOfProduct[index] = event.target.files[0]\r\n        this.setState({\r\n            Products:{\r\n                ...this.props.Products,\r\n                ...this.props.Products.ImageOfProduct,\r\n\r\n            }\r\n        })\r\n\r\n        this.state.Arr.push(index+1);\r\n        console.log(\"Data\" + this.props.Products.StockSmall[index])\r\n\r\n        reader.onloadend = (e) => {\r\n            this.setState({image: e.target.result});\r\n        }\r\n\r\n        reader.readAsDataURL(event.target.files[0]);\r\n\r\n        this.state.imageURL[index] = event.target.files[0].name\r\n\r\n        this.forceUpdate();\r\n    }\r\n\r\n\r\n\r\n\r\n\r\n    render() {\r\n        return (\r\n<div>\r\n            {\r\n               this.state.Arr.map(txt =>\r\n\r\n\r\n        <div >\r\n            <p>Add Image {txt+1}</p>\r\n            <div className={\"form-group row\"}>\r\n            <div className=\"col col-md-3\">\r\n                <input type=\"text\" className=\"form-control\" placeholder=\"clr\" name={\"ColorOfImg\"}\r\n                       onChange={(event) => this.props.Products.ColorOfImg[txt] = event.target.value}/>\r\n            </div>\r\n                <div className=\"col col-md-2\">\r\n                    <input type=\"number\" min={0} className=\"form-control\" placeholder=\"Small\" name={\"StockSmall\"}\r\n                           onChange={(event) => this.props.Products.StockSmall[txt]=event.target.value}/>\r\n                </div>\r\n                <div className=\"col col-md-2\">\r\n                    <input type=\"number\" min={0} className=\"form-control\" placeholder=\"Medium\" name={\"StockMedium\"}\r\n                           onChange={(event) => this.props.Products.StockMedium[txt]=event.target.value}/>\r\n                </div>\r\n                <div className=\"col col-md-2\">\r\n                    <input type=\"number\" min={0} className=\"form-control\" placeholder=\"Large\" name={\"StockLarge\"}\r\n                           onChange={(event) =>this.props.Products.StockLarge[txt]=event.target.value}/>\r\n                </div>\r\n                <div className=\"col col-md-2\">\r\n                    <input type=\"number\" min={0} className=\"form-control\" placeholder=\"XL\" name={\"StockXL\"}\r\n                           onChange={(event) => this.props.Products.StockXL[txt]=event.target.value}/>\r\n                </div>\r\n\r\n            </div>\r\n            <div className={\"row\"}>\r\n                <div className=\"col-md-4  custom-file\">\r\n                    <input type=\"file\" className=\"custom-file-input\" id=\"inputGroupFile01\"\r\n                           aria-describedby=\"inputGroupFileAddon01\"  name={\"ImageOfProduct\"}\r\n                           onChange={(event => this.onFileChange(event, txt))}/>\r\n                    <label className=\"custom-file-label\"  htmlFor=\"inputGroupFile01\">{this.state.imageURL[txt]}</label>\r\n                </div>\r\n            </div>\r\n            <br/>\r\n\r\n        </div>\r\n\r\n                )}\r\n</div>\r\n        );\r\n    }\r\n\r\n\r\n}\r\nexport default AddImage\r\n\r\n
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/Component/ProductMangement/Add-Product/AddImage.js	(revision 5898862d745c9f64391094610afa3d62fb04b95a)
+++++ src/Component/ProductMangement/Add-Product/AddImage.js	(date 1588513186787)
++@@ -1,8 +1,5 @@
++ import React, {Component} from "react";
++-import FormFile from "react-bootstrap/FormFile";
++-import TextField from "@material-ui/core/TextField";
++-import Tooltip from '@material-ui/core/Tooltip'
++-import Fab from "@material-ui/core/Fab";
+++
++ 
++ class AddImage extends Component{
++ 
++@@ -41,59 +38,58 @@
++     }
++ 
++ 
++-
++-
++-
++     render() {
++         return (
++-<div>
+++       <div>
++             {
++                this.state.Arr.map(txt =>
++ 
++-
++-        <div >
++-            <p>Add Image {txt+1}</p>
++-            <div className={"form-group row"}>
++-            <div className="col col-md-3">
++-                <input type="text" className="form-control" placeholder="clr" name={"ColorOfImg"}
+++                       <div >
+++
+++                           <p>Add Image {txt+1}</p>
+++                           <div className={"form-group row"}>
+++
+++                               <div className="col col-md-3">
+++                                   <input type="text" className="form-control" placeholder="clr" name={"ColorOfImg"}
++                        onChange={(event) => this.props.Products.ColorOfImg[txt] = event.target.value}/>
++-            </div>
++-                <div className="col col-md-2">
++-                    <input type="number" min={0} className="form-control" placeholder="Small" name={"StockSmall"}
+++                               </div>
+++
+++                               <div className="col col-md-2">
+++                                   <input type="number" min={0} className="form-control" placeholder="Small" name={"StockSmall"}
++                            onChange={(event) => this.props.Products.StockSmall[txt]=event.target.value}/>
++-                </div>
++-                <div className="col col-md-2">
++-                    <input type="number" min={0} className="form-control" placeholder="Medium" name={"StockMedium"}
+++                               </div>
+++
+++                               <div className="col col-md-2">
+++                                   <input type="number" min={0} className="form-control" placeholder="Medium" name={"StockMedium"}
++                            onChange={(event) => this.props.Products.StockMedium[txt]=event.target.value}/>
++-                </div>
++-                <div className="col col-md-2">
++-                    <input type="number" min={0} className="form-control" placeholder="Large" name={"StockLarge"}
+++                               </div>
+++
+++                               <div className="col col-md-2">
+++                                   <input type="number" min={0} className="form-control" placeholder="Large" name={"StockLarge"}
++                            onChange={(event) =>this.props.Products.StockLarge[txt]=event.target.value}/>
++-                </div>
++-                <div className="col col-md-2">
++-                    <input type="number" min={0} className="form-control" placeholder="XL" name={"StockXL"}
+++                               </div>
+++
+++                               <div className="col col-md-2">
+++                                   <input type="number" min={0} className="form-control" placeholder="XL" name={"StockXL"}
++                            onChange={(event) => this.props.Products.StockXL[txt]=event.target.value}/>
++-                </div>
+++                               </div>
++ 
++-            </div>
++-            <div className={"row"}>
++-                <div className="col-md-4  custom-file">
++-                    <input type="file" className="custom-file-input" id="inputGroupFile01"
+++                           </div>
+++
+++                           <div className={"row"}>
+++                               <div className="col-md-4  custom-file">
+++                                   <input type="file" className="custom-file-input" id="inputGroupFile01"
++                            aria-describedby="inputGroupFileAddon01"  name={"ImageOfProduct"}
++                            onChange={(event => this.onFileChange(event, txt))}/>
++-                    <label className="custom-file-label"  htmlFor="inputGroupFile01">{this.state.imageURL[txt]}</label>
++-                </div>
++-            </div>
++-            <br/>
++-
++-        </div>
++-
++-                )}
++-</div>
+++                           <label className="custom-file-label"  htmlFor="inputGroupFile01">{this.state.imageURL[txt]}</label>
+++                               </div>
+++                           </div>
+++                           <br/>
+++                       </div>
+++               )}
+++       </div>
++         );
++     }
++-
++-
++ }
++ export default AddImage
++ 
++Index: src/Component/ProductMangement/ViewProducts/ShowItem.js
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>import React, {Component} from \"react\";\r\nimport LoaderComponent from \"./LoaderComponent\";\r\nimport Figure from \"react-bootstrap/Figure\";\r\nimport {Link} from 'react-router-dom'\r\nimport ImageView from \"./ImageView\";\r\n\r\n\r\n\r\nclass ShowItem extends Component {\r\n\r\n    constructor(props) {\r\n        super(props)\r\n        this.state = {\r\n            didLoad: true\r\n        }\r\n    }\r\n\r\n\r\n\r\n\r\n    setHidden = () =>{\r\n       if(this.props.cat === 'none'){\r\n           if(this.props.cid === this.props.product._id){\r\n               return true\r\n           }else {\r\n               return false\r\n           }\r\n       }\r\n       else {\r\n           if (this.props.product.Category === this.props.cat) {\r\n               return false\r\n           } else {\r\n               return true\r\n           }\r\n       }\r\n\r\n    }\r\n\r\n\r\n        render() {\r\n\r\n    return(\r\n        <Link to={'/details/'+ this.props.product._id }>\r\n        <div hidden={this.setHidden()}>\r\n            <Figure style={{ border: \"5px solid white\" }}>\r\n\r\n                <ImageView ImgArr={this.props.product.ImageOfProduct}/>\r\n\r\n                <figcaption className=\"text-xl-center\">\r\n                    Rs {this.props.product.PricePerUnit}\r\n                </figcaption>\r\n\r\n            </Figure>\r\n\r\n        </div>\r\n        </Link>\r\n    )\r\n}\r\n\r\n}\r\nexport default ShowItem
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/Component/ProductMangement/ViewProducts/ShowItem.js	(revision 5898862d745c9f64391094610afa3d62fb04b95a)
+++++ src/Component/ProductMangement/ViewProducts/ShowItem.js	(date 1588521835938)
++@@ -44,7 +44,7 @@
++         <div hidden={this.setHidden()}>
++             <Figure style={{ border: "5px solid white" }}>
++ 
++-                <ImageView ImgArr={this.props.product.ImageOfProduct}/>
+++                <ImageView ImgArr={this.props.product.Details}/>
++ 
++                 <figcaption className="text-xl-center">
++                     Rs {this.props.product.PricePerUnit}
++Index: src/Component/ProductMangement/ViewProducts/MainView.js
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>import React, {Component, lazy, Suspense} from \"react\";\r\nimport axios from \"axios\";\r\n\r\nimport LoaderComponent from \"./LoaderComponent\";\r\nimport ShowItem from \"./ShowItem\";\r\n\r\n\r\n\r\n\r\nclass MainView extends Component{\r\n\r\n    constructor(props) {\r\n        super(props)\r\n        this.state = {\r\n            ProductArray: [],\r\n            CategoryName:['Men', 'Women', 'Watch'],\r\n            loading: true,\r\n        };\r\n    }\r\n\r\n    componentDidMount() {\r\n        axios.get('https://servershopping.azurewebsites.net/products/')\r\n            .then(res => {\r\n                this.setState({\r\n                    loading:false,\r\n                    ProductArray: res.data\r\n\r\n                });\r\n            })\r\n            .catch((error) => {\r\n                console.log(error);\r\n            })\r\n\r\n    }\r\n\r\n    render() {\r\n        return(\r\n\r\n            <div>\r\n                {this.state.loading ? <div className=\"d-flex justify-content-center\">\r\n                    <div className=\"spinner-border\" role=\"status\">\r\n                        <span className=\"sr-only\">Loading...</span>\r\n                    </div>\r\n                </div> : null}\r\n                {\r\n                    this.state.CategoryName.map(txt =>\r\n                        <div>\r\n                            <h3 class=\"h3\" hidden={this.state.loading}>{txt} Latest </h3>\r\n                            <div className=\"container1\">\r\n\r\n                                {\r\n                                    this.state.ProductArray.map((item, index) =>\r\n\r\n                                        <ShowItem key={index} product={item} cat={txt}/>\r\n\r\n                                    )\r\n                                }\r\n                            </div>\r\n                        </div>\r\n                    ) }\r\n            </div>\r\n        )\r\n    }\r\n}\r\nexport default MainView
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/Component/ProductMangement/ViewProducts/MainView.js	(revision 5898862d745c9f64391094610afa3d62fb04b95a)
+++++ src/Component/ProductMangement/ViewProducts/MainView.js	(date 1588521835976)
++@@ -1,12 +1,8 @@
++ import React, {Component, lazy, Suspense} from "react";
++ import axios from "axios";
++-
++-import LoaderComponent from "./LoaderComponent";
++ import ShowItem from "./ShowItem";
++ 
++ 
++-
++-
++ class MainView extends Component{
++ 
++     constructor(props) {
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/vcs.xml	(date 1588536644790)
++++ .idea/vcs.xml	(date 1588536644790)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/shopz-d.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/shopz-d.iml	(date 1588536644795)
++++ .idea/shopz-d.iml	(date 1588536644795)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="WEB_MODULE" version="4">
++  <component name="NewModuleRootManager">
++    <content url="file://$MODULE_DIR$" />
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
+\ No newline at end of file

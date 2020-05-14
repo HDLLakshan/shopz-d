@@ -5,6 +5,8 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import AuthService from "../Component/UserManagement/services/auth.service";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import axios from "axios";
 let username='';
 
 
@@ -17,7 +19,8 @@ class NavBar extends Component{
             currentUser: false,
             SearchVal:'',
             salesUser:false,
-            adminUser:false
+            adminUser:false,
+            CategoryList:[]
         };
     }
 
@@ -43,6 +46,16 @@ class NavBar extends Component{
                 });
             }
         }
+
+        axios.get('https://servershopping.azurewebsites.net/category/all')
+            .then(res => {
+                this.setState({
+                    CategoryList: res.data
+                });
+            }).then()
+            .catch((error) => {
+                console.log(error);
+            })
     }
     logOut() {
         AuthService.logout();
@@ -73,6 +86,18 @@ class NavBar extends Component{
                     {salesUser && (
                         <Nav.Link href="/check">Admin</Nav.Link>
                     )}
+
+                    <NavDropdown title="Categories" >
+                        {this.state.CategoryList.map(item => {
+                            return(
+                            <NavDropdown.Item eventKey="4.1"  href={'/search/' + item.name}>{item.name}</NavDropdown.Item>
+                            )
+                        })}
+
+
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
+                    </NavDropdown>
 
 
                 </Nav>
