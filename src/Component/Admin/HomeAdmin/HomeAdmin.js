@@ -3,7 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import {BrowserRouter as Router, Link} from "react-router-dom";
 export function HomeAdmin() {
         return (
-                <Nav fill variant="tabs" defaultActiveKey="/Admin">
+                <Nav fill variant="tabs" defaultActiveKey="/Admin/Home">
                     <Nav.Item>
                         <Nav.Link as={Link} eventKey="link-0" to="/Admin/Home" >Home</Nav.Link>
                     </Nav.Item>

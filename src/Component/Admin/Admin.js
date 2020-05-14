@@ -11,10 +11,10 @@ import {Category} from "./CategoryComponents/Category";
 import {HomeAdmin} from "./HomeAdmin/HomeAdmin";
 
 
-const store = createStore(allReducers, compose(applyMiddleware(thunk), ));
+const store = createStore(allReducers, compose(applyMiddleware(thunk),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() ));
 store.dispatch(fetchAllPMs());
 store.dispatch(fetchAllCats());
-
+//off uno
 export class Admin extends React.Component {
     render() {
         return (

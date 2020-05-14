@@ -70,7 +70,7 @@ class NavBar extends Component{
                     {currentUser ? (
                     <Nav.Link href="/cart">Shopping cart</Nav.Link>
                     ) : ( null )}
-                    {salesUser && (
+                    {adminUser && (
                         <Nav.Link href="/check">Admin</Nav.Link>
                     )}
 
