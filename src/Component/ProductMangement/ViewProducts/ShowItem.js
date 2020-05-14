@@ -41,8 +41,8 @@ class ShowItem extends Component {
 
     return(
         <Link to={'/details/'+ this.props.product._id }>
-        <div  hidden={this.setHidden()}>
-            <Figure style={{ border: "5px solid white" }}>
+
+            <Figure hidden={this.setHidden()}  style={{ border: "5px solid white" }}>
 
                 <ImageView ImgArr={this.props.product.Details}/>
 
@@ -57,7 +57,6 @@ class ShowItem extends Component {
 
             </Figure>
 
-        </div>
         </Link>
     )
 }

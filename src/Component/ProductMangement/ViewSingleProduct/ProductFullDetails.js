@@ -61,6 +61,7 @@ class ProductFullDetails extends Component{
     componentDidUpdate() {
         if (this.props.match.params.id !== this.state.Products._id) {
             this.getFullDetails();
+            window.location.reload()
         }
 
     }
