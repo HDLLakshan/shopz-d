@@ -13,29 +13,32 @@ export default class DisplayRateComment extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            products: [],
-            productid:''
+
+            productid:'',
+            products:[]
         };
     }
 
     componentDidMount() {
-        axios.get('https://servershopping.azurewebsites.net/shoppingcart/get-cart')
-            .then(res => {
-                this.setState({
-                    products: res.data
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
 
+        let oldproduct = [];
+        oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
+        const arrayproduct = JSON.parse(oldproduct);
+        console.log(arrayproduct);
+        this.setState({
+            products : arrayproduct
+        });
+
+    }
 
     RatingTable() {
         return this.state.products.map((res, i) => {
             return <RateCommentRow obj={res} key={i}/>;
         });
     }
+
+
+
 
 
     render() {
@@ -55,31 +58,31 @@ export default class DisplayRateComment extends Component {
                                         <h5 align="center">Your Have Purchased Your Order Successfully !</h5>
                                         <h6 align="center"> Rate and Commment Products below</h6>
                                         <h6 align="center"> Or  &nbsp; <Button color="primary"
-                                        variant="contained"  onClick={() => this.props.history.push('/')}
+                                                                               variant="contained"  onClick={() => this.props.history.push('/')}
                                         >Skip & Back to Home</Button></h6>
                                         <br/>
                                         <br/>
                                     </Grid>
 
-                                   <Table striped bordered hover >
+                                    <Table striped bordered hover >
 
-                                   <tbody >
+                                        <tbody >
 
-                                     {this.RatingTable()}
+                                        {this.RatingTable()}
 
-                                     </tbody>
+                                        </tbody>
 
                                     </Table>
 
                                     <Grid item sm={12}>
-                                       <div align="center">
+                                        <div align="center">
                                             <Button variant="contained" color="secondary"
                                                     onClick={() => this.props.history.push('/')}
                                             >Finish & Back to Home</Button>
-                                       </div>
+                                        </div>
                                     </Grid>
 
-                                 </Grid>  <br/>
+                                </Grid>  <br/>
 
 
                             </React.Fragment>
@@ -88,6 +91,6 @@ export default class DisplayRateComment extends Component {
                     </Paper>
                 </main>
             </React.Fragment>
-                        );
+        );
     }
 }

@@ -26,7 +26,7 @@ class MainView extends Component{
     }
 
     componentDidMount() {
-        axios.get('https://the-hanger-af.el.r.appspot.com/products/')
+        axios.get('http://localhost:4000/products/')
             .then(res => {
                 this.setState({
                     ProductArray: res.data
