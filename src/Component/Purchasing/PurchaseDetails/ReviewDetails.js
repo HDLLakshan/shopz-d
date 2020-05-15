@@ -38,7 +38,11 @@ export default class ReviewDetails extends Component {
             nameCard:'',
             year:'',
             month:'',
-            cvc:''
+            cvc:'',
+            price:0,
+            products:[],
+            delCharge:100,
+            totalpay:0
         }
     }
 
@@ -51,7 +55,35 @@ export default class ReviewDetails extends Component {
 
     componentDidMount() {
 
-        this.state.s = AuthService.getUsername();;
+        this.state.s = AuthService.getUsername();
+
+        let oldproduct = [];
+        oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
+        const arrayproduct = JSON.parse(oldproduct);
+        console.log(arrayproduct);
+        this.setState({
+            products : arrayproduct
+        });
+    }
+    changeQuantity(e, id) {
+        var myObj=[];
+        myObj = JSON.parse(sessionStorage.getItem("products"));
+        for(var j=0; j<myObj.length; j++){
+            if(myObj[j].ProductId===id){
+                myObj[j].Quantity = e;
+                sessionStorage.setItem("products", JSON.stringify(myObj));
+            }
+        }
+        this.setState({
+            products: this.state.products.map((res, i) => {
+                if (res.ProductId === id) {
+                    res.Quantity = parseInt(e);
+                    return res;
+                }
+                return res;
+            })
+        });
+
 
         axios.get('https://servershopping.azurewebsites.net/billing/getbill/' + this.state.s)
             .then(res => {
@@ -95,7 +127,19 @@ export default class ReviewDetails extends Component {
 
     }
 
+    getThePrice(){
+        var price1=0;
+        this.state.products.map((res , i )=>{
+            price1=res.PricePerUnit* res.Quantity+price1
+        },()=>{
+            this.setState({
+                price:price1
+            })
+        });
+        this.state.totalpay = this.state.delCharge + price1
+        return price1
 
+    }
 
 
     render() {
@@ -117,9 +161,7 @@ export default class ReviewDetails extends Component {
 
                             <div className="roots">
                                 <Grid container spacing={3}>
-                                    <Grid item xs={12}>
-                                        <Paper className="papers"></Paper>
-                                    </Grid>
+
                                     <Grid item xs={4}>
                                         <Paper className="papers1">
                                             <h6 align="center" > Billing Details</h6>
@@ -129,24 +171,27 @@ export default class ReviewDetails extends Component {
                                             <p className="facts">State :  {this.state.State}</p>
                                             <p className="facts">Country :  {this.state.country}</p>
                                             <p className="facts">Phone Number :  {this.state.pno}</p>
-                                            <br/>
 
 
-                                            <div align="center">
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={() => this.props.history.push('/edit-billing/'+this.state.s)}
-                                                >
-                                                    Edit Billing Details
-                                                </Button></div>
 
 
-                                        </Paper>
+
+
+                                        </Paper><br/>
+                                        <div align="center">
+                                            <Button
+                                                variant="contained"
+                                                onClick={() => this.props.history.push('/edit-billing/'+this.state.s)}
+                                            >
+                                                Edit Billing Details
+                                            </Button></div>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Paper className="papers1" >
+                                        <Paper className="papers1 box" >
+
                                             <h6 align="center" > Delivery Details</h6><br/>
-                                            <p className="facts">Delivery address :  {this.state.deliveryadd}</p>
+                                            <p className="facts">Delivery address :  {this.state.deliveryadd}
+                                            </p>
                                             <p className="facts">Delivery Instructions :  {this.state.instructions}</p>
                                             {(() => {
                                                 if (this.state.cashDelivery==true) {
@@ -159,22 +204,44 @@ export default class ReviewDetails extends Component {
 
                                     {(() => {
                                         if (this.state.cashDelivery==false) {
+                                            // noinspection JSAnnotator
                                             return  <Grid item xs={4}>
                                                 <Paper className="papers1">
                                                     <h6 align="center" >Payment Details</h6>
+                                                    <p className="facts">Payment Type : Credit Card </p>
                                                     <p className="facts">Card Number : {this.state.cno} </p>
                                                     <p className="facts">Card Holder Name : {this.state.nameCard}</p>
                                                     <p className="facts">Expire Date: {this.state.month}/{this.state.year} </p>
-                                                    <p className="facts">CCV Number :  {this.state.cvc}</p><br/>
-                                                    <div align="center">
-                                                        <Button
-                                                            variant="contained"
-                                                            onClick={() => this.props.history.push('/edit-credit-card/'+this.state.s)}
-                                                        >
-                                                            Edit Payment Details
-                                                        </Button></div>
+                                                    <p className="facts">CCV Number :  {this.state.cvc}</p>
+                                                    <p className="facts">Delivery Charges : Rs.{this.state.price=this.getThePrice()}+{this.state.delCharge}</p>
+                                                    <p className="facts">Total Payment :
+                                                        Rs.{this.state.totalpay}</p>
+                                                    <br/>
 
-                                                </Paper>
+
+                                                </Paper><br/>
+                                                <div align="center">
+                                                    <Button
+                                                        variant="contained"
+                                                        onClick={() => this.props.history.push('/edit-credit-card/'+this.state.s)}
+                                                    >
+                                                        Edit Payment Details
+                                                    </Button></div>
+                                            </Grid>
+                                        }else {
+                                            return  <Grid item xs={4}>
+                                                <Paper className="papers1">
+                                                    <h6 align="center" >Payment Details</h6>
+                                                    <p className="facts">Payment Type : Cash on Delivery </p>
+                                                    <p className="facts">Delivery Charges : Rs.{this.state.price=this.getThePrice()}+{this.state.delCharge}</p>
+                                                    <p className="facts">Total Payment :
+                                                        Rs.{this.state.totalpay}</p>
+                                                    <br/>
+
+
+
+                                                </Paper><br/>
+
                                             </Grid>
                                         }
                                     })()}
