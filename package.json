@@ -17,6 +17,7 @@
     "history": "latest",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
+    "react-beautiful-dnd": "^13.0.0",
     "react-bootstrap": "^1.0.0",
     "react-country-region-selector": "^2.1.0",
     "react-dom": "^16.13.1",

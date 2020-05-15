@@ -2,8 +2,8 @@ import React, {Component} from "react";
 
 import '../Purchasing/PurchaseDetails/layout.css'
 
+import Commenting from './Commenting'
 
-import Commenting from "./Commenting";
 
 
 
