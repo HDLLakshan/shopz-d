@@ -110,9 +110,19 @@ class  BillingDetails extends Component{
 
     componentDidMount() {
 
-      this.state.userName   = AuthService.getUsername();
+        this.state.userName   = AuthService.getUsername();
 
 
+    }
+    isDisabled(){
+        if(!this.state.firstName ||!this.state.lastName || !this.state.add1||!this.state.add2 ||
+            !this.state.city ||!this.state.State ||!this.state.zip || !this.state.country ||
+            !this.state.pno || !this.state.deliveryadd
+        ){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     onSubmit(e) {
@@ -133,7 +143,7 @@ class  BillingDetails extends Component{
             deliveryadd: this.state.deliveryadd,
             cashDelivery: this.state.cashDelivery
         };
-        axios.post('https://servershopping.azurewebsites.net/billing/add-billing', purchaseObject)
+        axios.post('http://localhost:4000/billing/add-billing', purchaseObject)
             .then(res => console.log(res.data));
 
         this.setState({
@@ -152,7 +162,7 @@ class  BillingDetails extends Component{
             cashDelivery:''
         })
 
-        alert("filled , move next..")
+        //alert("filled , move next..")
 
 
     }
@@ -333,25 +343,37 @@ class  BillingDetails extends Component{
                                                     />
 
                                                 </Col>
-                                                <Col sm={11}><label>Wish to do payment with cash on delivery</label> </Col>
-                                            </FormGroup>
-                                            <FormGroup row >
-                                                <Col sm={10}>
-
-                                                    <Button variant="danger" size="md"  type="submit" float-center="true" >
-                                                        Save Delivery Details
-                                                    </Button>
+                                                <Col sm={4}><label>Wish to do payment with cash on delivery</label> </Col>
+                                                <Col sm={4}>
+                                                    <div align="center">
+                                                        <Button variant="danger" size="md"  type="submit" float-center="true"  >
+                                                            Save Delivery Details
+                                                        </Button></div>
                                                 </Col>
-                                                <Col sm={2}>
-                                                    <Button variant="danger" size="md" type="submit"
-                                                            onClick={() => this.props.history.push('/credit-card')}
-                                                    >
+                                            </FormGroup>
+                                            <br/>
+                                        </Form>
+                                        <div align="right">
+                                            {(() => {
+                                                if (this.state.cashDelivery==true) {
+                                                    return   <Button variant="danger" size="md" type="submit"
+                                                                     onClick={() => this.props.history.push('/credit-card')}
+                                                   disabled={this.isDisabled()} >
+                                                        Next
+                                                    </Button>
+                                                }
+                                            })()}
+                                            {(() => {
+                                                if (this.state.cashDelivery==false) {
+                                                    return   <Button variant="danger" size="md" type="submit"
+                                                                     onClick={() => this.props.history.push('/credit-card')}
+                                                                     disabled={this.isDisabled()}   >
                                                         Next Step
                                                     </Button>
-                                                </Col>
-                                            </FormGroup> <br/>
-                                        </Form>
+                                                }
+                                            })()}
 
+                                        </div>
                                     </Grid>
                                 </Grid>
                             </React.Fragment>

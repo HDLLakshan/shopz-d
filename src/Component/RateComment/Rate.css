@@ -49,3 +49,8 @@ input[type="radio"]{
     position: absolute;
     width:500px;
 }
+.spacee{
+
+    word-wrap:break-word;
+
+}
