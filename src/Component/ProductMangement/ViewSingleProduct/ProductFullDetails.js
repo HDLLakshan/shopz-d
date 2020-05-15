@@ -4,6 +4,7 @@ import './ProductFile Details.css'
 import ShowItem from "../ViewProducts/ShowItem";
 import Details from "./Details";
 import '../../../css/App.css'
+import AllRateComment from "../../RateComment/AllRateComment";
 
 class ProductFullDetails extends Component{
 
@@ -13,6 +14,7 @@ class ProductFullDetails extends Component{
             didLoad: true,
             didLoadrel:true,
             relateProduct:[],
+            comments:[],
             Products:{
                 ProductName:'',
                 Category: '',
@@ -34,6 +36,7 @@ class ProductFullDetails extends Component{
                this.setState({
                    Products:res.data,
                }, () => this.getRelavantProduct());
+                        this.getComments();
            })
            .catch((error) => {
                console.log(error + 'mko aul');
@@ -43,7 +46,7 @@ class ProductFullDetails extends Component{
 
    getRelavantProduct = () => {
         this.setState({didLoad:false})
-       axios.get('http://localhost:4000/products/get-products/' + this.state.Products.SubCategory)
+       axios.get('https://the-hanger-af.el.r.appspot.com/products/get-products/' + this.state.Products.SubCategory)
            .then(res => {
                this.setState({
                    relateProduct: res.data,
@@ -53,6 +56,19 @@ class ProductFullDetails extends Component{
        })
     }
 
+    getComments = () => {
+        axios.get('http://localhost:4000/rating/get-rate-comments/' +  this.state.Products._id)
+            .then(res => {
+                console.log( "wrapped" + res.data + "thses are details")
+                this.setState({
+                    comments:res.data
+                })
+            })
+            .catch((error) => {
+                console.log(error + 'mko aul');
+
+            })
+    }
 
     componentDidMount() {
         this.getFullDetails();
@@ -61,6 +77,7 @@ class ProductFullDetails extends Component{
     componentDidUpdate() {
         if (this.props.match.params.id !== this.state.Products._id) {
             this.getFullDetails();
+            window.location.reload()
         }
 
     }
@@ -75,7 +92,12 @@ class ProductFullDetails extends Component{
                 </div> : null}
                 <Details product={this.state.Products} />
 
-
+                <div>
+                    { this.state.comments.map((item, index) => {
+                        return <AllRateComment rid={this.state.Products._id} product={item} key={index}  />;
+                    })
+                    }
+                </div>
 
                 <h3 >Similar Products</h3>
                 {this.state.didLoadrel ? <div className="d-flex justify-content-center">

@@ -3,11 +3,9 @@
 ::-webkit-scrollbar{
   width: 0px;
 }
-
 .container1{
   display: flex;
   overflow-x: scroll;
-
   width: 100%;
 }
 

@@ -16,7 +16,7 @@ class ShowAllProdcuts extends Component{
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/products/')
+        axios.get('https://the-hanger-af.el.r.appspot.com/products/')
             .then(res => {
                 this.setState({
                     products: res.data
@@ -30,7 +30,7 @@ class ShowAllProdcuts extends Component{
 
     deleteProduct = (e,id) => {
         e.preventDefault();
-        axios.delete('http://localhost:4000/products/deleteProduct/' + id)
+        axios.delete('https://the-hanger-af.el.r.appspot.com/products/deleteProduct/' + id)
             .then((res) => {
                 window.location.reload();
             }).catch((error) => {

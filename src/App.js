@@ -30,7 +30,7 @@ import EditItemsOfProduct from "./Component/ProductMangement/EditProducts/EditIt
 import AddNewItemToProduct from "./Component/ProductMangement/EditProducts/AddNewItemToProduct";
 
 
-class App extends Component{
+class App extends Component {
 
     render() {
         return (

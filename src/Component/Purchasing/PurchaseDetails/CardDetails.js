@@ -60,6 +60,15 @@ export default class CardDetails extends React.Component {
         });
     }
 
+    isDisabled(){
+        if(!this.state.cno|| !this.state.nameCard || !this.state.month ||!this.state.year||
+            !this.state.cvc){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     componentDidMount() {
 
         this.state.userName   = AuthService.getUsername();
@@ -79,7 +88,7 @@ export default class CardDetails extends React.Component {
             year:this.state.year,
             cvc:this.state.cvc
         };
-        axios.post('https://servershopping.azurewebsites.net/payment/add-payment', paymentObject)
+        axios.post('http://localhost:4000/payment/add-payment', paymentObject)
             .then(res => console.log(res.data));
 
         this.setState({
@@ -240,6 +249,7 @@ export default class CardDetails extends React.Component {
                             <div align="center" className="divv">
                             <Button variant="contained" size="md" type="submit"
                                     onClick={() => this.props.history.push('/review-order-details/'+this.state.userName)}
+                                    disabled={this.isDisabled()}
                             >
                                 Review Order
                             </Button>

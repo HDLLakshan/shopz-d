@@ -60,8 +60,18 @@
     padding: 3px;
     text-align: left;
     margin-left: 10px;
-    height: 400px;
+    height: 300px;
+    word-wrap:break-word;
 
+
+}
+.box{
+    overflow-y: scroll;
+    color: red;
+}
+.overflow-scrolling {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .facts{

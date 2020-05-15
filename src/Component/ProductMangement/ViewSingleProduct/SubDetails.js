@@ -13,7 +13,7 @@ class SubDetails extends Component{
         super(props);
         this.state = {
             color:'',
-            size:'S',
+            size:'small',
             AvailableAmount:'',
             OrderQuantity:1,
             productId:this.props.product._id,
@@ -32,7 +32,7 @@ class SubDetails extends Component{
 
     setAvailability = () => {
 
-        if(this.state.size==='S'){
+        if(this.state.size==='small'){
              if(parseInt(this.props.product.Details[this.props.position].small) > 0 ){
                  return this.props.product.Details[this.props.position].small
              }
@@ -41,7 +41,7 @@ class SubDetails extends Component{
              }
 
         }
-        else if(this.state.size==='M'){
+        else if(this.state.size==='medium'){
             if(parseInt(this.props.product.Details[this.props.position].medium) > 0 ){
                 return this.props.product.Details[this.props.position].medium
             }
@@ -51,7 +51,7 @@ class SubDetails extends Component{
             }
 
         }
-        else if(this.state.size==='L'){
+        else if(this.state.size==='large'){
             if(parseInt(this.props.product.Details[this.props.position].large) > 0 ){
                 return this.props.product.Details[this.props.position].large
             }
@@ -60,7 +60,7 @@ class SubDetails extends Component{
             }
 
         }
-        else if(this.state.size==='XL'){
+        else if(this.state.size==='xl'){
             if(parseInt(this.props.product.Details[this.props.position].xl) > 0 ){
                 return this.props.product.Details[this.props.position].xl
             }
@@ -97,10 +97,10 @@ class SubDetails extends Component{
                      </FormControl>
                          <FormLabel>Select Size</FormLabel>
                          <FormControl className={"col-md-2"}  as="select" size="sm" name={"size"} value={this.state.size} onChange={(e ) => this.setState({size: e.target.value})} custom>
-                             <option value={"S"}>Small</option>
-                             <option value={"M"}>Medium</option>
-                             <option value={"L"}>Large</option>
-                             <option value={"XL"}>XL</option>
+                             <option value={"small"}>Small</option>
+                             <option value={"medium"}>Medium</option>
+                             <option value={"large"}>Large</option>
+                             <option value={"xl"}>XL</option>
                          </FormControl>
                      </div>
 
@@ -111,7 +111,7 @@ class SubDetails extends Component{
 
                      <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity} />
                      <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity}
-                     size={this.state.size} color={this.state.color}/>
+                     size={this.state.size} color={this.props.product.Details[this.props.position].color}/>
 
 
                  </div>

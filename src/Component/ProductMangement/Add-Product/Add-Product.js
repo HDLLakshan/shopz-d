@@ -72,16 +72,16 @@ class AddProduct extends Component{
 
         for (let m = 0; m < this.state.Products.ColorOfImg.length; m++) {
             console.log(this.state.Products.ColorOfImg[m])
-            formData.append('ColorOfImg', this.state.Products.ColorOfImg[m]);
-            formData.append('StockSmall', this.state.Products.StockSmall[m]);
-            formData.append('StockMedium', this.state.Products.StockMedium[m]);
-            formData.append('StockLarge', this.state.Products.StockLarge[m]);
-            formData.append('StockXL', this.state.Products.StockXL[m]);
+            formData.append('ColorOfImg['+m+']', this.state.Products.ColorOfImg[m]);
+            formData.append('StockSmall['+m+']', this.state.Products.StockSmall[m]);
+            formData.append('StockMedium['+m+']', this.state.Products.StockMedium[m]);
+            formData.append('StockLarge['+m+']', this.state.Products.StockLarge[m]);
+            formData.append('StockXL['+m+']', this.state.Products.StockXL[m]);
             }
 
 
             formData.append("StockAmount", this.state.Products.StockAmount);
-            axios.post('http://localhost:4000/products/add-product', formData, {headers: {"Content-type": "multipart/form-data"}})
+            axios.post('https://the-hanger-af.el.r.appspot.com/products/add-product', formData, {headers: {"Content-type": "multipart/form-data"}})
                 .then(()=> this.props.history.push('/viewListOfProduct'))
             ;
 

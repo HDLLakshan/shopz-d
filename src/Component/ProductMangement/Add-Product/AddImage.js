@@ -22,7 +22,7 @@ class AddImage extends Component{
             }
         })
 
-
+        console.log(this.props.Products.ColorOfImg[0])
         this.state.imageURL[index] = event.target.files[0].name
 
         this.forceUpdate();

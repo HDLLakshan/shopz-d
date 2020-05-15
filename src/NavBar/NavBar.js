@@ -75,7 +75,7 @@ class NavBar extends Component{
                                     onClick={() => this.setState({addModalShow:true})}> Cart </button>
                         )
                     ) : ( null )}
-                    {salesUser && (
+                    {adminUser && (
                         <Nav.Link href="/check">Admin</Nav.Link>
                     )}
 
