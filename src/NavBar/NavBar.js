@@ -90,7 +90,16 @@ class NavBar extends Component{
                     <NavDropdown title="Categories" >
                         {this.state.CategoryList.map(item => {
                             return(
-                            <NavDropdown.Item eventKey="4.1"  href={'/search/' + item.name}>{item.name}</NavDropdown.Item>
+                                <div>
+                            <NavDropdown.Header class="dropdown-submenu">{item.name}</NavDropdown.Header>
+                            {
+                                item.subCategory.map(txt => {
+                                    return(
+                                        <NavDropdown.Item class="dropdown-menu"   href={'/search/' + txt}>{txt}</NavDropdown.Item>
+                                    )
+                                })
+                            }
+                                </div>
                             )
                         })}
 

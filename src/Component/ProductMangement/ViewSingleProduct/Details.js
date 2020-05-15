@@ -31,10 +31,10 @@ class Details extends Component{
         if (this.props.product.Details.length === 0)
             return null;
         return (
-            <div onChange={this.handleFormChange} className={"container-fluid ml-16 mt-5"} >
+            <div onChange={this.handleFormChange} className={"container-fluid  mt-5 ml-5"} style={{width:'95%'}} >
                 <div className={"row"}>
 
-                    <div className={"col-md-3"} >
+                    <div className={"col-sm-auto .order-sm-2 .offset-sm-1"} >
                         {this.state.loading ? <LoaderComponent /> : null}
                         <img onLoad={this.onLoad} src={this.props.product.Details[this.state.position].imgPath} className="d-block "  style={{'width':'20vw','height':'20vw'}}/>
                     </div>

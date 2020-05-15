@@ -42,7 +42,7 @@ class MainView extends Component{
     render() {
         var settings = {
             dots: false,
-            infinite: true,
+            infinite: false,
             speed: 500,
             slidesToShow: 5,
             draggable:true,
