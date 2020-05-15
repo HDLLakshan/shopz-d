@@ -2,8 +2,9 @@ import React from "react";
 import LoginImg from "../../../Assests/download.svg";
 import AuthService from "../services/auth.service";
 import {LoginRegView} from "./loginRegView";
+import { withRouter } from 'react-router'
 
-export class Login extends React.Component {
+ class Login extends React.Component {
 
     constructor(props) {
         super(props);
@@ -47,7 +48,9 @@ export class Login extends React.Component {
                     Password:''
                 });
                 if(res.success){
-                    window.location.assign('http://localhost:3000/');
+                    // window.location.assign('http://localhost:3000/');
+                    this.props.history.push('/');
+                    window.location.reload();
                 }
             },
             error => {
@@ -114,3 +117,4 @@ render(){
     );}
 
 }
+export default withRouter(Login);

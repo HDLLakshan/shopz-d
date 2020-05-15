@@ -1,13 +1,16 @@
 import React, {Component} from "react";
-import {Col, Container, Row} from "react-bootstrap";
+import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import {ShoppingCartRow} from "./ShoppingCartRow";
 import axios from "axios";
-import Button from "@material-ui/core/Button/Button";
+import {Modal,Button} from "react-bootstrap";
+import { withRouter } from 'react-router'
 
 
-export default class GetShoppingCart extends Component{
+ class GetShoppingCart extends Component{
+
     constructor(props) {
         super(props);
+
         this.state={
             products : [],
             productIds:[],
@@ -16,6 +19,7 @@ export default class GetShoppingCart extends Component{
         this.getShoppingCartTemplate= this.getShoppingCartTemplate.bind(this);
         this.getThePrice= this.getThePrice.bind(this);
         this.changeQuantity= this.changeQuantity.bind(this);
+        this.handleRemoveButton=this.handleRemoveButton.bind(this);
     }
     componentDidMount() {
         let oldproduct = [];
@@ -55,16 +59,19 @@ export default class GetShoppingCart extends Component{
 
     }
     handleRemoveButton(id){
-        const oldList = JSON.parse(sessionStorage.getItem("products"));
+        var oldList=[];
+        oldList = JSON.parse(sessionStorage.getItem("products"));
         for(var i = 0 ; i<oldList.length;i++){
             if(oldList[i].ProductId===id){
-
                 var index = oldList.indexOf(id);
                 oldList.splice(index,1);
+                this.setState({
+                    products:oldList
+                })
             }
         }
         sessionStorage.setItem('products', JSON.stringify(oldList));
-        window.location.reload();
+
 
     }
     getThePrice(){
@@ -77,27 +84,54 @@ export default class GetShoppingCart extends Component{
             })
         });
 
-        return <p style={{"font-size":"30px"}}> Rs {price1}</p>
+        return <p style={{"font-size":"30px"}}> LKR {price1}.00</p>
 
     }
 
     render(){
+        const {history}=this.props;
         return(
-            <div align="center">
-                <div >
+
+                <Modal show={this.props.show} aria-labelledby="contained-modal-title-vcenter" size="lg">
+                    <Modal.Header closeButton onClick={this.props.onHide}>
+                        <Modal.Title style={{color:"#334d4d", fontWeight: 'bold'}}>
+                            RARE
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div>
+                            <p style={{ color: '#94b8b8', fontWeight: 'bold' }}>
+                                your
+                            </p>
+                            <p style={{ color: '#527a7a', fontWeight: 'bold', fontSize:'30px'}}>
+                                Cart
+                            </p>
+                            <div style={{ fontWeight: 'bold', backgroundColor:'#d1e0e0',  padding: "15px",margin: "20px" }} className='text-center text-white'
+                            onClick={()=>{
+                                this.props.history.push('/');
+                                window.location.reload();
+                            }}>
+                                CONTINUE SHOPPING
+                            </div>
+                        </div>
+                        <br/>
+                        <div >
                     {this.getShoppingCartTemplate()}
-                </div>
+                        </div>
                 <br/>
-                <div>
+                <div align="center" style={{fontWeight: 'bold' }}>
                     {this.getThePrice()}
                 </div>
-                <div> <Button variant="contained" size="md" type="submit" alignment={"center"} color="secondary"
-                              onClick={() => this.props.history.push('/billing')}
-                >
-                    PAYMENT
-                </Button></div>
 
-            </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        Proceed to checkout <DoubleArrowIcon fontSize="large"
+                        onClick={() => {this.props.history.push('/billing'); window.location.reload();}}
+                    />
+                    </Modal.Footer>
+                </Modal>
+
         )
     }
 }
+export default withRouter(GetShoppingCart);
