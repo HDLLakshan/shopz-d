@@ -2,9 +2,9 @@ import React from "react";
 import LoginImg from "../../../Assests/download.svg";
 import AuthService from "../services/auth.service";
 import {LoginRegView} from "./loginRegView";
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router-dom'
 
- class Login extends React.Component {
+class Login extends React.Component {
 
     constructor(props) {
         super(props);

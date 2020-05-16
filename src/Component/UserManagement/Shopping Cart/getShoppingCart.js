@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import {ShoppingCartRow} from "./ShoppingCartRow";
-import axios from "axios";
 import {Modal,Button} from "react-bootstrap";
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router-dom'
 import AuthService from "../services/auth.service";
 
 

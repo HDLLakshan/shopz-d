@@ -3,7 +3,7 @@ import axios from 'axios';
 import {WishlistProductRow} from "./wishlishProductRow";
 import AuthService from '../services/auth.service';
 import authHeader from "../services/auth-header";
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import {Col, Row} from "react-bootstrap";
 import Image from './images.png';
 import GetShoppingCart from "../Shopping Cart/getShoppingCart";

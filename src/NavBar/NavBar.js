@@ -67,7 +67,6 @@ class NavBar extends Component{
     render() {
         const { currentUser, salesUser , adminUser} = this.state;
         let addModalClose =() => this.setState({addModalShow : false});
-        console.log(this.props.history)
         return(
             <Navbar bg="info" variant="dark">
                 {currentUser ? (
