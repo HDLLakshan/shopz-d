@@ -91,7 +91,7 @@ class AddProduct extends Component{
 
             formData.append("StockAmount", this.state.Products.StockAmount);
             axios.post('https://servershopping.azurewebsites.net/products/add-product', formData, {headers: {"Content-type": "multipart/form-data"}})
-                .then(()=> this.props.history.push('/viewListOfProduct'))
+                .then(()=> this.afterSubmit() )
             ;
 
             this.setState({
@@ -123,20 +123,22 @@ class AddProduct extends Component{
                             <br/><br/>
 
                         <FormLabel>Select Category</FormLabel>
-                        <FormControl defaultValue={this.state.CategoryList[0].name} as="select" size="sm" name={"Category"} onChange={(event ) => this.ChangeEventFn(event)} custom>
+                        <FormControl value={this.state.Products.Category} as="select" size="sm" name={"Category"} onChange={(event ) => this.ChangeEventFn(event)} custom>
+                                   <option>Select</option>
                             {
-                                this.state.CategoryList.map((text) =>
-                                    <option value={text.name}>{text.name}</option>
+                                this.state.CategoryList.map((text,index) =>
+                                    <option key={index} value={text.name}>{text.name}</option>
                                 )
                             }
                         </FormControl>
                         <br/><br/>
 
                         <FormLabel>Select Sub Category</FormLabel>
-                        <FormControl defaultValue={this.setArray()[0]} as="select" size="sm" name={"SubCategory"} onChange={(event ) => this.ChangeEventFn(event)} custom>
+                        <FormControl value={this.state.Products.SubCategory} as="select" size="sm" name={"SubCategory"} onChange={(event ) => this.ChangeEventFn(event)} custom>
+                            <option>Select</option>
                             {
-                                this.setArray().map((text) =>
-                                    <option value={text}>{text}</option>
+                                 this.state.CategoryList[this.findIndex()].subCategory.map((text,index) =>
+                                    <option key={index} value={text}>{text}</option>
                                 )
                             }
                         </FormControl>
@@ -165,7 +167,7 @@ class AddProduct extends Component{
                     <div >
                         {this.state.Addarr.map((index) => {
                             return(
-                            <AddImage txt={index} keyss={1} Products={this.state.Products}/>
+                            <AddImage key={index} txt={index} keyss={1} Products={this.state.Products}/>
                             )
                         })}
                     </div>
@@ -191,24 +193,24 @@ class AddProduct extends Component{
         });
     }
 
-    setArray = () => {
 
+    findIndex = () => {
         if(this.state.CategoryList.length === 0)
-            this.state.SubCat=['No Categories']
+           return 0
         else {
             var index
             if(this.state.Products.Category ==='')
-                index = 0
+                return  0
             else
                 index = this.state.CategoryList.findIndex(x => x.name === this.state.Products.Category);
-            this.state.SubCat = this.state.CategoryList[index].subCategory
+                return index
         }
-
-        return this.state.SubCat
-
     }
 
-
+    afterSubmit = () => {
+        this.props.history.push('/viewListOfProduct')
+        window.location.reload()
+    }
 
 }
 

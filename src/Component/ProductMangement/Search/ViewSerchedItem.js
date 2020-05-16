@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import axios from 'axios';
-import {Alert, Button, Card} from "react-bootstrap";
+import {Alert, Card} from "react-bootstrap";
 import ImageView from "../ViewProducts/ImageView";
-import {Link} from "react-router-dom";
+import {Rating} from "@material-ui/lab";
+import LoaderComponent from "../ViewProducts/LoaderComponent";
 class ViewSerchedItem extends Component{
 
 constructor(props) {
@@ -30,7 +31,7 @@ checkNoResult = () => {
 
 componentDidMount() {
     console.log(this.props.match.params.id)
-    axios.get('https://the-hanger-af.el.r.appspot.com/products/search/' + this.props.match.params.id)
+    axios.get('https://servershopping.azurewebsites.net/products/search/' + this.props.match.params.id)
         .then(res => {
             this.setState({
                 product: res.data
@@ -47,29 +48,29 @@ componentDidMount() {
             <div>
             {this.checkNoResult()}
                 {this.state.loading ? null : <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
+                   <LoaderComponent top={50}/>
                 </div> }
             <div className={"row"}>
 
                 {
                     this.state.product.map((obj,index) =>
-                        <div className={"col-md-3"}>
-                            <Link to={'/details/'+ obj._id }>
+                        <div onClick={()=>this.props.history.push('/details/'+ obj._id)} className={"col-auto - variable width content"}>
+
                         <Card  style={{ width: '14rem' }}>
                             <div >
                             <ImageView ImgArr={obj.Details}/>
                             </div >
                             <Card.Body>
                                 <Card.Title>{obj.ProductName}</Card.Title>
-                                <Card.Text>
-                                   <p>{obj.ProductBrand}</p>
-                                    <p className={"price"}>Rs.{obj.PricePerUnit}</p>
-                                </Card.Text>
+                                <Card.Body >
+                                    <strong>Rs.{obj.PricePerUnit}</strong>
+                                    <strong hidden={obj.Discount === 0} style={{float: 'right', color:'red'}}>{obj.Discount}% OFF</strong>
+                                </Card.Body>
+                                <Card.Footer>
+                                    <Rating  style={{marginLeft: '20px', marginTop:'10px'}} name="size-small" defaultValue={obj.TotRate} size="small" disabled={true}/>
+                                </Card.Footer>
                             </Card.Body>
                         </Card>
-                            </Link>
                         </div>
                     )}
             </div>

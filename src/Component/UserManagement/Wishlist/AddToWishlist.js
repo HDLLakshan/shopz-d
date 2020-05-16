@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import axios from "axios";
 import AuthService from '../services/auth.service';
 import authHeader from "../services/auth-header";
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 
 class AddToWishlist extends Component {
     constructor(props) {

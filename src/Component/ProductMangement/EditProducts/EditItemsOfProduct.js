@@ -21,7 +21,7 @@ class EditItemsOfProduct extends Component{
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/products/view-product/' + this.props.match.params.id)
+        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.match.params.id)
             .then(res => {
                 this.setState({
                     Products:res.data,
@@ -34,7 +34,7 @@ class EditItemsOfProduct extends Component{
 
     onEdit = (e,index) => {
         e.preventDefault();
-        axios.put('https://the-hanger-af.el.r.appspot.com/products/editItemOfProduct/' + this.props.match.params.id, this.state.Products.Details[index])
+        axios.put('https://servershopping.azurewebsites.net/products/editItemOfProduct/' + this.props.match.params.id, this.state.Products.Details[index])
             .then((res) => {
                 console.log(res.data)
                 console.log('Student successfully updated')
@@ -48,7 +48,7 @@ class EditItemsOfProduct extends Component{
     onDelete = (e,color) => {
         e.preventDefault();
 
-        axios.put('https://the-hanger-af.el.r.appspot.com/products/deleteOneItemFromProduct/' + this.props.match.params.id + "/" + color)
+        axios.put('https://servershopping.azurewebsites.net/products/deleteOneItemFromProduct/' + this.props.match.params.id + "/" + color)
             .then((res) => {
                 console.log(res.data)
                 console.log('Product successfully updated')
@@ -75,7 +75,7 @@ class EditItemsOfProduct extends Component{
                     {
                         this.state.Products.Details.map((item,txt)=> {
                             return(
-                            <div className={"container-fluid"}  style={{border:'1px solid blue'}} >
+                            <div key={txt} className={"container-fluid"}  style={{border:'1px solid blue'}} >
 
                                 <p>Item {txt+1}</p>
                                 <div className={"form-group row"}>

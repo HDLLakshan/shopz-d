@@ -1,7 +1,6 @@
 import React, {Component} from "react";
-import LoaderComponent from "./LoaderComponent";
 import Figure from "react-bootstrap/Figure";
-import {Link} from 'react-router-dom'
+import {Link,withRouter} from 'react-router-dom'
 import ImageView from "./ImageView";
 import '../../../css/App.css'
 import {Rating} from "@material-ui/lab";
@@ -44,7 +43,7 @@ class ShowItem extends Component {
     return(
         <Link to={'/details/'+ this.props.product._id }>
 
-            <Figure hidden={this.setHidden()}  style={{ border: "5px solid white" }}>
+            <Figure   style={{ border: "5px solid white" }}>
 
                 <ImageView ImgArr={this.props.product.Details}/>
 
@@ -52,8 +51,8 @@ class ShowItem extends Component {
 
                     <div style={{overflow: 'hidden'}}>
                         <p style={{float: 'left'}}> Rs {this.props.product.PricePerUnit}</p>
-                        <Rating style={{marginLeft: '20px', marginTop:'10px'}} name="size-small" defaultValue={this.props.product.TotRate} size="small" disabled={true}/>
-                        <p hidden={this.props.product.Discount === 0} style={{float: 'right', color:'red', 'margin-left':'10px'}}> {this.props.product.Discount}% OFF</p>
+                        <Rating hidden={this.props.product.TotRate === 0} style={{marginLeft: '20px', marginTop:'10px'}} name="size-small" defaultValue={this.props.product.TotRate} size="small" disabled={true}/>
+                        <p hidden={this.props.product.Discount === 0} style={{float: 'right', color:'red', marginLeft:'10px'}}> {this.props.product.Discount}% OFF</p>
                     </div>
 
                 </figcaption>
@@ -66,4 +65,4 @@ class ShowItem extends Component {
 }
 
 }
-export default ShowItem
+export default withRouter(ShowItem)

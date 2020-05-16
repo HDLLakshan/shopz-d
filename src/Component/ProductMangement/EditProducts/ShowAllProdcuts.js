@@ -16,7 +16,7 @@ class ShowAllProdcuts extends Component{
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/products/')
+        axios.get('https://servershopping.azurewebsites.net/products/')
             .then(res => {
                 this.setState({
                     products: res.data

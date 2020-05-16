@@ -4,6 +4,9 @@ import './ProductFile Details.css'
 import ShowItem from "../ViewProducts/ShowItem";
 import Details from "./Details";
 import '../../../css/App.css'
+import Slider from "react-slick";
+import {Col} from "react-bootstrap";
+import LoaderComponent from "../ViewProducts/LoaderComponent";
 
 class ProductFullDetails extends Component{
 
@@ -81,37 +84,82 @@ class ProductFullDetails extends Component{
     }
 
     render() {
-
+        var settings = {
+            dots: false,
+            infinite: false,
+            speed: 500,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            autoplay :true,
+            autoplaySpeed : 3000,
+            lazyLoad: true,
+            swipe:true,
+            swipeToSlide:true,
+            arrows:true,
+            nextArrow:<SampleNextArrow />,
+            prevArrow: <SamplePrevArrow />
+        };
 
         return(
             <div>
                 {this.state.didLoad ? <div className="d-flex justify-content-center">
-                        <div className="spinner-border" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div>
+                        <LoaderComponent top={'100px'}/>
                     </div> :
+                   <div>
+                    <Details product={this.state.Products} comments={this.state.comments}/>
 
-                    <Details product={this.state.Products} comments={this.state.comments} />
+                       <div className={"container-fluid mt-3 ml-4 clearfix mt-2 mb-2"} style={{width:"95%"}}>
+                           <h4 hidden={this.state.relateProduct.length === 0} className={'float-left'}>Similar Products</h4>
+                       </div>
+                       {this.state.didLoadrel ? <div className="d-flex justify-content-center">
+                               <div  className="spinner-border" role="status">
+                                   <span className="sr-only">Loading...</span>
+                               </div>
+                           </div> :
+
+                           <Slider  {...settings}>
+                               {this.state.relateProduct.map((item, index) => {
+                                       return (
+
+                                           <React.Fragment key={index}>
+                                               <Col>
+                                                   <ShowItem cid={this.state.Products._id}  product={item}
+                                                             cat={'none'}/>
+                                               </Col>
+                                           </React.Fragment>
+
+                                       )
+                                   }
+                               )
+                               }
+                           </Slider>
+                       }
+                   </div>
                 }
-                <h3 >Similar Products</h3>
-                {this.state.didLoadrel ? <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                </div> : null}
-                <div className={"container1"}>
-                {this.state.relateProduct.map((item, index) =>
-                        <ShowItem cid={this.state.Products._id} key={index} product={item} cat={'none'}/>
-
-                    )
-                }
-                </div>
-
-
             </div>
         )
     }
 
 }
+function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{ ...style, display: "block", background: "red" }}
+            onClick={onClick}
+        />
+    );
+}
 
+function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{ ...style, display: "block", background: "green" }}
+            onClick={onClick}
+        />
+    );
+}
 export default ProductFullDetails;

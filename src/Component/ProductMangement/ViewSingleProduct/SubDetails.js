@@ -2,10 +2,9 @@ import React, {Component} from "react";
 import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
 import {Rating} from "@material-ui/lab";
-import axios from "axios";
 import AddToShoppingCart from "../../UserManagement/Shopping Cart/AddToShoppingCart";
 import AddToWishlist from "../../UserManagement/Wishlist/AddToWishlist";
-import Nav from "react-bootstrap/Nav";
+
 
 class SubDetails extends Component{
 
@@ -79,7 +78,7 @@ class SubDetails extends Component{
                  <div>
                      <p className={"newarrival text-center"}>NEW</p>
                      <h2>{this.props.product.ProductName}</h2>
-                     <p>Brand:<a  href={'/search/'+this.props.product.ProductBrand}>{this.props.product.ProductBrand}</a></p>
+                     <p >Brand:<a  href={'/search/'+this.props.product.ProductBrand}><strong style={{fontSize:"22px"}}>{this.props.product.ProductBrand}</strong></a></p>
 
                      <Rating name="size-small" defaultValue={this.props.product.TotRate} size="small" disabled={true}/>
 
