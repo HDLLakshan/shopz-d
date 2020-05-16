@@ -14,6 +14,7 @@ class MainView extends Component{
             ProductArray: [],
             CategoryName:['Men', 'Women', 'Watch'],
             loading: true,
+            ratings:[]
         };
     }
 
@@ -37,6 +38,20 @@ class MainView extends Component{
                 console.log(error);
             })
 
+    }
+
+
+
+    getRateValue = (id) => {
+       if(this.state.ratings.length ===0)
+           console.log("mggggggggggg")
+        else {
+           let obj = this.state.ratings.find(x => x.productId === id);
+           if (obj === null)
+               return 0
+           else
+               return 5
+       }
     }
 
     render() {

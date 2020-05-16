@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import SubDetails from "./SubDetails";
 import LoaderComponent from "../ViewProducts/LoaderComponent";
+import Commenting from "../../RateComment/Commenting";
+import AllRateComment from "../../RateComment/AllRateComment";
 
 
 class Details extends Component{
@@ -10,6 +12,7 @@ class Details extends Component{
         this.state = {
             position : 0,
             loading:true,
+            ratingval:Number
         }
     }
 
@@ -30,6 +33,7 @@ class Details extends Component{
     render() {
         if (this.props.product.Details.length === 0)
             return null;
+
         return (
             <div onChange={this.handleFormChange} className={"container-fluid  mt-5 ml-5"} style={{width:'95%'}} >
                 <div className={"row"}>
@@ -41,19 +45,15 @@ class Details extends Component{
 
 
                     <div className={"col-md-4"}>
-                       <SubDetails position={this.state.position} product={this.props.product}  setPosition={this.setPosition} />
+                       <SubDetails position={this.state.position} product={this.props.product}   setPosition={this.setPosition} />
                     </div>
 
                     <div className={"col-md-3"}>
-                        <ul className="list-group">
-                            <li className="list-group-item">Cras justo odio</li>
-                            <li className="list-group-item">Dapibus ac facilisis in</li>
-                            <li className="list-group-item">Morbi leo risus</li>
-                            <li className="list-group-item">Porta ac consectetur ac</li>
-                            <li className="list-group-item">Vestibulum at eros</li>
-                        </ul>
-
-
+                        {
+                            this.props.comments.map((item,index) => {
+                               return <AllRateComment rid={this.props.product._id} product={item} key={index}/>
+                            })
+                        }
                     </div>
 
                 </div>
@@ -63,5 +63,7 @@ class Details extends Component{
         )
     }
 }
+
+
 
 export default Details

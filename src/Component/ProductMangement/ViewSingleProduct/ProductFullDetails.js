@@ -11,26 +11,25 @@ class ProductFullDetails extends Component{
         super(props);
         this.state = {
             didLoad: true,
-            didLoadrel:true,
-            relateProduct:[],
-            Products:{
-                ProductName:'',
+            didLoadrel: true,
+            relateProduct: [],
+            Products: {
+                ProductName: '',
                 Category: '',
                 PricePerUnit: '',
-                StockAmount:'',
+                StockAmount: '',
                 ProductBrand: '',
-                AddDate:'',
-                Details:[],
+                AddDate: '',
+                Details: [],
             },
+            comments: [],
         }
     }
-
 
 
    getFullDetails = () => {
        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.match.params.id)
            .then(res => {
-
                this.setState({
                    Products:res.data,
                }, () => this.getRelavantProduct());
@@ -48,11 +47,26 @@ class ProductFullDetails extends Component{
                this.setState({
                    relateProduct: res.data,
                },() => this.setState({didLoadrel:false}))
-           }).catch((error) => {
+           }).then(()=> this.getComments()).catch((error) => {
                console.log(error + 'error in get relevant products')
        })
+
+
     }
 
+    getComments = () => {
+        axios.get('https://servershopping.azurewebsites.net/rating/get-rate-comments/' + this.props.match.params.id)
+            .then(res => {
+                this.setState({
+                    comments:res.data,
+                });
+            })
+            .catch((error) => {
+                console.log(error + 'mko aul');
+
+            })
+
+    }
 
     componentDidMount() {
         this.getFullDetails();
@@ -67,17 +81,18 @@ class ProductFullDetails extends Component{
     }
 
     render() {
+
+
         return(
             <div>
                 {this.state.didLoad ? <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                </div> : null}
-                <Details product={this.state.Products} />
+                        <div className="spinner-border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    </div> :
 
-
-
+                    <Details product={this.state.Products} comments={this.state.comments} />
+                }
                 <h3 >Similar Products</h3>
                 {this.state.didLoadrel ? <div className="d-flex justify-content-center">
                     <div className="spinner-border" role="status">
