@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import SubDetails from "./SubDetails";
 import LoaderComponent from "../ViewProducts/LoaderComponent";
+import Commenting from "../../RateComment/Commenting";
+import AllRateComment from "../../RateComment/AllRateComment";
 
 
 class Details extends Component{
@@ -10,6 +12,7 @@ class Details extends Component{
         this.state = {
             position : 0,
             loading:true,
+            ratingval:Number
         }
     }
 
@@ -19,7 +22,6 @@ class Details extends Component{
         })
     }
 
-
     setPosition = (value) => {
         let x;
         x = this.props.product.Details.map(e => e.color).indexOf(value);
@@ -28,22 +30,30 @@ class Details extends Component{
         })
     }
 
-
     render() {
         if (this.props.product.Details.length === 0)
             return null;
+
         return (
-            <div onChange={this.handleFormChange} className={"container"} >
+            <div onChange={this.handleFormChange} className={"container-fluid  mt-5 ml-5"} style={{width:'95%'}} >
                 <div className={"row"}>
 
-                    <div className={"col-md-4"} >
+                    <div className={"col-sm-auto .order-sm-2 .offset-sm-1"} >
                         {this.state.loading ? <LoaderComponent /> : null}
                         <img onLoad={this.onLoad} src={this.props.product.Details[this.state.position].imgPath} className="d-block "  style={{'width':'20vw','height':'20vw'}}/>
                     </div>
 
 
-                    <div className={"col-md-7"}>
-                       <SubDetails position={this.state.position} product={this.props.product}  setPosition={this.setPosition} />
+                    <div className={"col-md-4"}>
+                       <SubDetails position={this.state.position} product={this.props.product}   setPosition={this.setPosition} />
+                    </div>
+
+                    <div className={"col-md-3"}>
+                        {
+                            this.props.comments.map((item,index) => {
+                               return <AllRateComment rid={this.props.product._id} product={item} key={index}/>
+                            })
+                        }
                     </div>
 
                 </div>
@@ -53,5 +63,7 @@ class Details extends Component{
         )
     }
 }
+
+
 
 export default Details

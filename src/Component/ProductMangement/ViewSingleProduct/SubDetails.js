@@ -12,7 +12,7 @@ class SubDetails extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            color:'',
+            color:this.props.product.Details[0].color,
             size:'small',
             AvailableAmount:'',
             OrderQuantity:1,
@@ -71,16 +71,18 @@ class SubDetails extends Component{
     }
 
 
-
     render() {
         if (this.props.product.Details.length === 0)
             return null;
+
         return(
                  <div>
                      <p className={"newarrival text-center"}>NEW</p>
                      <h2>{this.props.product.ProductName}</h2>
                      <p>Brand:<a  href={'/search/'+this.props.product.ProductBrand}>{this.props.product.ProductBrand}</a></p>
-                     <Rating name="size-small" defaultValue={2} size="small" disabled={true} />
+
+                     <Rating name="size-small" defaultValue={this.props.product.TotRate} size="small" disabled={true}/>
+
                      <p>Added On: {this.props.product.AddDate}</p>
                      <div >
                          {this.props.product.Discount > 0 ?<div>
@@ -111,7 +113,7 @@ class SubDetails extends Component{
 
                      <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity} />
                      <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity}
-                     size={this.state.size} color={this.props.product.Details[this.props.position].color}/>
+                     size={this.state.size} color={this.state.color}/>
 
 
                  </div>

@@ -32,11 +32,10 @@ class AddProduct extends Component{
                 StockXL:[],
 
             },
-            CategoryList:['Select','Men','Women','Watch'],
             SubCat:['Select'],
+            CategoryList:[],
             show:false,
-            Addarr:[0]
-
+            Addarr:[0],
         }
 
     }
@@ -54,7 +53,17 @@ class AddProduct extends Component{
         this.forceUpdate();
     }
 
-
+    componentDidMount() {
+        axios.get('https://servershopping.azurewebsites.net/category/all')
+            .then(res => {
+                this.setState({
+                    CategoryList: res.data
+                });
+            }).then()
+            .catch((error) => {
+                console.log(error);
+            })
+    }
 
     onSubmit = (e) => {
         e.preventDefault()
@@ -81,7 +90,7 @@ class AddProduct extends Component{
 
 
             formData.append("StockAmount", this.state.Products.StockAmount);
-            axios.post('https://the-hanger-af.el.r.appspot.com/products/add-product', formData, {headers: {"Content-type": "multipart/form-data"}})
+            axios.post('https://servershopping.azurewebsites.net/products/add-product', formData, {headers: {"Content-type": "multipart/form-data"}})
                 .then(()=> this.props.history.push('/viewListOfProduct'))
             ;
 
@@ -96,7 +105,8 @@ class AddProduct extends Component{
 
 
     render() {
-
+            if(this.state.CategoryList.length === 0)
+                return null
 
         return(
             <div className="container-fluid">
@@ -113,17 +123,17 @@ class AddProduct extends Component{
                             <br/><br/>
 
                         <FormLabel>Select Category</FormLabel>
-                        <FormControl value={this.state.Products.Category} as="select" size="sm" name={"Category"} onChange={(event ) => this.ChangeEventFn(event)} custom>
+                        <FormControl defaultValue={this.state.CategoryList[0].name} as="select" size="sm" name={"Category"} onChange={(event ) => this.ChangeEventFn(event)} custom>
                             {
                                 this.state.CategoryList.map((text) =>
-                                    <option value={text}>{text}</option>
+                                    <option value={text.name}>{text.name}</option>
                                 )
                             }
                         </FormControl>
                         <br/><br/>
 
                         <FormLabel>Select Sub Category</FormLabel>
-                        <FormControl value={this.state.Products.SubCategory} as="select" size="sm" name={"SubCategory"} onChange={(event ) => this.ChangeEventFn(event)} custom>
+                        <FormControl defaultValue={this.setArray()[0]} as="select" size="sm" name={"SubCategory"} onChange={(event ) => this.ChangeEventFn(event)} custom>
                             {
                                 this.setArray().map((text) =>
                                     <option value={text}>{text}</option>
@@ -182,17 +192,18 @@ class AddProduct extends Component{
     }
 
     setArray = () => {
-        if(this.state.Products.Category === 'Men'){
-            this.state.SubCat = ['Select','T-Shirt','Shirt','Trouser','Denim' ]
+
+        if(this.state.CategoryList.length === 0)
+            this.state.SubCat=['No Categories']
+        else {
+            var index
+            if(this.state.Products.Category ==='')
+                index = 0
+            else
+                index = this.state.CategoryList.findIndex(x => x.name === this.state.Products.Category);
+            this.state.SubCat = this.state.CategoryList[index].subCategory
         }
 
-        else if (this.state.Products.Category === 'Women'){
-            this.state.SubCat = ['Select','T-Shirt','Frock','Girl-Trouser','Denim' ]
-        }
-
-        else if (this.state.Products.Category === 'Watch'){
-            this.state.SubCat = ['Select','Casio','Citizen']
-        }
         return this.state.SubCat
 
     }

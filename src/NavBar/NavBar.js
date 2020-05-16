@@ -5,6 +5,8 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import AuthService from "../Component/UserManagement/services/auth.service";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import axios from "axios";
 import GetShoppingCart from "../Component/UserManagement/Shopping Cart/getShoppingCart";
 import LoginRegView from "../Component/UserManagement/Login/loginRegView";
 let username='';
@@ -20,6 +22,7 @@ class NavBar extends Component{
             SearchVal:'',
             salesUser:false,
             adminUser:false,
+            CategoryList:[],
             addModalShow:false
         };
     }
@@ -46,6 +49,16 @@ class NavBar extends Component{
                 });
             }
         }
+
+        axios.get('https://servershopping.azurewebsites.net/category/all')
+            .then(res => {
+                this.setState({
+                    CategoryList: res.data
+                });
+            }).then()
+            .catch((error) => {
+                console.log(error);
+            })
     }
     logOut() {
         AuthService.logout();
@@ -78,6 +91,27 @@ class NavBar extends Component{
                     {adminUser && (
                         <Nav.Link href="/check">Admin</Nav.Link>
                     )}
+
+                    <NavDropdown title="Categories" >
+                        {this.state.CategoryList.map(item => {
+                            return(
+                                <div>
+                            <NavDropdown.Header class="dropdown-submenu">{item.name}</NavDropdown.Header>
+                            {
+                                item.subCategory.map(txt => {
+                                    return(
+                                        <NavDropdown.Item class="dropdown-menu"   href={'/search/' + txt}>{txt}</NavDropdown.Item>
+                                    )
+                                })
+                            }
+                                </div>
+                            )
+                        })}
+
+
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
+                    </NavDropdown>
 
 
                 </Nav>

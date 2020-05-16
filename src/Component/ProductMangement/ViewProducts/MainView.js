@@ -14,6 +14,7 @@ class MainView extends Component{
             ProductArray: [],
             CategoryName:['Men', 'Women', 'Watch'],
             loading: true,
+            ratings:[]
         };
     }
 
@@ -26,7 +27,7 @@ class MainView extends Component{
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/products/')
+        axios.get('https://servershopping.azurewebsites.net/products/')
             .then(res => {
                 this.setState({
                     ProductArray: res.data
@@ -39,10 +40,24 @@ class MainView extends Component{
 
     }
 
+
+
+    getRateValue = (id) => {
+       if(this.state.ratings.length ===0)
+           console.log("mggggggggggg")
+        else {
+           let obj = this.state.ratings.find(x => x.productId === id);
+           if (obj === null)
+               return 0
+           else
+               return 5
+       }
+    }
+
     render() {
         var settings = {
             dots: false,
-            infinite: true,
+            infinite: false,
             speed: 500,
             slidesToShow: 5,
             draggable:true,

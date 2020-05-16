@@ -39,7 +39,7 @@ class AddNewItemToProduct extends Component{
         formData.append("large",this.state.newItem.large);
         formData.append("xl",this.state.newItem.xl);
 
-        axios.post('http://localhost:4000/products/addnewItemToProduct/' + this.props.match.params.id, formData)
+        axios.post('https://servershopping.azurewebsites.net/products/addnewItemToProduct/' + this.props.match.params.id, formData)
             .then((res) => {
                 console.log(res.data)
                 console.log('Student successfully updated')
@@ -48,7 +48,7 @@ class AddNewItemToProduct extends Component{
         })
 
         // Redirect to Product List
-        this.props.history.push('/add')
+        this.props.history.push('/viewListOfProduct')
 
 
     }
