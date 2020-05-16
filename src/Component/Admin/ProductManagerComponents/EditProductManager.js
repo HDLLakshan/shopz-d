@@ -5,17 +5,18 @@ import {updateUser} from "../../../ReduxStore/action";
 import {FormControl} from "react-bootstrap";
 
 const required = value => value ? undefined : 'Required';
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
+    <div>
+        <FormControl {...input} type={type} placeholder={label} />
+        <small>{touched && ((error && <span>{error}</span>))}</small>
+        <br/>
+    </div>
+);
 
 function EditProductManager(props) {
     const { handleSubmit ,dispatch} = props;
 
-    const renderField = ({ input, label, type, meta: { touched, error } }) => (
-        <div>
-            <FormControl {...input} type={type} placeholder={label} />
-            <br/>
-            <small>{touched && ((error && <span>{error}</span>))}</small>
-        </div>
-    )
+
 
     return (
         <form onSubmit={handleSubmit}>

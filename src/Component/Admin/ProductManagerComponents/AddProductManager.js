@@ -10,16 +10,17 @@ const minLength = min => value =>
 const minLength6 = minLength(6);
 const passwordsMatch = (value, allValues) =>
     value !== allValues.password ? 'Passwords don\'t match' : undefined;
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
+    <div>
+        <FormControl {...input} type={type} placeholder={label} />
+        <small>{touched && ((error && <span>{error}</span>))}</small>
+        <br/>
+    </div>
+);
 
 function AddProductManager(props) {
     const { handleSubmit ,dispatch,pristine,submitting} = props;
-    const renderField = ({ input, label, type, meta: { touched, error } }) => (
-        <div>
-            <FormControl {...input} type={type} placeholder={label} />
-            <br/>
-            <small>{touched && ((error && <span>{error}</span>))}</small>
-        </div>
-    )
+
 
     return (
             <form onSubmit={handleSubmit}>

@@ -50,7 +50,7 @@ input[type="radio"]{
     width:500px;
 }
 .spacee{
-
+    overflow-y: scroll;
     word-wrap:break-word;
 
 }

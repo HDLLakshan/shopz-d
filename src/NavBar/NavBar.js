@@ -7,6 +7,8 @@ import Button from "react-bootstrap/Button";
 import AuthService from "../Component/UserManagement/services/auth.service";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
+import GetShoppingCart from "../Component/UserManagement/Shopping Cart/getShoppingCart";
+import LoginRegView from "../Component/UserManagement/Login/loginRegView";
 let username='';
 
 
@@ -20,7 +22,8 @@ class NavBar extends Component{
             SearchVal:'',
             salesUser:false,
             adminUser:false,
-            CategoryList:[]
+            CategoryList:[],
+            addModalShow:false
         };
     }
 
@@ -63,6 +66,8 @@ class NavBar extends Component{
 
     render() {
         const { currentUser, salesUser , adminUser} = this.state;
+        let addModalClose =() => this.setState({addModalShow : false});
+        console.log(this.props.history)
         return(
             <Navbar bg="info" variant="dark">
                 {currentUser ? (
@@ -73,15 +78,15 @@ class NavBar extends Component{
                     <Nav.Link href="/viewListOfProduct">View</Nav.Link>
                     <Nav.Link href="/">Home</Nav.Link>
                     {currentUser ? (
-                    <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>
-                    ) : (
-                        <Nav.Link href="/loginRegView">Login</Nav.Link>
-                    )}
-                    {currentUser ? (
                     <Nav.Link href="/wishlist">Wishlist</Nav.Link>
                     ) : ( null )}
                     {currentUser ? (
-                    <Nav.Link href="/cart">Shopping cart</Nav.Link>
+                        this.state.addModalShow ? (
+                            <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose} history={this.props.history}/>
+                        ) : (
+                            <button type='button' className='btn btn-info'
+                                    onClick={() => this.setState({addModalShow:true})}> Cart </button>
+                        )
                     ) : ( null )}
                     {adminUser && (
                         <Nav.Link href="/check">Admin</Nav.Link>
@@ -118,7 +123,11 @@ class NavBar extends Component{
                       <Nav.Link href={'/search/'+this.state.SearchVal}>
                         <Button variant="outline-light" >Search</Button>
                         </Nav.Link>
-
+                        {currentUser ? (
+                            <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>
+                        ) : (
+                            <Nav.Link href="/loginRegView">Login</Nav.Link>
+                        )}
                     </Form>
                 </Nav>
 
