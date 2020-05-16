@@ -7,16 +7,16 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import {FormControl, Form, Row} from "react-bootstrap";
 
 const required = value => value ? undefined : 'Required';
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
+    <div>
+        <FormControl {...input} type={type} placeholder={label} />
+        <small>{touched && ((error && <span>{error}</span>))}</small>
+        <br/>
+    </div>
+);
 
 function AddCategory(props) {
     const {handleSubmit, dispatch,pristine,submitting} = props;
-
-    const renderField = ({ input, label, type, meta: { touched, error } }) => (
-        <div>
-                <FormControl {...input} type={type} placeholder={label} />
-            <small>{touched && ((error && <span>{error}</span>))}</small>
-        </div>
-    )
 
     const renderSubCat = ({ fields, meta: { error } }) => (
         <div>
@@ -28,7 +28,7 @@ function AddCategory(props) {
                     <Row>
                         <Button type="button" startIcon={<DeleteIcon/>} onClick={() => fields.remove(index)}/>
                         <Field name={hobby} type="text" component={renderField}
-                               label={`Sub Category ${index + 1}`} validate={required}/>
+                               label={`Sub Category ${index + 1}`} />
                     </Row>
 
                 </div>
@@ -42,7 +42,7 @@ function AddCategory(props) {
             <div className="field">
                 <div className="control">
                     <Form.Label className="label">Category name</Form.Label>
-                    <Field className="input" name="name" component={renderField}
+                    <Field name="name" component={renderField}
                            type="text" validate={required}/>
                 </div>
             </div>

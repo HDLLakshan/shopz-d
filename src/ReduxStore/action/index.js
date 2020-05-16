@@ -1,5 +1,8 @@
 import axios from "axios";
 import {SubmissionError} from "redux-form";
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
+
 export const showForm =() => {
     return {
         type: 'ADDFORMPM'
@@ -37,37 +40,85 @@ export const DeleteListPM = (data) => {
 };
 export const addUser = (data) => {
     return (dispatch) => {
-        dispatch(showForm());
-        dispatch(AssignUser(data));
-        return axios.post('https://the-hanger-af.el.r.appspot.com/admin/add', data)
-            .then(() => {})
-            .catch(error => {
-            throw(error);
+        confirmAlert({
+            title: 'Confirm to submit',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        dispatch(showForm());
+                        dispatch(AssignUser(data));
+                        return axios.post('http://localhost:4000/admin/add', data)
+                            .then(() => {})
+                            .catch(error => {
+                                throw(error);
+                            });
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => alert('Click No')
+                }
+            ]
         });
+
     }
 };
 
 
 export const updateUser = (data) => {
     return (dispatch) => {
-        dispatch(showEditForm());
-        dispatch(UpdateList(data));
-        return axios.put(`https://the-hanger-af.el.r.appspot.com/admin/${data.username}`,data)
-            .then(() => {})
-            .catch(error => {
-                throw(error);
-            });
+        confirmAlert({
+            title: 'Confirm to submit',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        dispatch(showEditForm());
+                        dispatch(UpdateList(data));
+                        return axios.put(`http://localhost:4000/admin/${data.username}`,data)
+                            .then(() => {})
+                            .catch(error => {
+                                throw(error);
+                            });
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => alert('Click No')
+                }
+            ]
+        });
+
     }
 };
 export const deleteUser = (data) => {
     return (dispatch) => {
-        dispatch(DeleteListPM(data));
-        return axios.delete(`https://the-hanger-af.el.r.appspot.com/admin/${data}`)
-            .then(response => {
-            })
-            .catch(error => {
-                throw(error);
-            });
+        confirmAlert({
+            title: 'Confirm to submit',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        dispatch(DeleteListPM(data));
+                        return axios.delete(`http://localhost:4000/admin/${data}`)
+                            .then(response => {
+                            })
+                            .catch(error => {
+                                throw(error);
+                            });
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => alert('Click No')
+                }
+            ]
+        });
+
     }
 };
 
@@ -80,7 +131,7 @@ export const fetchPMs = (PMs) => {
 
 export const fetchAllPMs =() => {
     return (dispatch) => {
-        return axios.get('https://the-hanger-af.el.r.appspot.com/admin/all')
+        return axios.get('http://localhost:4000/admin/all')
             .then(response => {
                 dispatch(fetchPMs(response.data))
             })
@@ -129,40 +180,88 @@ export const DeleteListCat = (data) => {
 }
 export const addCat = (data) => {
     return (dispatch) => {
-        dispatch(showFormCat());
-        dispatch(AssignCat(data));
-        return axios.post('https://the-hanger-af.el.r.appspot.com/category/add', data)
-            .then(response => {})
-            .catch(error => {
-                throw(error);
-            });
+        confirmAlert({
+            title: 'Confirm to submit',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        dispatch(showFormCat());
+                        dispatch(AssignCat(data));
+                        return axios.post('http://localhost:4000/category/add', data)
+                            .then(response => {})
+                            .catch(error => {
+                                throw(error);
+                            });
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => alert('Click No')
+                }
+            ]
+        });
+
     }
 }
 
 
 export const updateCat = (data) => {
     return (dispatch) => {
-        dispatch(showEditFormCat());
-        dispatch(UpdateListCat(data))
-        return axios.put(`https://the-hanger-af.el.r.appspot.com/category/${data.name}`,data)
-            .then(response => {
+        confirmAlert({
+            title: 'Confirm to submit',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        dispatch(showEditFormCat());
+                        dispatch(UpdateListCat(data))
+                        return axios.put(`http://localhost:4000/category/${data.name}`,data)
+                            .then(response => {
 
-            })
-            .catch(error => {
-                throw(error);
-            });
+                            })
+                            .catch(error => {
+                                throw(error);
+                            });
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => alert('Click No')
+                }
+            ]
+        });
+
     }
 };
 
 export const deleteCat = (data) => {
     return (dispatch) => {
-        dispatch(DeleteListCat(data));
-        return axios.delete(`https://the-hanger-af.el.r.appspot.com/category/${data}`)
-            .then(response => {
-            })
-            .catch(error => {
-                throw(error);
-            });
+        confirmAlert({
+            title: 'Confirm to submit',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        dispatch(DeleteListCat(data));
+                        return axios.delete(`http://localhost:4000/category/${data}`)
+                            .then(response => {
+                            })
+                            .catch(error => {
+                                throw(error);
+                            });
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => alert('Click No')
+                }
+            ]
+        });
+
     }
 };
 
@@ -176,7 +275,7 @@ export const fetchCats = (Cats) => {
 
 export const fetchAllCats =() => {
     return (dispatch) => {
-        return axios.get('https://the-hanger-af.el.r.appspot.com/category/all')
+        return axios.get('http://localhost:4000/category/all')
             .then(response => {
                 dispatch(fetchCats(response.data))
             })
@@ -187,7 +286,7 @@ export const fetchAllCats =() => {
 };
 
 export const Login = (data)=>{
-    axios.get('https://the-hanger-af.el.r.appspot.com/userAdmin/all')
+    axios.get('http://localhost:4000/userAdmin/all')
         .then(response =>{
             response.data.map((user)=>{
                 console.log(user.username)
