@@ -3,13 +3,17 @@ import axios from 'axios';
 import {WishlistProductRow} from "./wishlishProductRow";
 import AuthService from '../services/auth.service';
 import authHeader from "../services/auth-header";
+import { withRouter } from 'react-router';
+import {Col, Row} from "react-bootstrap";
+import Image from './images.png';
+import GetShoppingCart from "../Shopping Cart/getShoppingCart";
 
-export default class GetWishlist extends Component{
+class GetWishlist extends Component{
     constructor(props) {
         super(props);
         this.state={
             products : [],
-
+            username : AuthService.getUsername()
         };
         this.handleRemoveButton= this.handleRemoveButton.bind(this);
     }
@@ -37,7 +41,7 @@ export default class GetWishlist extends Component{
 
     }
 
-    WishlistComponentTemplate(){
+        WishlistComponentTemplate(){
         return this.state.products.map((res , i )=>{
             return  <WishlistProductRow obj={res} key={i} handleRemoveButton={this.handleRemoveButton} /> ;
         });
@@ -63,28 +67,58 @@ export default class GetWishlist extends Component{
     }
 
     render(){
+        let addModalClose =() => this.setState({addModalShow : false});
         return(
         <div>
-            <div >
-                {/*<Modal show={this.props.show} aria-labelledby="contained-modal-title-vcenter">*/}
-                {/*    <Modal.Header closeButton onClick={this.props.onHide}>*/}
-                {/*        <Modal.Title id="contained-modal-title-vcenter">*/}
-                {/*            My Wish list*/}
-                {/*        </Modal.Title>*/}
-                {/*    </Modal.Header>*/}
-                {/*    <Modal.Body>*/}
+            <div style={{ fontWeight: 'bold', backgroundColor:'#000000',  padding: "15px",margin: "20px" }} className='text-center text-white'
+                 onClick={()=>{
+                     this.props.history.push('/');
+                     window.location.reload();
+                 }}>
+                ADD MORE ITEMS
+            </div>
+            <Row>
+                <Col md="4" >
+                    <div className="block-example border border-dark" style={{  margin: "40px" }}>
+                        <div style={{ backgroundColor:'#000000', "width": "100%","height":"100px"}}></div>
+                        <div style={{ "height":"400px"}}>
+                            <Row>
+                                <Col md="3">
+                                    <img src={Image} style={{"height":"80px", "width":"80px", margin:"15px"}}/>
+                                </Col>
+                                <Col md="9">
+                                    <h5 style={{"margin-top":"35px"}}>Your Wishlist {this.state.username}</h5>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <div onClick={()=>{this.props.history.push('/userMan')}}>
+                                    <Col>
+                                        <hr/>
+                                        <p style={{margin:"15px", fontWeight: 'bold'}}>My Account</p>
+                                        <hr/>
+                                    </Col>
+                                </div>
+                            </Row>
+                            <Row>
+                                <div onClick={()=>{return <GetShoppingCart show={true} onHide={addModalClose}/>}}>
+                                    <Col>
+                                        <hr/>
+                                        <p style={{margin:"15px", fontWeight: 'bold'}}>Shopping Cart</p>
+                                        <hr/>
+                                    </Col>
+                                </div>
+                            </Row>
+                        </div>
+                    </div>
+                </Col>
+                <Col md="8">
                     <div align="center">
                         {this.WishlistComponentTemplate()}
                     </div>
-
-                {/*    </Modal.Body>*/}
-                {/*    <Modal.Footer>*/}
-                {/*        <Button onClick={this.props.onHide}>Close</Button>*/}
-                {/*    </Modal.Footer>*/}
-                {/*</Modal>*/}
-            </div>
-            </div>
-
+                </Col>
+            </Row>
+        </div>
         );
     }
 }
+export default withRouter(GetWishlist);

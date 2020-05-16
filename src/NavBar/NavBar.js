@@ -67,14 +67,12 @@ class NavBar extends Component{
                     {currentUser ? (
                     <Nav.Link href="/wishlist">Wishlist</Nav.Link>
                     ) : ( null )}
-                    {currentUser ? (
-                        this.state.addModalShow ? (
+                    {this.state.addModalShow ? (
                             <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose} history={this.props.history}/>
                         ) : (
                             <button type='button' className='btn btn-info'
                                     onClick={() => this.setState({addModalShow:true})}> Cart </button>
-                        )
-                    ) : ( null )}
+                    )}
                     {adminUser && (
                         <Nav.Link href="/check">Admin</Nav.Link>
                     )}

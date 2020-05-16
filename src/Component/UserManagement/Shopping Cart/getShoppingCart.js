@@ -4,6 +4,7 @@ import {ShoppingCartRow} from "./ShoppingCartRow";
 import axios from "axios";
 import {Modal,Button} from "react-bootstrap";
 import { withRouter } from 'react-router'
+import AuthService from "../services/auth.service";
 
 
  class GetShoppingCart extends Component{
@@ -126,7 +127,16 @@ import { withRouter } from 'react-router'
                     </Modal.Body>
                     <Modal.Footer>
                         Proceed to checkout <DoubleArrowIcon fontSize="large"
-                        onClick={() => {this.props.history.push('/billing'); window.location.reload();}}
+                        onClick={() => {
+                            if(AuthService.getCurrentUser() != null){
+                            this.props.history.push('/billing');
+                            window.location.reload();
+                            }else {
+                                this.props.history.push('/loginRegView');
+                                window.location.reload();
+                            }
+                        }
+                        }
                     />
                     </Modal.Footer>
                 </Modal>
