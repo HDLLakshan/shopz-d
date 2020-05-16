@@ -84,7 +84,7 @@ import { withRouter } from 'react-router'
             })
         });
 
-        return <p style={{"font-size":"30px"}}> LKR {price1}.00</p>
+        return price1
 
     }
 
@@ -119,16 +119,21 @@ import { withRouter } from 'react-router'
                     {this.getShoppingCartTemplate()}
                         </div>
                 <br/>
-                <div align="center" style={{fontWeight: 'bold' }}>
-                    {this.getThePrice()}
+                <div align="center" style={{fontWeight: 'bold'}}>
+                    <p style={{"font-size":"30px"}}> LKR {this.getThePrice()}.00</p>
                 </div>
 
                     </Modal.Body>
-                    <Modal.Footer>
-                        Proceed to checkout <DoubleArrowIcon fontSize="large"
-                        onClick={() => {this.props.history.push('/billing'); window.location.reload();}}
-                    />
-                    </Modal.Footer>
+
+                        {(() => {
+                            if (this.getThePrice()>0) {
+                                return  <Modal.Footer>
+                                        Proceed to checkout
+                                        <DoubleArrowIcon fontSize="large" onClick={() => {this.props.history.push('/billing'); window.location.reload();}}
+                                />
+                                </Modal.Footer>
+                            }
+                        })()}
                 </Modal>
 
         )
