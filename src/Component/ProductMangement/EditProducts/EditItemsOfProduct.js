@@ -111,10 +111,10 @@ class EditItemsOfProduct extends Component{
                                     </div>
 
                                     <div>
-                                        <Button size="small" variant="btn btn-warning"
+                                        <Button  size="small" variant="btn btn-warning"
                                          onClick={e => this.onEdit(e,txt)}       >Edit & Save</Button>
                                         <br/>
-                                        <Button size="small" variant="btn btn-danger"
+                                        <Button hidden={Products.Details.length === 1} size="small" variant="btn btn-danger"
                                         onClick={e => this.onDelete(e,item.color)} >Delete</Button>
                                     </div>
 

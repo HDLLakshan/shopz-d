@@ -19,10 +19,6 @@ import EditCreditCard from "./Component/Purchasing/EditPurchaseDetails/EditCredi
 import EditBilling from "./Component/Purchasing/EditPurchaseDetails/EditBilling";
 import DisplayRateComment from "./Component/RateComment/DisplayRateComment";
 import BoardUser from "./Component/UserManagement/check";
-import {Provider} from "react-redux";
-import {applyMiddleware, compose, createStore} from "redux";
-import allReducers from "./ReduxStore/reducers";
-import thunk from "redux-thunk";
 import {Admin} from "./Component/Admin/Admin";
 import ShowAllProdcuts from "./Component/ProductMangement/EditProducts/ShowAllProdcuts";
 import EditProductsDetails from "./Component/ProductMangement/EditProducts/EditProductsDetails";

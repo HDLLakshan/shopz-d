@@ -19,6 +19,7 @@
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-bootstrap": "^1.0.0",
+    "react-confirm-alert": "^2.6.1",
     "react-country-region-selector": "^2.1.0",
     "react-dom": "^16.13.1",
     "react-notifications-component": "^2.4.0",
@@ -34,7 +35,8 @@
     "redux": "^4.0.5",
     "redux-form": "latest",
     "redux-thunk": "^2.3.0",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "react-router": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

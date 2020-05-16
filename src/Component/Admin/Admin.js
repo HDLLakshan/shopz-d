@@ -13,7 +13,7 @@ import {HomeAdmin} from "./HomeAdmin/HomeAdmin";
 
 const store = createStore(allReducers,
     compose(applyMiddleware(thunk),
-       // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+     //  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     ));
 store.dispatch(fetchAllPMs());
 store.dispatch(fetchAllCats());
@@ -25,7 +25,7 @@ export class Admin extends React.Component {
                 <Router>
                     <HomeAdmin/>
                     <Switch>
-                        <Route path="/Admin/Home" exact component={Dashboard}/>
+                        <Route path="/Admin" exact component={Dashboard}/>
                         <Route path="/Admin/ProductManager" exact component={ProductManager}/>
                         <Route path="/Admin/Category" exact component={Category}/>
                     </Switch>

@@ -7,19 +7,20 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import {FormControl} from "react-bootstrap";
 
 const required = value => value ? undefined : 'Required'
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
+    <div>
+        <label>{label}</label>
+        <div>
+            <FormControl {...input} type={type} placeholder={label} />
+            <small>{touched && ((error && <span>{error}</span>))}</small>
+            <br/>
+        </div>
+    </div>
+);
 
 function EditProductManager(props) {
     const { handleSubmit ,dispatch} = props;
-    const renderField = ({ input, label, type, meta: { touched, error } }) => (
-        <div>
-            <label>{label}</label>
-            <div>
-                <FormControl {...input} type={type} placeholder={label} />
-                <br/>
-                <small>{touched && ((error && <span>{error}</span>))}</small>
-            </div>
-        </div>
-    )
+
 
     const renderSubCat = ({ fields, meta: { error } }) => (
         <div>

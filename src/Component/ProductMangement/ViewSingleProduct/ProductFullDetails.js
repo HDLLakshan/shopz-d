@@ -4,7 +4,6 @@ import './ProductFile Details.css'
 import ShowItem from "../ViewProducts/ShowItem";
 import Details from "./Details";
 import '../../../css/App.css'
-import AllRateComment from "../../RateComment/AllRateComment";
 
 class ProductFullDetails extends Component{
 
@@ -12,31 +11,28 @@ class ProductFullDetails extends Component{
         super(props);
         this.state = {
             didLoad: true,
-            didLoadrel:true,
-            relateProduct:[],
-            comments:[],
-            Products:{
-                ProductName:'',
+            didLoadrel: true,
+            relateProduct: [],
+            Products: {
+                ProductName: '',
                 Category: '',
                 PricePerUnit: '',
-                StockAmount:'',
+                StockAmount: '',
                 ProductBrand: '',
-                AddDate:'',
-                Details:[],
+                AddDate: '',
+                Details: [],
             },
+            comments: [],
         }
     }
 
 
-
    getFullDetails = () => {
-       axios.get('http://localhost:4000/products/view-product/' + this.props.match.params.id)
+       axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.match.params.id)
            .then(res => {
-
                this.setState({
                    Products:res.data,
                }, () => this.getRelavantProduct());
-                        this.getComments();
            })
            .catch((error) => {
                console.log(error + 'mko aul');
@@ -46,28 +42,30 @@ class ProductFullDetails extends Component{
 
    getRelavantProduct = () => {
         this.setState({didLoad:false})
-       axios.get('https://the-hanger-af.el.r.appspot.com/products/get-products/' + this.state.Products.SubCategory)
+       axios.get('https://servershopping.azurewebsites.net/products/get-products/' + this.state.Products.SubCategory)
            .then(res => {
                this.setState({
                    relateProduct: res.data,
                },() => this.setState({didLoadrel:false}))
-           }).catch((error) => {
+           }).then(()=> this.getComments()).catch((error) => {
                console.log(error + 'error in get relevant products')
        })
+
+
     }
 
     getComments = () => {
-        axios.get('http://localhost:4000/rating/get-rate-comments/' +  this.state.Products._id)
+        axios.get('https://servershopping.azurewebsites.net/rating/get-rate-comments/' + this.props.match.params.id)
             .then(res => {
-                console.log( "wrapped" + res.data + "thses are details")
                 this.setState({
-                    comments:res.data
-                })
+                    comments:res.data,
+                });
             })
             .catch((error) => {
                 console.log(error + 'mko aul');
 
             })
+
     }
 
     componentDidMount() {
@@ -83,22 +81,18 @@ class ProductFullDetails extends Component{
     }
 
     render() {
+
+
         return(
             <div>
                 {this.state.didLoad ? <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                </div> : null}
-                <Details product={this.state.Products} />
+                        <div className="spinner-border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    </div> :
 
-                <div>
-                    { this.state.comments.map((item, index) => {
-                        return <AllRateComment rid={this.state.Products._id} product={item} key={index}  />;
-                    })
-                    }
-                </div>
-
+                    <Details product={this.state.Products} comments={this.state.comments} />
+                }
                 <h3 >Similar Products</h3>
                 {this.state.didLoadrel ? <div className="d-flex justify-content-center">
                     <div className="spinner-border" role="status">

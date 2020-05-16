@@ -4,6 +4,7 @@ import Figure from "react-bootstrap/Figure";
 import {Link} from 'react-router-dom'
 import ImageView from "./ImageView";
 import '../../../css/App.css'
+import {Rating} from "@material-ui/lab";
 
 
 class ShowItem extends Component {
@@ -11,9 +12,10 @@ class ShowItem extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            didLoad: true
+            didLoad: true,
         }
     }
+
 
 
 
@@ -47,13 +49,15 @@ class ShowItem extends Component {
                 <ImageView ImgArr={this.props.product.Details}/>
 
                 <figcaption >
-                    {this.props.product.Discount > 0 ?
+
                     <div style={{overflow: 'hidden'}}>
                         <p style={{float: 'left'}}> Rs {this.props.product.PricePerUnit}</p>
-                        <p style={{float: 'right', color:'red', 'margin-left':'10px'}}> {this.props.product.Discount}% OFF</p>
-                    </div>:  <p style={{float: 'center'}}> Rs {this.props.product.PricePerUnit}</p>}
+                        <Rating style={{marginLeft: '20px', marginTop:'10px'}} name="size-small" defaultValue={this.props.product.TotRate} size="small" disabled={true}/>
+                        <p hidden={this.props.product.Discount === 0} style={{float: 'right', color:'red', 'margin-left':'10px'}}> {this.props.product.Discount}% OFF</p>
+                    </div>
 
                 </figcaption>
+
 
             </Figure>
 
