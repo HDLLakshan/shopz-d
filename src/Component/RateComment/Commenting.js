@@ -11,7 +11,7 @@ const getItemStyle = () => ({
 
     padding: grid * 2,
     marginBottom: grid,
-    backgroundColor:"#FFFFFC",
+    backgroundColor:"#FCFCFCFC",
     width:420,
 
 });
@@ -20,7 +20,7 @@ const getListStyle =() => ({
     padding: grid,
     width: 450,
     height:350,
-    backgroundColor:"#FCFCFCFC",
+
 
 
 
@@ -40,7 +40,7 @@ class Commenting extends Component{
 
 
                         <Paper
-                           style={{width:450, backgroundColor:"#FCFCFCFC"}}
+                           style={{width:450}}
                            elevation={0}
                         >
 
