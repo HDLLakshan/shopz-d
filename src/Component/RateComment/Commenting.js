@@ -11,7 +11,7 @@ const getItemStyle = () => ({
 
     padding: grid * 2,
     marginBottom: grid,
-    backgroundColor:"#F7F7F7",
+    backgroundColor:"#FFFFFC",
     width:420,
 
 });
@@ -20,6 +20,8 @@ const getListStyle =() => ({
     padding: grid,
     width: 450,
     height:350,
+    backgroundColor:"#FCFCFCFC",
+
 
 
 });
@@ -38,8 +40,8 @@ class Commenting extends Component{
 
 
                         <Paper
-                           style={{width:450}}
-
+                           style={{width:450, backgroundColor:"#FCFCFCFC"}}
+                           elevation={0}
                         >
 
                             <h3 align="center">Comments</h3>
@@ -53,12 +55,14 @@ class Commenting extends Component{
 
 
                                 <Paper
-                                    class="scroll scroll2 scroll3 scroll4"
+                                    class="scroll scroll2 scroll3 scroll4 border1"
                                 style={getItemStyle()}
                                 >
 
+
                                     <h6>{e.userid}:</h6>
                                 {e.comment}
+
                                 </Paper>
 
                             )}
