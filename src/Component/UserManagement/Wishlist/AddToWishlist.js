@@ -2,7 +2,10 @@ import React, {Component} from "react";
 import axios from "axios";
 import AuthService from '../services/auth.service';
 import authHeader from "../services/auth-header";
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import {Delete} from "@material-ui/icons";
 
 class AddToWishlist extends Component {
     constructor(props) {
@@ -140,7 +143,12 @@ class AddToWishlist extends Component {
     render() {
         const {productId, imagePath , quantity}= this.props;
         return(
-            <button className={this.state.addToWishList ? 'btn btn-danger': 'btn btn-info'} type='button' onClick={this.handleWishlist} >{this.state.addToWishList? 'Added to list': 'Add to list' }</button>
+            <div>
+                {this.state.addToWishList ? (
+                    <FavoriteIcon color="secondary"  fontSize="large"  onClick={this.handleWishlist}/>
+                ):( <FavoriteBorderIcon fontSize="large"  onClick={this.handleWishlist} /> )}
+            </div>
+
         );
     }
 }

@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
@@ -10,7 +12,6 @@ import axios from "axios";
 import GetShoppingCart from "../Component/UserManagement/Shopping Cart/getShoppingCart";
 import LoginRegView from "../Component/UserManagement/Login/loginRegView";
 let username='';
-
 
 class NavBar extends Component{
     constructor(props) {
@@ -73,17 +74,20 @@ class NavBar extends Component{
                     <Navbar.Brand href="/userMan"> Hi {username}! </Navbar.Brand>
                 ) : ( null )}
                 <Nav className="mr-auto">
-                    <Nav.Link href="/add">Add</Nav.Link>
+                    {salesUser ? (
+                        <Nav.Link href="/add">Add</Nav.Link>
+                    ) : ( null )}
+                    {salesUser ? (
                     <Nav.Link href="/viewListOfProduct">View</Nav.Link>
+                    ) : ( null )}
                     <Nav.Link href="/">Home</Nav.Link>
                     {currentUser ? (
-                    <Nav.Link href="/wishlist">Wishlist</Nav.Link>
+                    <Nav.Link href="/wishlist"><FavoriteBorderIcon/></Nav.Link>
                     ) : ( null )}
                     {this.state.addModalShow ? (
                             <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose} history={this.props.history}/>
                         ) : (
-                            <button type='button' className='btn btn-info'
-                                    onClick={() => this.setState({addModalShow:true})}> Cart </button>
+                            <ShoppingCartIcon style={{fill: "white", margin: "10px"}} onClick={() => this.setState({addModalShow:true})}/>
                     )}
                     {adminUser && (
                         <Nav.Link href="/check">Admin</Nav.Link>

@@ -6,6 +6,7 @@ import axios from "axios";
 import AddToShoppingCart from "../../UserManagement/Shopping Cart/AddToShoppingCart";
 import AddToWishlist from "../../UserManagement/Wishlist/AddToWishlist";
 import Nav from "react-bootstrap/Nav";
+import {Row} from "react-bootstrap";
 
 class SubDetails extends Component{
 
@@ -111,13 +112,18 @@ class SubDetails extends Component{
                      <input className={' col-md-2'} placeholder="Enter Quantity" required type="number" value={this.state.OrderQuantity} min="1" max={this.setAvailability()}
                      onChange={(event)=> this.setState({OrderQuantity:event.target.value})}/>
 
-                     <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity}
-                                        size={this.state.size} color={this.props.product.Details[this.props.position].color}/>
+                     <Row>
+                         <div style={{margin: "20px"}}>
+                             <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity}
+                                                size={this.state.size} color={this.props.product.Details[this.props.position].color}/>
 
-                     <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity}
-                     size={this.state.size} color={this.state.color}/>
+                         </div>
+                         <div style={{margin: "20px"}}>
+                             <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity}
+                                            size={this.state.size} color={this.state.color}/>
+                         </div>
 
-
+                     </Row>
                  </div>
         )
     }
