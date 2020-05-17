@@ -21,10 +21,21 @@ class EditProductsDetails extends Component{
                 SubCategory:'',
                 Discount: '',
             },
-            CategoryList:['Select','Men','Women','Watch'],
-            SubCat:['Select'],
+            CategoryList:[],
             loading: false
         }
+    }
+
+    getCategories = () => {
+        axios.get('https://servershopping.azurewebsites.net/category/all')
+            .then(res => {
+                this.setState({
+                    CategoryList: res.data
+                });
+            }).then(() => this.setState({loading:true}))
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     componentDidMount() {
@@ -33,7 +44,7 @@ class EditProductsDetails extends Component{
                 this.setState({
                     Products:res.data,
                 })
-            }).then(() => this.setState({loading:true}))
+            }).then(() => this.getCategories())
             .catch((error) => {
                 console.log(error + 'mko aul');
             })
@@ -71,6 +82,9 @@ class EditProductsDetails extends Component{
     render() {
         if(this.state.Products === null)
             return null
+        if(this.state.CategoryList.length === 0)
+            return null
+
         return(
             <div>
                 <Typography component="h1" variant="h4" align="center">
@@ -97,8 +111,8 @@ class EditProductsDetails extends Component{
                         <FormControl value={this.state.Products.Category} as="select" size="sm" name={"Category"}
                                      onChange={(event) => this.ChangeEventFn(event)} custom>
                             {
-                                this.state.CategoryList.map((text) =>
-                                    <option value={text}>{text}</option>
+                                this.state.CategoryList.map((text,index) =>
+                                    <option key={index} value={text.name}>{text.name}</option>
                                 )
                             }
                         </FormControl>
@@ -107,9 +121,10 @@ class EditProductsDetails extends Component{
                         <FormLabel>Select Sub Category</FormLabel>
                         <FormControl value={this.state.Products.SubCategory} as="select" size="sm" name={"SubCategory"}
                                      onChange={(event) => this.ChangeEventFn(event)} custom>
+                            <option>Select</option>
                             {
-                                this.setArray().map((text) =>
-                                    <option value={text}>{text}</option>
+                                this.state.CategoryList[this.findIndex()].subCategory.map((text,index) =>
+                                    <option key={index} value={text}>{text}</option>
                                 )
                             }
                         </FormControl>
@@ -154,20 +169,17 @@ class EditProductsDetails extends Component{
         )
     }
 
-    setArray = () => {
-        if(this.state.Products.Category === 'Men'){
-            this.state.SubCat = ['Select','T-Shirt','Shirt','Trouser','Denim' ]
+    findIndex = () => {
+        if(this.state.CategoryList.length === 0)
+            return 0
+        else {
+            var index
+            if(this.state.Products.Category ==='')
+                return  0
+            else
+                index = this.state.CategoryList.findIndex(x => x.name === this.state.Products.Category);
+            return index
         }
-
-        else if (this.state.Products.Category === 'Women'){
-            this.state.SubCat = ['Select','T-Shirt','Frock','Girl-Trouser','Denim' ]
-        }
-
-        else if (this.state.Products.Category === 'Watch'){
-            this.state.SubCat = ['Select','Casio','Citizen']
-        }
-        return this.state.SubCat
-
     }
 }
 export default EditProductsDetails

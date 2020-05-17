@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import LoaderComponent from "../ViewProducts/LoaderComponent";
 
 
 class AddNewItemToProduct extends Component{
@@ -17,9 +18,23 @@ class AddNewItemToProduct extends Component{
                 large:'',
                 xl:''
             },
-            imageURL:''
+            imageURL:'',
+            Products:[],
+            loading:true
 
         }
+    }
+
+    componentDidMount() {
+        axios.get('https://servershopping.azurewebsites.net/products/view-product/' + this.props.match.params.id)
+            .then(res => {
+                this.setState({
+                    Products:res.data,
+                },()=>this.setState({loading:false}))
+            })
+            .catch((error) => {
+                console.log(error + 'mko aul');
+            })
     }
 
     onFileChange = (event) => {
@@ -56,12 +71,26 @@ class AddNewItemToProduct extends Component{
     render() {
         const {newItem} = this.state
         return(
-            <div className={"container-fluid"}  style={{border:'1px solid blue'}} >
+            <div className={"container-fluid"}   >
 
                 <Typography component="h1" variant="h4" align="center">
                     Add New Item to Products
                 </Typography>
-                <div className={"form-group row"}>
+                {this.state.loading ? <div className="d-flex justify-content-center">
+                        <LoaderComponent top={'100px'}/>
+                    </div> :
+                <div>
+                    <div className={"row container mt-4"}
+                         style={{marginLeft: '20%', fontSize: "24px", fontFamily: 'MS Gothic'}}>
+                        <p className={"col-6"}>Product Name : {this.state.Products.ProductName}</p>
+                        <p className={"col-6"}>Product Brand : {this.state.Products.ProductBrand}</p>
+                        <p className={"col-6"}>Category : {this.state.Products.Category}</p>
+                        <p className={"col-6"}>Sub Category : {this.state.Products.SubCategory}</p>
+                        <p className={"col-6"}>Price : {this.state.Products.PricePerUnit}</p>
+                        <p className={"col-6"}>Discount : {this.state.Products.Discount}</p>
+                    </div>
+                <div style={{border:'1px solid blue'}}>
+                <div className={"form-group row mt-5"} >
 
                     <div className="col col-md-3">
                         <input type="text" className="form-control" placeholder="clr" name={"ColorOfImg"}
@@ -104,6 +133,9 @@ class AddNewItemToProduct extends Component{
 
                 </div>
                 <br/>
+            </div>
+                </div>}
+
             </div>
         )
     }

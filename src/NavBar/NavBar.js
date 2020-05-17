@@ -94,14 +94,16 @@ class NavBar extends Component{
                     )}
 
                     <NavDropdown title="Categories" >
-                        {this.state.CategoryList.map(item => {
+                        {this.state.CategoryList.map((item,index) => {
                             return(
-                                <div>
-                            <NavDropdown.Header class="dropdown-submenu">{item.name}</NavDropdown.Header>
-                            {
-                                item.subCategory.map(txt => {
+                                <div key={index}>
+
+                            <NavDropdown.Header   class="dropdown-submenu">{item.name}</NavDropdown.Header>
+                            <NavDropdown.Item href={'/search/' + item.name} style={{color:"blue"}}> All {item.name} </NavDropdown.Item>
+                                    {
+                                item.subCategory.map((txt, i) => {
                                     return(
-                                        <NavDropdown.Item class="dropdown-menu"   href={'/search/' + txt}>{txt}</NavDropdown.Item>
+                                        <NavDropdown.Item key={i} class="dropdown-menu"   href={'/search/' + txt}>{txt}</NavDropdown.Item>
                                     )
                                 })
                             }
@@ -111,7 +113,7 @@ class NavBar extends Component{
 
 
                         <NavDropdown.Divider />
-                        <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
+                        <NavDropdown.Item href={'/rated'} eventKey="4.4">Top-Rated</NavDropdown.Item>
                     </NavDropdown>
 
 
@@ -119,10 +121,10 @@ class NavBar extends Component{
 
                 <Nav>
                     <Form inline>
-                        <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={(e) => this.setState({SearchVal:e.target.value})}/>
+                        <FormControl defaultValue={this.state.SearchVal} type="text" placeholder="Search" className="mr-sm-2" onChange={(e) => this.setState({SearchVal:e.target.value})}/>
 
                       <Nav.Link href={'/search/'+this.state.SearchVal}>
-                        <Button variant="outline-light" >Search</Button>
+                        <Button  variant="outline-light" >Search</Button>
                         </Nav.Link>
                         {currentUser ? (
                             <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>
