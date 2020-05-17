@@ -73,7 +73,7 @@ class NavBar extends Component{
                     <Navbar.Brand href="/userMan"> Hi {username}! </Navbar.Brand>
                 ) : ( null )}
                 <Nav className="mr-auto">
-                    <Nav.Link href="/add">Add</Nav.Link>
+                    <Nav.Link hidden={!this.state.adminUser || !this.state.salesUser} href="/add">Add</Nav.Link>
                     <Nav.Link href="/viewListOfProduct">View</Nav.Link>
                     <Nav.Link href="/">Home</Nav.Link>
                     {currentUser ? (
@@ -109,7 +109,7 @@ class NavBar extends Component{
 
 
                         <NavDropdown.Divider />
-                        <NavDropdown.Item eventKey="4.4">Top-Rated</NavDropdown.Item>
+                        <NavDropdown.Item href={'/rated'} eventKey="4.4">Top-Rated</NavDropdown.Item>
                     </NavDropdown>
 
 
@@ -120,7 +120,7 @@ class NavBar extends Component{
                         <FormControl defaultValue={this.state.SearchVal} type="text" placeholder="Search" className="mr-sm-2" onChange={(e) => this.setState({SearchVal:e.target.value})}/>
 
                       <Nav.Link href={'/search/'+this.state.SearchVal}>
-                        <Button variant="outline-light" >Search</Button>
+                        <Button  variant="outline-light" >Search</Button>
                         </Nav.Link>
                         {currentUser ? (
                             <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>

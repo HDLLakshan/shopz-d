@@ -1,10 +1,14 @@
 import React, {Component} from "react";
 import axios from "axios";
 import ReactTable from "react-table-6";
-import "react-table-6/react-table.css"
-import {Button} from "react-bootstrap";
+import "react-table-6/react-table.css";
+import Button from "@material-ui/core/Button";
 import "./tablecss.css"
 import Typography from "@material-ui/core/Typography";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Edit from "@material-ui/icons/Edit"
+import ViewList from "@material-ui/icons/ViewList"
+import AddCircleSharp from '@material-ui/icons/AddCircleSharp'
 
 class ShowAllProdcuts extends Component{
 
@@ -94,11 +98,11 @@ class ShowAllProdcuts extends Component{
                 Cell: props => {
                     return(
                         <div>
-                        {this.numOfItem(props.original.ProductName)  }
+                        {this.numOfItem(props.original._id)  }
+                            <Button aria-label="add an alarm" size={"small"}
+                                    onClick={() => this.props.history.push('/editItemsDetails/' + props.original._id)} startIcon={<ViewList/>} />
                             <Button size={"small"} variant="outline-light btn-sm"
-                                    onClick={() => this.props.history.push('/editItemsDetails/' + props.original._id)} >View More</Button>
-                            <Button size={"small"} variant="outline-light btn-sm"
-                                    onClick={() => this.props.history.push('/addnewItemsToProduct/' + props.original._id)} >Add New Item</Button>
+                                    onClick={() => this.props.history.push('/addnewItemsToProduct/' + props.original._id)} startIcon={<AddCircleSharp/>} />
                         </div>
                     )
                 },style: {
@@ -112,10 +116,12 @@ class ShowAllProdcuts extends Component{
                 Cell:props => {
                     return(
                         <div>
-                            <Button size="small" variant="btn btn-warning"
-                                    onClick={() => this.props.history.push('/editProductDetails/' + props.original._id)}>Edit</Button>
-                            <Button size="small" variant="btn btn-danger"
-                              onClick={(e) => this.deleteProduct(e, props.original._id)} >Delete</Button>
+                            <Button size="small" variant="btn btn-warning" startIcon={<Edit/>}
+                                    onClick={() => this.props.history.push('/editProductDetails/' + props.original._id)}/>
+                            <Button size="small" variant="btn btn-danger" startIcon={<DeleteIcon/>}
+                              onClick={(e) => {
+                                  if (window.confirm('Are you sure you wish to delete this item?')) this.deleteProduct(e, props.original._id)
+                              }} />
                         </div>
                     )
                 },width: 200, minwidth: 200, maxwidth: 200,
@@ -140,8 +146,8 @@ class ShowAllProdcuts extends Component{
         )
     }
 
-    numOfItem = (pname) => {
-        const index = this.state.products.map(e => e.ProductName).indexOf(pname);
+    numOfItem = (id) => {
+        const index = this.state.products.map(e => e._id).indexOf(id);
         return this.state.products[index].Details.length
 
     }

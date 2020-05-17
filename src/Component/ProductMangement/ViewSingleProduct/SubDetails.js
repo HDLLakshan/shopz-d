@@ -80,13 +80,13 @@ class SubDetails extends Component{
                      <h2>{this.props.product.ProductName}</h2>
                      <p >Brand:<a  href={'/search/'+this.props.product.ProductBrand}><strong style={{fontSize:"22px"}}>{this.props.product.ProductBrand}</strong></a></p>
 
-                     <Rating name="size-small" defaultValue={this.props.product.TotRate} size="small" disabled={true}/>
+                     <Rating precision={0.5} defaultValue={this.props.product.TotRate} size="medium" disabled={true}/>
 
                      <p>Added On: {this.props.product.AddDate}</p>
                      <div >
                          {this.props.product.Discount > 0 ?<div>
                      <p style={{display:'inline', 'text-decoration-line':'line-through'}} className={"lead"}>LKR. <b>{this.props.product.PricePerUnit}</b></p>
-                         <p style={{display:'inline'}} className={"lead"}>LKR <b>{this.props.product.PricePerUnit * (100-this.props.product.Discount)/100}</b></p>
+                         <p style={{display:'inline',fontSize:'24px',color:'green'}} className={"lead"}>LKR. <b>{this.props.product.PricePerUnit * (100-this.props.product.Discount)/100}</b></p>
                          </div>:<p  className={"lead"}>LKR. <b>{this.props.product.PricePerUnit}</b></p>}
                      </div>
 

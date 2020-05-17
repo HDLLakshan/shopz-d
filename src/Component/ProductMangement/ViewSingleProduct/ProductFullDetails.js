@@ -69,6 +69,7 @@ class ProductFullDetails extends Component{
 
             })
 
+
     }
 
     componentDidMount() {
@@ -109,7 +110,7 @@ class ProductFullDetails extends Component{
                     <Details product={this.state.Products} comments={this.state.comments}/>
 
                        <div className={"container-fluid mt-3 ml-4 clearfix mt-2 mb-2"} style={{width:"95%"}}>
-                           <h4 hidden={this.state.relateProduct.length === 0} className={'float-left'}>Similar Products</h4>
+                           <h4 hidden={this.state.relateProduct.length === 1} className={'float-left'}>Similar Products</h4>
                        </div>
                        {this.state.didLoadrel ? <div className="d-flex justify-content-center">
                                <div  className="spinner-border" role="status">
@@ -118,7 +119,9 @@ class ProductFullDetails extends Component{
                            </div> :
 
                            <Slider  {...settings}>
-                               {this.state.relateProduct.map((item, index) => {
+                               {this.state.relateProduct.filter(p => p._id !== this.state.Products._id ).sort(function(a,b){
+                                   return b.TotRate - a.TotRate;
+                               }).map((item, index) => {
                                        return (
 
                                            <React.Fragment key={index}>

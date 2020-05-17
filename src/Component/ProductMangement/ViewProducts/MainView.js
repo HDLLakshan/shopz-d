@@ -13,9 +13,10 @@ class MainView extends Component{
         super(props)
         this.state = {
             ProductArray: [],
-            CategoryName:['Men', 'Women', 'Watch'],
+            CategoryName:[],
             loading: true,
-            ratings:[]
+            status:''
+
         };
     }
 
@@ -34,11 +35,28 @@ class MainView extends Component{
                     ProductArray: res.data
 
                 });
+            }).then(this.getCategories)
+            .catch((error) => {
+                console.log(error);
+            })
+        if(this.props.match.params.id === 'rated'){
+            this.setState({status:'(Top-Rated)'})
+        }else{
+            this.setState({status:'(Latest)'})
+        }
+
+    }
+
+    getCategories = () => {
+        axios.get('https://servershopping.azurewebsites.net/category/all')
+            .then(res => {
+                this.setState({
+                    CategoryName: res.data
+                });
             }).then(() => this.setState({loading:false}))
             .catch((error) => {
                 console.log(error);
             })
-
     }
 
     orderArray = (id) => {
@@ -48,6 +66,12 @@ class MainView extends Component{
              arr.push(item)
          }
         })
+        if(this.props.match.params.id === 'rated'){
+            arr.sort(function(a,b){
+                return b.TotRate - a.TotRate;
+            });
+        }
+
         return arr
     }
 
@@ -55,11 +79,11 @@ class MainView extends Component{
         var settings = {
             dots: false,
             infinite: false,
-            speed: 500,
+            speed: 100,
             slidesToShow: 5,
             slidesToScroll: 1,
             autoplay :true,
-            autoplaySpeed : 3000,
+            autoplaySpeed : 30000,
             lazyLoad: true,
             swipe:true,
             swipeToSlide:true,
@@ -78,20 +102,21 @@ class MainView extends Component{
                 </div> :
                 <div>
                 {this.state.CategoryName.map((txt,i) =>
-                {return(<div key={i} hidden={this.checkAvailability(txt)}>
+                {return(<div key={i} hidden={this.checkAvailability(txt.name)}>
                     <div className={"clearfix mt-0 mb-2"}>
-                    <h4 className={'float-left'}>{txt}</h4>
-                    <Link to={"/search/"+txt} className={'float-right'} >SEE ALL</Link>
+                    <h4 className={'float-left'}>{txt.name}</h4>
+                        <h5 style={{color:'blue'}} className={'float-left'}>{this.state.status}</h5>
+                    <Link to={"/search/"+txt.name} className={'float-right'} >SEE ALL</Link>
                     </div>
 
                     <Slider  {...settings}>
                         {
-                            this.orderArray(txt).map((item, index) => {
+                            this.orderArray(txt.name).map((item, index) => {
                                 return (
 
                                     <React.Fragment key={index}>
                                         <Col>
-                                            <ShowItem  product={item} cat={txt}/>
+                                            <ShowItem  product={item} cat={txt.name}/>
                                         </Col>
                                     </React.Fragment>
 

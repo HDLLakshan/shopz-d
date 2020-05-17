@@ -50,7 +50,7 @@ componentDidMount() {
                 {this.state.loading ? null : <div className="d-flex justify-content-center">
                    <LoaderComponent top={50}/>
                 </div> }
-            <div className={"row"}>
+            <div className={"row mt-4"}>
 
                 {
                     this.state.product.map((obj,index) =>
@@ -67,7 +67,8 @@ componentDidMount() {
                                     <strong hidden={obj.Discount === 0} style={{float: 'right', color:'red'}}>{obj.Discount}% OFF</strong>
                                 </Card.Body>
                                 <Card.Footer>
-                                    <Rating  style={{marginLeft: '20px', marginTop:'10px'}} name="size-small" defaultValue={obj.TotRate} size="small" disabled={true}/>
+                                    <Rating precision={0.5}  style={{marginLeft: '20px', marginTop:'10px'}}
+                                            defaultValue={obj.TotRate} size="small" disabled={true}/>
                                 </Card.Footer>
                             </Card.Body>
                         </Card>

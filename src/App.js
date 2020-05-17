@@ -54,6 +54,7 @@ class App extends Component {
                             <Route path="/editProductDetails/:id" exact component={EditProductsDetails}/>
                             <Route path="/editItemsDetails/:id" exact component={EditItemsOfProduct} />
                             <Route path="/addnewItemsToProduct/:id" exact component={AddNewItemToProduct} />
+                            <Route path="/:id" exact component={MainView}/>
                             <Route path="/" exact component={MainView}/>
                         </Switch>
                     </BrowserRouter>

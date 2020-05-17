@@ -17,27 +17,6 @@ class ShowItem extends Component {
 
 
 
-
-
-    setHidden = () =>{
-       if(this.props.cat === 'none'){
-           if(this.props.cid === this.props.product._id){
-               return true
-           }else {
-               return false
-           }
-       }
-       else {
-           if (this.props.product.Category === this.props.cat) {
-               return false
-           } else {
-               return true
-           }
-       }
-
-    }
-
-
         render() {
 
     return(
@@ -50,9 +29,10 @@ class ShowItem extends Component {
                 <figcaption >
 
                     <div style={{overflow: 'hidden'}}>
-                        <p style={{float: 'left'}}> Rs {this.props.product.PricePerUnit}</p>
-                        <Rating hidden={this.props.product.TotRate === 0} style={{marginLeft: '20px', marginTop:'10px'}} name="size-small" defaultValue={this.props.product.TotRate} size="small" disabled={true}/>
-                        <p hidden={this.props.product.Discount === 0} style={{float: 'right', color:'red', marginLeft:'10px'}}> {this.props.product.Discount}% OFF</p>
+                        <p style={{float: 'left',color:"black",fontFamily:"Market Sans"}}> LKR {this.props.product.PricePerUnit}</p>
+                        <Rating hidden={this.props.product.TotRate === 0} precision={0.5} style={{marginLeft: '12px', marginTop:'20px'}}
+                                name="size-small" defaultValue={this.props.product.TotRate} size="small" disabled={true}/>
+                        <p hidden={this.props.product.Discount === 0} style={{float: 'right', color:'red', marginLeft:'0px',font:"Open Sans bold"}}> {this.props.product.Discount}% OFF</p>
                     </div>
 
                 </figcaption>
