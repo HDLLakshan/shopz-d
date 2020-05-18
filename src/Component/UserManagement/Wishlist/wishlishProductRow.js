@@ -17,39 +17,24 @@ export class WishlistProductRow extends Component{
     render(){
         const {key, obj, handleRemoveButton}= this.props;
         return(
-                        <div className="card mb-3 card shadow-lg " style={{"min-width": "50%","height":"300px","max-width": "540px",padding: "20px",margin: "20px" }}>
-                        <div className="row no-gutters">
-                            <div className="row" style={{"width":"100%"}}>
-                                <div className="card-body" >
-                                    <Row>
-                                        <Col>
-                                            <div className="col-md-4">
-                                            <img src={this.props.obj.ImageOfProduct} className="card-img"  style={{"width": "150px", "height":"150px"}} alt="..."/>
-                                            </div>
-                                        </Col>
-                                        <Col style={{"width":"50%"}}>
-                                <div>
-                                    <h5>{this.props.obj.ProductName}</h5>
-                                    <p className="card-text">{this.props.obj.Category}</p>
-                                    <p className="card-text"><small className="text-muted">{this.props.obj.SubCategory}</small></p>
-                                    <br/>
-                                    <p className="card-text"><small className="text-muted">Color: {this.props.obj.Color}</small>  </p>
-                                    <p className="card-text"><small className="text-muted">Size: {this.props.obj.Size} </small> </p>
-                                </div>
-                                        </Col>
-                                        <Col style={{"width":"50%"}}>
-                                            <div>
-                                                <h5 className="card-title">LKR {this.props.obj.PricePerUnit}</h5>
-                                                <Delete color="disabled" fontSize="large" onClick={() => handleRemoveButton(this.state.productId)}/>
-                                                <br/>
-                                                <AddToShoppingCart productId={this.props.obj.ProductId} imagePath={this.props.obj.ImageOfProduct} quantity={1} />
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </div>
-                        </div>
+                <div className="card" style={{"min-width":"25%", "max-width":"25%", "margin-top":"35px", "min-height":"65%"}}>
+                    <div style={{align:"center"}}>
+                            <img className="card-img-top" src={this.props.obj.ImageOfProduct} alt="Card image cap" style={{"height":"100%", "width":"100%"}}/>
                     </div>
+                        <div className="card-body">
+                            <h5 className="card-title">{this.props.obj.ProductName}</h5>
+                            <p className="card-text">{this.props.obj.Category} - <small className="text-muted">{this.props.obj.SubCategory}</small></p>
+                            <h6 className="card-title">LKR {this.props.obj.PricePerUnit}</h6>
+                            <Row>
+                                <div style={{margin:"20px"}}>
+                                    <Delete color="secondary" fontSize="large" onClick={() => handleRemoveButton(this.state.productId)}/>
+                                </div>
+                                <div style={{margin:"20px"}}>
+                                    <AddToShoppingCart productId={this.props.obj.ProductId} imagePath={this.props.obj.ImageOfProduct} quantity={1} />
+                                </div>
+                            </Row>
+                            </div>
+                </div>
         );
     }
 

@@ -1,9 +1,11 @@
 import React, {Component} from "react";
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
-import Button from "@material-ui/core/Button";
+import Button from "react-bootstrap/Button";
 import AuthService from "../Component/UserManagement/services/auth.service";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
@@ -12,7 +14,6 @@ import LoginRegView from "../Component/UserManagement/Login/loginRegView";
 import SearchOutlined from "@material-ui/icons/SearchOutlined";
 import {Link, NavLink} from "react-router-dom";
 let username='';
-
 
 
 class NavBar extends Component{
@@ -80,13 +81,12 @@ class NavBar extends Component{
                     <Nav.Link as={NavLink} to={"/viewListOfProduct"}> View </Nav.Link>
                     <Nav.Link as={Link} to="/">Home</Nav.Link>
                     {currentUser ? (
-                    <Nav.Link href="/wishlist">Wishlist</Nav.Link>
+                    <Nav.Link href="/wishlist"><FavoriteBorderIcon/></Nav.Link>
                     ) : ( null )}
                     {this.state.addModalShow ? (
                             <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose} history={this.props.history}/>
                         ) : (
-                            <button type='button' className='btn btn-info'
-                                    onClick={() => this.setState({addModalShow:true})}> Cart </button>
+                            <ShoppingCartIcon style={{fill: "white", margin: "10px"}} onClick={() => this.setState({addModalShow:true})}/>
                     )}
                     {adminUser && (
                         <Nav.Link href="/check">Admin</Nav.Link>

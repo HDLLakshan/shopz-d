@@ -13,7 +13,8 @@ class GetWishlist extends Component{
         super(props);
         this.state={
             products : [],
-            username : AuthService.getUsername()
+            username : AuthService.getUsername(),
+            addModalShow:false
         };
         this.handleRemoveButton= this.handleRemoveButton.bind(this);
     }
@@ -70,7 +71,7 @@ class GetWishlist extends Component{
         let addModalClose =() => this.setState({addModalShow : false});
         return(
         <div>
-            <div style={{ fontWeight: 'bold', backgroundColor:'#000000',  padding: "15px",margin: "20px" }} className='text-center text-white'
+            <div style={{ fontWeight: 'bold', backgroundColor:'#a3c2c2',  padding: "15px",margin: "20px" }} className='text-center text-white'
                  onClick={()=>{
                      this.props.history.push('/');
                      window.location.reload();
@@ -80,18 +81,18 @@ class GetWishlist extends Component{
             <Row>
                 <Col md="4" >
                     <div className="block-example border border-dark" style={{  margin: "40px" }}>
-                        <div style={{ backgroundColor:'#000000', "width": "100%","height":"100px"}}></div>
+                        <div style={{ backgroundColor:'#a3c2c2', "width": "100%","height":"100px"}}></div>
                         <div style={{ "height":"400px"}}>
                             <Row>
                                 <Col md="3">
-                                    <img src={Image} style={{"height":"80px", "width":"80px", margin:"15px"}}/>
+                                    <img src={Image} style={{"height":"75%", "width":"75%", margin:"15px"}}/>
                                 </Col>
                                 <Col md="9">
-                                    <h5 style={{"margin-top":"35px"}}>Your Wishlist {this.state.username}</h5>
+                                    <h5 style={{"margin-top":"35px"}}>{this.state.username}</h5>
                                 </Col>
                             </Row>
                             <Row>
-                                <div onClick={()=>{this.props.history.push('/userMan')}}>
+                                <div onClick={()=>{this.props.history.push('/userMan')}} style={{width:"100%"}}>
                                     <Col>
                                         <hr/>
                                         <p style={{margin:"15px", fontWeight: 'bold'}}>My Account</p>
@@ -100,10 +101,25 @@ class GetWishlist extends Component{
                                 </div>
                             </Row>
                             <Row>
-                                <div onClick={()=>{return <GetShoppingCart show={true} onHide={addModalClose}/>}}>
+                                <div style={{width:"100%"}} onClick={()=> {
+                                    this.setState({
+                                        addModalShow: true
+                                    }, ()=>{
+                                        return <GetShoppingCart show={true} onHide={addModalClose}/>
+                                    })
+                                }}>
                                     <Col>
                                         <hr/>
                                         <p style={{margin:"15px", fontWeight: 'bold'}}>Shopping Cart</p>
+                                        <hr/>
+                                    </Col>
+                                </div>
+                            </Row>
+                            <Row>
+                                <div style={{width:"100%"}} onClick={()=>{this.props.history.push('/userMan')}}>
+                                    <Col>
+                                        <hr/>
+                                        <p style={{margin:"15px", fontWeight: 'bold'}}>Home</p>
                                         <hr/>
                                     </Col>
                                 </div>
@@ -112,7 +128,7 @@ class GetWishlist extends Component{
                     </div>
                 </Col>
                 <Col md="8">
-                    <div align="center">
+                    <div className="card-deck">
                         {this.WishlistComponentTemplate()}
                     </div>
                 </Col>
