@@ -29,11 +29,7 @@ export class ShoppingCartRow extends Component{
         return(
 
                    <div className="card mb-3 card  shadow-lg" style={{"max-width": "95%", "height":"300px", padding: "20px",margin: "20px" }}>
-
                         <div className="row no-gutters">
-
-
-
                              <div className="row" style={{"width":"100%"}}>
                                  <div className="card-body" >
                                      <Row>
@@ -52,19 +48,16 @@ export class ShoppingCartRow extends Component{
                                         <p className="card-text"><small className="text-muted">Size: {this.state.products.Size} </small> </p>
                                     </div>
                                      </Col>
-
                                          <Col style={{"width":"50%"}}>
                                         <div>
                                             <p className="card-text"> Quantity: <input type="number" id="quantity" placeholder={this.props.obj.Quantity} min="0"
                                                                                        onChange={(e)=>changeQuantity(e.target.value, this.state.ProductId)}/></p>
                                             <br/>
-
                                             <h5 className="card-title">LKR {this.state.products.PricePerUnit}.00</h5>
                                             <br/>
                                             <Delete color="disabled" fontSize="large" onClick={() => handleRemoveButton(this.state.ProductId)}/>
                                         </div>
                                          </Col>
-
                                      </Row>
                                       </div>
                              </div>

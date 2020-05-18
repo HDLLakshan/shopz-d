@@ -1,5 +1,9 @@
 import React, {Component} from "react";
 import axios from 'axios';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
+import CartNumber from "./CartNumber";
+import NavBar from "../../../NavBar/NavBar";
 
 export default class AddToShoppingCart extends Component{
     constructor(props) {
@@ -11,7 +15,8 @@ export default class AddToShoppingCart extends Component{
             isInList:false,
             ProductId:'',
             PricePerUnit:'',
-            ImagePath:''
+            ImagePath:'',
+            count:0
 
         };
         this.handleClick= this.handleClick.bind(this);
@@ -19,12 +24,12 @@ export default class AddToShoppingCart extends Component{
     componentDidMount() {
         let oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
         const arrayproduct =  JSON.parse(oldproduct);
-        console.log(arrayproduct);
         for(var i= 0 ; i <arrayproduct.length ; i++){
             if(arrayproduct[i].ProductId===this.props.productId){
                 this.setState({
                     isInList:true,
                     index:i,
+                    products:[]
                 })
             }
         }
@@ -35,12 +40,12 @@ export default class AddToShoppingCart extends Component{
 
         let oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
         const arrayproduct =  JSON.parse(oldproduct);
-        console.log(arrayproduct);
         for(var i= 0 ; i <arrayproduct.length ; i++){
             if(arrayproduct[i].ProductId===nextProps.productId){
                 this.setState({
                     isInList:true,
                     index:i,
+                    products:arrayproduct,
                 })
             }
         }
@@ -55,9 +60,14 @@ export default class AddToShoppingCart extends Component{
 
     if(this.state.isInList){
         console.log("came in");
-        arrayproduct.splice(this.state.index, 1);
-        sessionStorage.setItem('products', JSON.stringify(arrayproduct));
+        for(var i= 0 ; i <arrayproduct.length ; i++){
+            if(arrayproduct[i].ProductId===this.props.productId) {
+                arrayproduct.splice(i, 1);
+                sessionStorage.setItem('products', JSON.stringify(arrayproduct));
             }
+        }
+
+    }
 
     else{
         axios.get('http://localhost:4000/products/view-product/' + this.props.productId)
@@ -70,26 +80,28 @@ export default class AddToShoppingCart extends Component{
                     Size:this.props.size,
                     Color:this.props.color
                 };
-                console.log(productObj);
                 arrayproduct.push(productObj);
                 sessionStorage.setItem('products', JSON.stringify(arrayproduct));
             });
     }
+
         this.setState({
-            isInList:!this.state.isInList
-        }, ()=>{
-            console.log(arrayproduct);
-            sessionStorage.setItem('products', JSON.stringify(arrayproduct));
+            isInList:!this.state.isInList,
+            count:arrayproduct.length+1
         });
 
+        CartNumber(arrayproduct.length+1);
     }
 
     render() {
         const {productId, imagePath , quantity, size, color}= this.props;
 
         return(
-            <button className={this.state.isInList? 'btn btn-danger': 'btn btn-info'} onClick={this.handleClick}>
-                {!this.state.isInList? 'Add to cart' : 'Added to cart '}</button>
+            <div>
+                    {this.state.isInList ? (
+                        <RemoveShoppingCartIcon  fontSize="large"  onClick={this.handleClick}/>
+                    ):( <AddShoppingCartIcon  fontSize="large"  onClick={this.handleClick} /> )}
+            </div>
         );
     }
 

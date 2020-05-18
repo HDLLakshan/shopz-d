@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import {ShoppingCartRow} from "./ShoppingCartRow";
-import axios from "axios";
 import {Modal,Button} from "react-bootstrap";
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router-dom'
+import AuthService from "../services/auth.service";
 
 
  class GetShoppingCart extends Component{
@@ -84,7 +84,7 @@ import { withRouter } from 'react-router'
             })
         });
 
-        return price1
+        return <p style={{"font-size":"30px"}}> LKR {price1}.00</p>
 
     }
 
@@ -119,21 +119,25 @@ import { withRouter } from 'react-router'
                     {this.getShoppingCartTemplate()}
                         </div>
                 <br/>
-                <div align="center" style={{fontWeight: 'bold'}}>
-                    <p style={{"font-size":"30px"}}> LKR {this.getThePrice()}.00</p>
+                <div align="center" style={{fontWeight: 'bold' }}>
+                    {this.getThePrice()}
                 </div>
 
                     </Modal.Body>
-
-                        {(() => {
-                            if (this.getThePrice()>0) {
-                                return  <Modal.Footer>
-                                        Proceed to checkout
-                                        <DoubleArrowIcon fontSize="large" onClick={() => {this.props.history.push('/billing'); window.location.reload();}}
-                                />
-                                </Modal.Footer>
+                    <Modal.Footer>
+                        Proceed to checkout <DoubleArrowIcon fontSize="large"
+                        onClick={() => {
+                            if(AuthService.getCurrentUser() != null){
+                            this.props.history.push('/billing');
+                            window.location.reload();
+                            }else {
+                                this.props.history.push('/loginRegView');
+                                window.location.reload();
                             }
-                        })()}
+                        }
+                        }
+                    />
+                    </Modal.Footer>
                 </Modal>
 
         )

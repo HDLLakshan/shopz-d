@@ -6,6 +6,7 @@ import axios from "axios";
 import AddToShoppingCart from "../../UserManagement/Shopping Cart/AddToShoppingCart";
 import AddToWishlist from "../../UserManagement/Wishlist/AddToWishlist";
 import Nav from "react-bootstrap/Nav";
+import {Row} from "react-bootstrap";
 
 class SubDetails extends Component{
 
@@ -79,15 +80,15 @@ class SubDetails extends Component{
                  <div>
                      <p className={"newarrival text-center"}>NEW</p>
                      <h2>{this.props.product.ProductName}</h2>
-                     <p>Brand:<a  href={'/search/'+this.props.product.ProductBrand}>{this.props.product.ProductBrand}</a></p>
+                     <p >Brand:<a  href={'/search/'+this.props.product.ProductBrand}><strong style={{fontSize:"22px"}}>{this.props.product.ProductBrand}</strong></a></p>
 
-                     <Rating name="size-small" defaultValue={this.props.product.TotRate} size="small" disabled={true}/>
+                     <Rating precision={0.5} defaultValue={this.props.product.TotRate} size="medium" disabled={true}/>
 
                      <p>Added On: {this.props.product.AddDate}</p>
                      <div >
                          {this.props.product.Discount > 0 ?<div>
                      <p style={{display:'inline', 'text-decoration-line':'line-through'}} className={"lead"}>LKR. <b>{this.props.product.PricePerUnit}</b></p>
-                         <p style={{display:'inline'}} className={"lead"}>LKR <b>{this.props.product.PricePerUnit * (100-this.props.product.Discount)/100}</b></p>
+                         <p style={{display:'inline',fontSize:'24px',color:'green'}} className={"lead"}>LKR. <b>{this.props.product.PricePerUnit * (100-this.props.product.Discount)/100}</b></p>
                          </div>:<p  className={"lead"}>LKR. <b>{this.props.product.PricePerUnit}</b></p>}
                      </div>
 
@@ -111,11 +112,18 @@ class SubDetails extends Component{
                      <input className={' col-md-2'} placeholder="Enter Quantity" required type="number" value={this.state.OrderQuantity} min="1" max={this.setAvailability()}
                      onChange={(event)=> this.setState({OrderQuantity:event.target.value})}/>
 
-                     <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity} />
-                     <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity}
-                     size={this.state.size} color={this.state.color}/>
+                     <Row>
+                         <div style={{margin: "20px"}}>
+                             <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity}
+                                                size={this.state.size} color={this.props.product.Details[this.props.position].color}/>
 
+                         </div>
+                         <div style={{margin: "20px"}}>
+                             <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity}
+                                            size={this.state.size} color={this.state.color}/>
+                         </div>
 
+                     </Row>
                  </div>
         )
     }

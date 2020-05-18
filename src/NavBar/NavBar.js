@@ -1,15 +1,23 @@
 import React, {Component} from "react";
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import IconButton from "@material-ui/core/IconButton";
+import CartNumber from "../Component/UserManagement/Shopping Cart/CartNumber";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
+import Button from "@material-ui/core/Button";
 import AuthService from "../Component/UserManagement/services/auth.service";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
 import GetShoppingCart from "../Component/UserManagement/Shopping Cart/getShoppingCart";
+import {Badge} from "@material-ui/core";
 import LoginRegView from "../Component/UserManagement/Login/loginRegView";
+import Search from "@material-ui/icons/Search";
+import {Link, NavLink} from "react-router-dom";
 let username='';
+let count=0;
 
 
 class NavBar extends Component{
@@ -23,11 +31,16 @@ class NavBar extends Component{
             salesUser:false,
             adminUser:false,
             CategoryList:[],
-            addModalShow:false
+            addModalShow:false,
+            count:1
         };
     }
-
-
+    get(props){
+        console.log("came");
+        this.setState({
+            count:props
+        })
+    }
 
     componentDidMount() {
 
@@ -67,40 +80,34 @@ class NavBar extends Component{
     render() {
         const { currentUser, salesUser , adminUser} = this.state;
         let addModalClose =() => this.setState({addModalShow : false});
-        console.log(this.props.history)
         return(
             <Navbar bg="info" variant="dark">
                 {currentUser ? (
                     <Navbar.Brand href="/userMan"> Hi {username}! </Navbar.Brand>
                 ) : ( null )}
                 <Nav className="mr-auto">
-                    <Nav.Link href="/add">Add</Nav.Link>
-                    <Nav.Link href="/viewListOfProduct">View</Nav.Link>
-                    <Nav.Link href="/">Home</Nav.Link>
+                    <Nav.Link hidden={!this.state.adminUser || !this.state.salesUser} href="/add">Add</Nav.Link>
+                    <Nav.Link as={NavLink} to={"/viewListOfProduct"}> View </Nav.Link>
+                    <Nav.Link as={Link} to="/">Home</Nav.Link>
                     {currentUser ? (
-                    <Nav.Link href="/wishlist">Wishlist</Nav.Link>
+                    <Nav.Link href="/wishlist"><FavoriteBorderIcon/></Nav.Link>
                     ) : ( null )}
-                    {currentUser ? (
-                        this.state.addModalShow ? (
-                            <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose} history={this.props.history}/>
-                        ) : (
-                            <button type='button' className='btn btn-info'
-                                    onClick={() => this.setState({addModalShow:true})}> Cart </button>
-                        )
-                    ) : ( null )}
+
                     {adminUser && (
                         <Nav.Link href="/check">Admin</Nav.Link>
                     )}
 
                     <NavDropdown title="Categories" >
-                        {this.state.CategoryList.map(item => {
+                        {this.state.CategoryList.map((item,index) => {
                             return(
-                                <div>
-                            <NavDropdown.Header class="dropdown-submenu">{item.name}</NavDropdown.Header>
-                            {
-                                item.subCategory.map(txt => {
+                                <div key={index}>
+
+                            <NavDropdown.Header   class="dropdown-submenu">{item.name}</NavDropdown.Header>
+                            <NavDropdown.Item as={Link} to={'/search/' + item.name} style={{color:"blue"}}> All {item.name} </NavDropdown.Item>
+                                    {
+                                item.subCategory.map((txt, i) => {
                                     return(
-                                        <NavDropdown.Item class="dropdown-menu"   href={'/search/' + txt}>{txt}</NavDropdown.Item>
+                                        <NavDropdown.Item key={i} class="dropdown-menu" as={Link} to={'/search/' + txt}>{txt}</NavDropdown.Item>
                                     )
                                 })
                             }
@@ -110,18 +117,25 @@ class NavBar extends Component{
 
 
                         <NavDropdown.Divider />
-                        <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
+                        <NavDropdown.Item href={'/rated'} eventKey="4.4">Top-Rated</NavDropdown.Item>
                     </NavDropdown>
-
-
+                    {this.state.addModalShow ? (
+                        <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose} history={this.props.history}/>
+                    ) : (
+                        <IconButton aria-label="cart">
+                            <Badge badgeContent={this.state.count1} color="secondary">
+                                <ShoppingCartIcon style={{fill: "white"}} onClick={() => this.setState({addModalShow:true})}/>
+                            </Badge>
+                        </IconButton>
+                    )}
                 </Nav>
 
                 <Nav>
                     <Form inline>
-                        <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={(e) => this.setState({SearchVal:e.target.value})}/>
+                        <FormControl defaultValue={this.state.SearchVal} type="text" placeholder="Search" className="mr-sm-2" onChange={(e) => this.setState({SearchVal:e.target.value})}/>
 
-                      <Nav.Link href={'/search/'+this.state.SearchVal}>
-                        <Button variant="outline-light" >Search</Button>
+                      <Nav.Link as={NavLink} to={'/search/'+this.state.SearchVal}>
+                        <Button  variant="outline-light" size={'large'} startIcon={<Search/>}  />
                         </Nav.Link>
                         {currentUser ? (
                             <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>

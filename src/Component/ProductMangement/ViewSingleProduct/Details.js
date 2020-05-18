@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import SubDetails from "./SubDetails";
-import LoaderComponent from "../ViewProducts/LoaderComponent";
-import Commenting from "../../RateComment/Commenting";
 import AllRateComment from "../../RateComment/AllRateComment";
 
 
@@ -39,8 +37,12 @@ class Details extends Component{
                 <div className={"row"}>
 
                     <div className={"col-sm-auto .order-sm-2 .offset-sm-1"} >
-                        {this.state.loading ? <LoaderComponent /> : null}
-                        <img onLoad={this.onLoad} src={this.props.product.Details[this.state.position].imgPath} className="d-block "  style={{'width':'20vw','height':'20vw'}}/>
+                        {this.state.loading ? <div style={{position:'absolute',marginTop:"40%", marginLeft:'40%'}} className="d-flex justify-content-center">
+                            <div className="spinner-border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </div>
+                        </div> : null}
+                        <img onLoad={this.onLoad} src={this.props.product.Details[this.state.position].imgPath} className="d-block "  style={{width:'300px',height:'300px'}}/>
                     </div>
 
 
