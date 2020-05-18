@@ -5,9 +5,9 @@ import {updateUser} from "../../../ReduxStore/action";
 import {FormControl} from "react-bootstrap";
 
 const required = value => value ? undefined : 'Required';
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
+const renderField = ({ input, label, type, meta: { touched, error },disabled }) => (
     <div>
-        <FormControl {...input} type={type} placeholder={label} />
+        <FormControl {...input} type={type} placeholder={label} disabled={disabled}/>
         <small>{touched && ((error && <span>{error}</span>))}</small>
         <br/>
     </div>
@@ -24,7 +24,7 @@ function EditProductManager(props) {
                 <div className="control">
                     <label className="label">User name</label>
                     <Field className="input" name="username" component={renderField}
-                           type="text" disabled validate={required}/>
+                           type="text" validate={required}/>
                 </div>
             </div>
             <div className="field">
@@ -38,7 +38,7 @@ function EditProductManager(props) {
                 <div className="control">
                     <label className="label">Email</label>
                     <Field className="input" name="email" component={renderField}
-                           type="email" validate={required}/>
+                           type="email" validate={required} disabled={true}/>
                 </div>
             </div>
             <div className="field">

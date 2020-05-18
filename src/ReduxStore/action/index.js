@@ -46,11 +46,13 @@ export const addUser = (data) => {
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => {
-                        dispatch(showForm());
+                    onClick:  async () => {
                         dispatch(AssignUser(data));
+                        dispatch(showForm());
                         return axios.post('http://localhost:4000/admin/add', data)
-                            .then(() => {})
+                            .then((res) => {
+                                console.log(res)
+                            })
                             .catch(error => {
                                 throw(error);
                             });
@@ -62,7 +64,6 @@ export const addUser = (data) => {
                 }
             ]
         });
-
     }
 };
 
@@ -78,7 +79,7 @@ export const updateUser = (data) => {
                     onClick: () => {
                         dispatch(showEditForm());
                         dispatch(UpdateList(data));
-                        return axios.put(`http://localhost:4000/admin/${data.username}`,data)
+                        return axios.put(`http://localhost:4000/admin/${data.email}`,data)
                             .then(() => {})
                             .catch(error => {
                                 throw(error);
@@ -95,6 +96,7 @@ export const updateUser = (data) => {
     }
 };
 export const deleteUser = (data) => {
+    console.log(data)
     return (dispatch) => {
         confirmAlert({
             title: 'Confirm to submit',
@@ -296,5 +298,9 @@ export const Login = (data)=>{
             throw(error);
         });
     throw new SubmissionError({ username: 'User does not exist', _error: 'Login failed!' })
+};
+
+export const CartLength = (data)=>{
+    return {type:'count', payload:data}
 };
 

@@ -76,7 +76,7 @@ export function ProductManager() {
                 </ExpansionPanelDetails>
                 <Divider/>
                 <ExpansionPanelActions>
-                    <Button size="small" onClick={()=>{dispatch(deleteUser(pm.username))}}>Delete</Button>
+                    <Button size="small" onClick={()=>{dispatch(deleteUser(pm.email))}}>Delete</Button>
                     <Button size="small" color="primary" onClick={()=>{ dispatch(indexPMlist(i));
                                                                         dispatch(showEditForm())}}>
                         Edit
