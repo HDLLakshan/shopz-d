@@ -85,11 +85,12 @@ class ProductFullDetails extends Component{
     }
 
     render() {
+        const width = Math.max(window.screen.width, window.innerWidth);
         var settings = {
             dots: false,
             infinite: false,
             speed: 500,
-            slidesToShow: 5,
+            slidesToShow: width/305,
             slidesToScroll: 1,
             autoplay :true,
             autoplaySpeed : 3000,

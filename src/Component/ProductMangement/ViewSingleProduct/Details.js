@@ -42,7 +42,7 @@ class Details extends Component{
                                 <span className="sr-only">Loading...</span>
                             </div>
                         </div> : null}
-                        <img onLoad={this.onLoad} src={this.props.product.Details[this.state.position].imgPath} className="d-block "  style={{width:'20vw',height:'20vw'}}/>
+                        <img onLoad={this.onLoad} src={this.props.product.Details[this.state.position].imgPath} className="d-block "  style={{width:'300px',height:'300px'}}/>
                     </div>
 
 

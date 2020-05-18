@@ -30,7 +30,7 @@ class ImageView extends Component{
                                 <span className="sr-only">Loading...</span>
                             </div>
                         </div> : null}
-                        <img onLoad={this.onLoad} className={"img-thumbnail"} src={txt.imgPath} style={{width: '15vw', height: '15vw'}}
+                        <img onLoad={this.onLoad} className={"img-thumbnail"} src={txt.imgPath} style={{width: '100%', height: '250px'}}
                         />
 
                     </Carousel.Item>

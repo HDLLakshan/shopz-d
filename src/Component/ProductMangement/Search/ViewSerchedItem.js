@@ -4,16 +4,19 @@ import {Alert, Card} from "react-bootstrap";
 import ImageView from "../ViewProducts/ImageView";
 import {Rating} from "@material-ui/lab";
 import LoaderComponent from "../ViewProducts/LoaderComponent";
+
 class ViewSerchedItem extends Component{
 
 constructor(props) {
     super(props);
     this.state = {
         product:[],
-        loading:false
+        loading:false,
+        status: this.props.match.params.id
     }
 
 }
+
 
 checkNoResult = () => {
     if(this.state.loading) {
@@ -29,7 +32,7 @@ checkNoResult = () => {
     }
 }
 
-componentDidMount() {
+getdata = () =>{
     console.log(this.props.match.params.id)
     axios.get('https://servershopping.azurewebsites.net/products/search/' + this.props.match.params.id)
         .then(res => {
@@ -42,6 +45,19 @@ componentDidMount() {
             console.log(error);
         })
 }
+
+componentDidMount() {
+   this.getdata()
+}
+
+
+
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.id !== prevProps.match.params.id) {
+
+this.getdata()
+        }
+    }
 
     render() {
         return(

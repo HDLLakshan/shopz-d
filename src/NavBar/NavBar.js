@@ -3,13 +3,16 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
+import Button from "@material-ui/core/Button";
 import AuthService from "../Component/UserManagement/services/auth.service";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
 import GetShoppingCart from "../Component/UserManagement/Shopping Cart/getShoppingCart";
 import LoginRegView from "../Component/UserManagement/Login/loginRegView";
+import SearchOutlined from "@material-ui/icons/SearchOutlined";
+import {Link, NavLink} from "react-router-dom";
 let username='';
+
 
 
 class NavBar extends Component{
@@ -74,8 +77,8 @@ class NavBar extends Component{
                 ) : ( null )}
                 <Nav className="mr-auto">
                     <Nav.Link hidden={!this.state.adminUser || !this.state.salesUser} href="/add">Add</Nav.Link>
-                    <Nav.Link href="/viewListOfProduct">View</Nav.Link>
-                    <Nav.Link href="/">Home</Nav.Link>
+                    <Nav.Link as={NavLink} to={"/viewListOfProduct"}> View </Nav.Link>
+                    <Nav.Link as={Link} to="/">Home</Nav.Link>
                     {currentUser ? (
                     <Nav.Link href="/wishlist">Wishlist</Nav.Link>
                     ) : ( null )}
@@ -95,11 +98,11 @@ class NavBar extends Component{
                                 <div key={index}>
 
                             <NavDropdown.Header   class="dropdown-submenu">{item.name}</NavDropdown.Header>
-                            <NavDropdown.Item href={'/search/' + item.name} style={{color:"blue"}}> All {item.name} </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to={'/search/' + item.name} style={{color:"blue"}}> All {item.name} </NavDropdown.Item>
                                     {
                                 item.subCategory.map((txt, i) => {
                                     return(
-                                        <NavDropdown.Item key={i} class="dropdown-menu"   href={'/search/' + txt}>{txt}</NavDropdown.Item>
+                                        <NavDropdown.Item key={i} class="dropdown-menu" as={Link} to={'/search/' + txt}>{txt}</NavDropdown.Item>
                                     )
                                 })
                             }
@@ -119,8 +122,8 @@ class NavBar extends Component{
                     <Form inline>
                         <FormControl defaultValue={this.state.SearchVal} type="text" placeholder="Search" className="mr-sm-2" onChange={(e) => this.setState({SearchVal:e.target.value})}/>
 
-                      <Nav.Link href={'/search/'+this.state.SearchVal}>
-                        <Button  variant="outline-light" >Search</Button>
+                      <Nav.Link as={NavLink} to={'/search/'+this.state.SearchVal}>
+                        <Button  variant="outline-light" size={'large'} startIcon={<SearchOutlined/>}  />
                         </Nav.Link>
                         {currentUser ? (
                             <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>
