@@ -5,13 +5,13 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
+import Button from "@material-ui/core/Button";
 import AuthService from "../Component/UserManagement/services/auth.service";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
 import GetShoppingCart from "../Component/UserManagement/Shopping Cart/getShoppingCart";
 import LoginRegView from "../Component/UserManagement/Login/loginRegView";
-import SearchOutlined from "@material-ui/icons/SearchOutlined";
+import Search from "@material-ui/icons/Search";
 import {Link, NavLink} from "react-router-dom";
 let username='';
 
@@ -123,7 +123,7 @@ class NavBar extends Component{
                         <FormControl defaultValue={this.state.SearchVal} type="text" placeholder="Search" className="mr-sm-2" onChange={(e) => this.setState({SearchVal:e.target.value})}/>
 
                       <Nav.Link as={NavLink} to={'/search/'+this.state.SearchVal}>
-                        <Button  variant="outline-light" size={'large'} startIcon={<SearchOutlined/>}  />
+                        <Button  variant="outline-light" size={'large'} startIcon={<Search/>}  />
                         </Nav.Link>
                         {currentUser ? (
                             <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>
