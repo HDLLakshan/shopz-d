@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import IconButton from "@material-ui/core/IconButton";
+import CartNumber from "../Component/UserManagement/Shopping Cart/CartNumber";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
@@ -10,8 +12,9 @@ import AuthService from "../Component/UserManagement/services/auth.service";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
 import GetShoppingCart from "../Component/UserManagement/Shopping Cart/getShoppingCart";
-import LoginRegView from "../Component/UserManagement/Login/loginRegView";
+import {Badge} from "@material-ui/core";
 let username='';
+let count=0;
 
 class NavBar extends Component{
     constructor(props) {
@@ -24,11 +27,16 @@ class NavBar extends Component{
             salesUser:false,
             adminUser:false,
             CategoryList:[],
-            addModalShow:false
+            addModalShow:false,
+            count:1
         };
     }
-
-
+    get(props){
+        console.log("came");
+        this.setState({
+            count:props
+        })
+    }
 
     componentDidMount() {
 
@@ -84,11 +92,7 @@ class NavBar extends Component{
                     {currentUser ? (
                     <Nav.Link href="/wishlist"><FavoriteBorderIcon/></Nav.Link>
                     ) : ( null )}
-                    {this.state.addModalShow ? (
-                            <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose} history={this.props.history}/>
-                        ) : (
-                            <ShoppingCartIcon style={{fill: "white", margin: "10px"}} onClick={() => this.setState({addModalShow:true})}/>
-                    )}
+
                     {adminUser && (
                         <Nav.Link href="/check">Admin</Nav.Link>
                     )}
@@ -115,8 +119,15 @@ class NavBar extends Component{
                         <NavDropdown.Divider />
                         <NavDropdown.Item href={'/rated'} eventKey="4.4">Top-Rated</NavDropdown.Item>
                     </NavDropdown>
-
-
+                    {this.state.addModalShow ? (
+                        <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose} history={this.props.history}/>
+                    ) : (
+                        <IconButton aria-label="cart">
+                            <Badge badgeContent={this.state.count1} color="secondary">
+                                <ShoppingCartIcon style={{fill: "white"}} onClick={() => this.setState({addModalShow:true})}/>
+                            </Badge>
+                        </IconButton>
+                    )}
                 </Nav>
 
                 <Nav>

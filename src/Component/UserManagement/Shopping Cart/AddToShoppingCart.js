@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import axios from 'axios';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
+import CartNumber from "./CartNumber";
+import NavBar from "../../../NavBar/NavBar";
 
 export default class AddToShoppingCart extends Component{
     constructor(props) {
@@ -13,7 +15,8 @@ export default class AddToShoppingCart extends Component{
             isInList:false,
             ProductId:'',
             PricePerUnit:'',
-            ImagePath:''
+            ImagePath:'',
+            count:0
 
         };
         this.handleClick= this.handleClick.bind(this);
@@ -81,10 +84,13 @@ export default class AddToShoppingCart extends Component{
                 sessionStorage.setItem('products', JSON.stringify(arrayproduct));
             });
     }
+
         this.setState({
-            isInList:!this.state.isInList
+            isInList:!this.state.isInList,
+            count:arrayproduct.length+1
         });
 
+        CartNumber(arrayproduct.length+1);
     }
 
     render() {
