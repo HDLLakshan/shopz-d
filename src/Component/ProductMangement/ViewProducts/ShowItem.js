@@ -4,6 +4,7 @@ import {Link,withRouter} from 'react-router-dom'
 import ImageView from "./ImageView";
 import '../../../css/App.css'
 import {Rating} from "@material-ui/lab";
+import {Card} from "react-bootstrap";
 
 
 class ShowItem extends Component {
@@ -18,29 +19,26 @@ class ShowItem extends Component {
 
 
         render() {
-
+const {product} = this.props
     return(
-        <Link to={'/details/'+ this.props.product._id }>
 
-            <Figure   style={{ border: "5px solid white" }}>
+            <Card onClick={()=>this.props.history.push('/details/'+ product._id)}  style={{ width: '14rem' }}>
+                <div >
+                    <ImageView ImgArr={product.Details}/>
+                </div >
+                <Card.Body>
+                    <Card.Title>{product.ProductName}</Card.Title>
+                    <Card.Body >
+                        <strong style={{color:'black'}}>Rs.{product.PricePerUnit}</strong>
+                        <strong hidden={product.Discount === 0} style={{float: 'right', color:'red'}}>{product.Discount}% OFF</strong>
+                    </Card.Body>
+                    <Card.Footer>
+                        <Rating precision={0.5}  style={{marginLeft: '20px', marginTop:'10px'}}
+                                defaultValue={product.TotRate} size="small" disabled={true}/>
+                    </Card.Footer>
+                </Card.Body>
+            </Card>
 
-                <ImageView ImgArr={this.props.product.Details}/>
-
-                <figcaption >
-
-                    <div style={{overflow: 'hidden'}}>
-                        <p style={{float: 'left',color:"black",fontFamily:"Market Sans"}}> LKR {this.props.product.PricePerUnit}</p>
-                        <Rating hidden={this.props.product.TotRate === 0} precision={0.5} style={{marginLeft: '12px', marginTop:'20px'}}
-                                name="size-small" defaultValue={this.props.product.TotRate} size="small" disabled={true}/>
-                        <p hidden={this.props.product.Discount === 0} style={{float: 'right', color:'red', marginLeft:'0px',font:"Open Sans bold"}}> {this.props.product.Discount}% OFF</p>
-                    </div>
-
-                </figcaption>
-
-
-            </Figure>
-
-        </Link>
     )
 }
 

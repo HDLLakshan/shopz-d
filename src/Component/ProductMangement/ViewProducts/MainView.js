@@ -18,6 +18,8 @@ class MainView extends Component{
             status:''
 
         };
+
+
     }
 
     checkAvailability = (prpty) => {
@@ -76,11 +78,12 @@ class MainView extends Component{
     }
 
     render() {
+        const width = Math.max(window.screen.width, window.innerWidth);
         var settings = {
             dots: false,
             infinite: false,
             speed: 100,
-            slidesToShow: 5,
+            slidesToShow: width/300,
             slidesToScroll: 1,
             autoplay :true,
             autoplaySpeed : 30000,
@@ -93,7 +96,6 @@ class MainView extends Component{
         };
         return(
 
-
             <div className={"container-fluid mt-3 ml-4"} style={{width:"95%"}}>
                 {this.state.loading ?     <div >
                     <div className="d-flex justify-content-center">
@@ -103,7 +105,7 @@ class MainView extends Component{
                 <div>
                 {this.state.CategoryName.map((txt,i) =>
                 {return(<div key={i} hidden={this.checkAvailability(txt.name)}>
-                    <div className={"clearfix mt-0 mb-2"}>
+                    <div className={"clearfix mt-2 mb-2"}>
                     <h4 className={'float-left'}>{txt.name}</h4>
                         <h5 style={{color:'blue'}} className={'float-left'}>{this.state.status}</h5>
                     <Link to={"/search/"+txt.name} className={'float-right'} >SEE ALL</Link>

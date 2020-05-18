@@ -32,7 +32,10 @@ class App extends Component {
         return (
             <div>
                     <NavBar/>
-                    <BrowserRouter>
+                    <Switch>
+
+                    </Switch>
+
                         <ReactNotification/>
                         <Switch>
                             <Route path="/check" component={BoardUser} exact/>
@@ -57,7 +60,7 @@ class App extends Component {
                             <Route path="/:id" exact component={MainView}/>
                             <Route path="/" exact component={MainView}/>
                         </Switch>
-                    </BrowserRouter>
+
             </div>
         );
     }
