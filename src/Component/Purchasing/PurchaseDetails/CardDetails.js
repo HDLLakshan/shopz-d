@@ -21,58 +21,68 @@ export default class CardDetails extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            userName:'',
-            nameCard: 'xxxxx xxx',
-            cno: '0000000000000000',
-            month: 'xx',
-            year: 'xx',
-            cvc: 'CVC'
+            uname:'',
+            available:'',
+            CreditCard: {
+                userName: '',
+                nameCard: 'xxxxx xxxxxx',
+                cno: '0000000000000000',
+                month: 'xx',
+                year: 'xx',
+                cvc: 'CVC'
+            }
         }
     }
 
     //Name of Card Owner
     onChangeCName(n) {
         this.setState({
-            nameCard: n.target.value
+            CreditCard:{ ...this.state.CreditCard,nameCard: n.target.value}
         });
     }
     //Card Number
     onChangeCardNo(c) {
         this.setState({
-            cno: c.target.value
+            CreditCard:{ ...this.state.CreditCard,cno: c.target.value}
         });
     }
     //Expiration
     onChangeExMonth(m) {
         this.setState({
-            month: m.target.value
+            CreditCard:{ ...this.state.CreditCard, month: m.target.value}
         });
     }
     onChangeExDay(d) {
         this.setState({
-            year: d.target.value
+            CreditCard:{ ...this.state.CreditCard, year: d.target.value}
         });
     }
     //CCV
     onChangeCVV(v) {
         this.setState({
-            cvc: v.target.value
+            CreditCard:{ ...this.state.CreditCard, cvc: v.target.value}
         });
     }
 
-    isDisabled(){
-        if(!this.state.cno|| !this.state.nameCard || !this.state.month ||!this.state.year||
-            !this.state.cvc){
-            return true;
-        }else{
-            return false;
-        }
-    }
+
 
     componentDidMount() {
+        this.state.uname = AuthService.getUsername();
 
-        this.state.userName   = AuthService.getUsername();
+        axios.get('http://localhost:4000/credit-card/get-single-creditcard/' + this.state.uname)
+            .then(res => {
+                if(res.data === null){
 
+                }else{
+                    console.log("true")
+                    this.setState({
+                        CreditCard:res.data,
+                        available:true
+                    })}
+            })
+            .catch((error) => {
+                console.log(error + 'credit get error');
+            })
 
 
     }
@@ -80,25 +90,26 @@ export default class CardDetails extends React.Component {
     onSubmit(e) {
         e.preventDefault()
 
-        const paymentObject = {
-            userName:this.state.userName,
-            cno:this.state.cno,
-            nameCard:this.state.nameCard,
-            month:this.state.month,
-            year:this.state.year,
-            cvc:this.state.cvc
-        };
-        axios.post('http://localhost:4000/payment/add-payment', paymentObject)
-            .then(res => console.log(res.data));
 
-        this.setState({
-            userName:'',
-            cno: '',
-            nameCard: '',
-            month:'',
-            year: '',
-            cvc:''
-        })
+        this.state.CreditCard.userName = this.state.uname
+
+        if(!(this.state.available===true)) {
+
+            axios.post('http://localhost:4000/credit-card/add-creditcard', this.state.CreditCard)
+                .then(res => console.log(res.data));
+
+        }else if(this.state.available===true){
+
+            axios.put('http://localhost:4000/credit-card/update-creditcard/'+this.state.uname,this.state.CreditCard)
+                .then((res) => {
+                    console.log(res.data)
+                    console.log('Credit card successfully updated');
+
+                }).catch((error) => {
+                console.log(error)
+            })
+        }
+
     }
 
     render() {
@@ -134,7 +145,7 @@ export default class CardDetails extends React.Component {
                                                 </div>
                                                 <div className="row">
                                                     <div className="column">
-                                                        <p className="creditcard-number">{this.state.cno}</p>
+                                                        <p className="creditcard-number">{this.state.CreditCard.cno}</p>
 
                                                     </div>
 
@@ -143,7 +154,7 @@ export default class CardDetails extends React.Component {
                                                 <div className="row">
                                                     <div className="small-9 columns">
                                                         <label className="creditname">Card Holder &nbsp;
-                                                            {this.state.nameCard}
+                                                            {this.state.CreditCard.nameCard}
                                                         </label>
                                                     </div>
                                                 </div>
@@ -151,7 +162,7 @@ export default class CardDetails extends React.Component {
                                                 <div className="row">
                                                     <div className="small-9 columns">
                                                         <label className="creditdate">Expire &nbsp;
-                                                          {this.state.month} / {this.state.year}
+                                                          {this.state.CreditCard.month} / {this.state.CreditCard.year}
                                                         </label>
                                                     </div>
 
@@ -159,7 +170,7 @@ export default class CardDetails extends React.Component {
                                                 <div className="row">
                                                     <div className="small-9 columns">
                                                         <label className="creditdate">
-                                                           {this.state.cvc}
+                                                           {this.state.CreditCard.cvc}
                                                         </label>
                                                     </div>
 
@@ -178,6 +189,7 @@ export default class CardDetails extends React.Component {
                                                                    required
                                                                    name="cno"
                                                                    maxLength="16"
+                                                                   value={this.state.CreditCard.cno}
                                                                    onChange={this.onChangeCardNo.bind(this)}
 
                                                             />
@@ -191,6 +203,7 @@ export default class CardDetails extends React.Component {
                                                                    placeholder="Card Holder"
                                                                    required
                                                                    name="nameCard"
+                                                                   value={this.state.CreditCard.nameCard}
                                                                    onChange={this.onChangeCName.bind(this)}
                                                             />
                                                         </div>
@@ -205,6 +218,7 @@ export default class CardDetails extends React.Component {
                                                                    required
                                                                    id="year"
                                                                    name="year"
+                                                                   value={this.state.CreditCard.year}
                                                                    onChange={this.onChangeExDay.bind(this)}
 
                                                             />
@@ -216,6 +230,7 @@ export default class CardDetails extends React.Component {
                                                                    id="month"
                                                                    name="month"
                                                                    maxLength="2"
+                                                                   value={this.state.CreditCard.month}
                                                                    onChange={this.onChangeExMonth.bind(this)}
 
                                                             />
@@ -230,6 +245,7 @@ export default class CardDetails extends React.Component {
                                                                    id="cvc"
                                                                    name="cvc"
                                                                    maxLength="3"
+                                                                   value={this.state.CreditCard.cvc}
                                                                    onChange={this.onChangeCVV.bind(this)}
                                                             />
                                                         </div>
@@ -248,8 +264,8 @@ export default class CardDetails extends React.Component {
                             </Grid>
                             <div align="center" className="divv">
                             <Button variant="contained" size="md" type="submit"
-                                    onClick={() => this.props.history.push('/review-order-details/'+this.state.userName)}
-                                    disabled={this.isDisabled()}
+                                    onClick={() => this.props.history.push('/review-order-details/'+this.state.uname)}
+
                             >
                                 Review Order
                             </Button>
