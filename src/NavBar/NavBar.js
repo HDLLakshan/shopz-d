@@ -16,9 +16,7 @@ import Search from "@material-ui/icons/Search";
 import {Link, NavLink,withRouter} from "react-router-dom";
 let username='';
 
-
-
-export default class NavBar extends Component{
+class NavBar extends Component{
     constructor(props) {
         super(props);
         this.logOut = this.logOut.bind(this);
@@ -49,6 +47,7 @@ export default class NavBar extends Component{
                     salesUser: true,
                 });
             } else if(AuthService.getCurrentUser().roles[0]==="ROLE_ADMIN") {
+                this.props.history.push('/Admin');
                 this.setState({
                     adminUser: true,
                 });
@@ -135,7 +134,7 @@ export default class NavBar extends Component{
                       <Nav.Link as={NavLink} to={'/search/'+this.state.SearchVal}>
                         <Button  variant="outline-light" size={'large'} startIcon={<Search/>}  />
                         </Nav.Link>
-                        {currentUser ? (
+                        {currentUser || adminUser ?  (
                             <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>
                         ) : (
                             <Nav.Link href="/loginRegView">Login</Nav.Link>
@@ -147,6 +146,8 @@ export default class NavBar extends Component{
         )
     }
 }
+export default withRouter(NavBar)
+
 export function f(props) {
    console.log(props);
    if(sessionStorage.getItem("count")){
