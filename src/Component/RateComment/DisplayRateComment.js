@@ -44,6 +44,7 @@ export default class DisplayRateComment extends Component {
             products : oldList
         });
         sessionStorage.setItem('products', JSON.stringify(oldList));
+        sessionStorage.removeItem("count");
         this.props.history.push('/');
         window.location.reload();
 

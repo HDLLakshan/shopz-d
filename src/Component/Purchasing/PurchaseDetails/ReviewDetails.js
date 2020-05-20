@@ -13,7 +13,7 @@ export default class ReviewDetails extends Component {
 
     constructor(props) {
         super(props)
-
+        this.oncliick = this.oncliick.bind(this);
         // State
         this.state = {
             uname:'',
@@ -128,8 +128,6 @@ export default class ReviewDetails extends Component {
         axios.post('http://localhost:4000/billing/add-payment/' + this.state.uname, payobj)
             .then(res =>
                 console.log(res.data + " succeeeededddd"));
-
-
         this.props.history.push('/rate-comment/' + this.state.uname);
         window.location.reload();
 
