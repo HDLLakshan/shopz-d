@@ -66,3 +66,18 @@
     margin-right: 15px;
     margin-bottom: 10px;
 }
+
+.f{
+    width: 275px;
+    margin-left: 10px;
+}
+
+
+.customdroplist{
+    height:40px;
+    width:85px;
+    margin-left:15px;
+    border-radius: 5px;
+    border-color: #cccccc;
+    color: #555555;
+}

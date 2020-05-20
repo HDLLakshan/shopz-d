@@ -39,19 +39,19 @@ class  BillingDetails extends Component{
             checkdelivery:false,
             DAddress:'',
             Billing: {
-              userName: '',
-              firstName: '',
-              lastName: '',
-              billAddress:'',
-              city: '',
-              State: '',
-              zip: '',
-              country: '',
-              pno: '',
-              instructions: '',
-              deliveryadd: '',
-              cashDelivery: false,
-          },
+                userName: '',
+                firstName: '',
+                lastName: '',
+                billAddress:'',
+                city: '',
+                State: '',
+                zip: '',
+                country: '',
+                pno: '',
+                instructions: '',
+                deliveryadd: '',
+                cashDelivery: false,
+            },
             firstNameError:'',
             lastNameError:'',
             cityError:'',
@@ -122,7 +122,7 @@ class  BillingDetails extends Component{
     onCheckDelivery = (event) =>{
         this.setState({
             Billing:{...this.state.Billing,cashDelivery: event.target.checked
-        }});
+            }});
     }
     handleChange = (event) => {
         this.setState({
@@ -205,10 +205,10 @@ class  BillingDetails extends Component{
 
                 }else{
                     console.log("true")
-                this.setState({
-                    Billing:res.data,
-                    available:true
-                })}
+                    this.setState({
+                        Billing:res.data,
+                        available:true
+                    })}
             })
             .catch((error) => {
                 console.log(error + 'mko aul');
@@ -320,9 +320,9 @@ class  BillingDetails extends Component{
                                                            onChange={this.onChangeFName}
                                                     />
 
-                                                            <div align="center" style={{ fontSize: 16, color: "red" }}>
-                                                                {this.state.firstNameError}
-                                                            </div>
+                                                    <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                        {this.state.firstNameError}
+                                                    </div>
 
 
                                                 </Col>
@@ -482,34 +482,12 @@ class  BillingDetails extends Component{
                                                 <Col sm={4}>
                                                     <div align="center">
                                                         <Button variant="danger" size="md"  type="submit" float-center="true"  >
-                                                            Save Delivery Details
+                                                            Save Details & Next
                                                         </Button></div>
                                                 </Col>
                                             </FormGroup>
-                                            <div align="right">
-                                                {(() => {
-                                                    if (this.state.Billing.cashDelivery===true) {
-                                                        return   <Button variant="danger" size="md" type="submit"
-                                                                         onClick={() => this.props.history.push('/review-order-details/' + this.state.uname)}
 
-                                                        >
-                                                            Next Step
-                                                        </Button>
-                                                    }
-                                                })()}
-                                                {(() => {
-                                                    if (this.state.Billing.cashDelivery===false) {
-                                                        return   <Button variant="danger" size="md" type="submit"
-                                                                         onClick={() => this.props.history.push('/credit-card')}
 
-                                                        >
-                                                            Next Step
-                                                        </Button>
-                                                    }
-                                                })()}
-
-                                            </div>
-                                            <br/>
                                         </Form>
                                     </Grid>
                                 </Grid>

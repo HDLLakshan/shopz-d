@@ -66,7 +66,7 @@ export default class ReviewDetails extends Component {
         axios.get('http://localhost:4000/credit-card/get-single-creditcard/' + this.state.uname)
             .then(res => {
                 this.setState({
-                        CreditCard:res.data,
+                    CreditCard:res.data,
                 })
             })
             .catch((error) => {
@@ -100,6 +100,8 @@ export default class ReviewDetails extends Component {
             })
         });
 
+        this.oncliick();
+
     }
 
     getThePrice(){
@@ -118,26 +120,23 @@ export default class ReviewDetails extends Component {
 
     }
 
-   oncliick(){
+    oncliick(){
 
         const payobj = {
             totpay: this.state.totalpay
         }
         axios.post('http://localhost:4000/billing/add-payment/' + this.state.uname, payobj)
-           .then(res =>
-               console.log(res.data + " succeeeededddd"));
-       this.setState({
-           totpay: 0,
-           price:0,
-           paying:true
+            .then(res =>
+                console.log(res.data + " succeeeededddd"));
 
-       })
-       this.props.history.push('/rate-comment/' + this.state.uname);
-       window.location.reload();
+
+        this.props.history.push('/rate-comment/' + this.state.uname);
+        window.location.reload();
 
 
 
-   }
+
+    }
 
 
     render() {
@@ -152,7 +151,6 @@ export default class ReviewDetails extends Component {
                         <br/>
                         <Typography variant="h6" gutterBottom align="center">
                             Review Details
-                            {this.state.price}
                         </Typography>
                         <br/>
                         <React.Fragment>
@@ -228,17 +226,44 @@ export default class ReviewDetails extends Component {
 
 
                                     <Grid item xs={12} >
-                                        <div align="center" >
-                                            <Button
-                                                variant="contained"  type="submit"
-                                                onClick={() => this.oncliick()}
-                                                color="secondary"
+                                        <div class="row">
+                                            <div class="col-md-9" align="left" style={{"margin-left":30}}>
+                                                {(() => {
+                                                    if (this.state.Billing.cashDelivery===true) {
+                                                        return  <Button
+                                                            variant="contained"  type="submit"
+                                                            onClick={() => this.props.history.push('/billing')}
+                                                            color="primary"
 
-                                            >
-                                                Place Order
-                                            </Button>
+                                                        >
+                                                            Back to Details
+                                                        </Button>
+                                                    }else{
+                                                        return  <Button
+                                                            variant="contained"  type="submit"
+                                                            onClick={() => this.props.history.push('/credit-card')}
+                                                            color="primary"
 
-                                        </div>
+                                                        >
+                                                            Back to Details
+                                                        </Button>
+                                                    }
+                                                })()}
+
+
+
+                                            </div>
+                                            <div align="right" style={{"margin-right":30}}>
+                                                <Button
+                                                    variant="contained"  type="submit"
+                                                    onClick={() => this.oncliick()}
+                                                    color="primary"
+
+                                                >
+                                                    Place Order
+                                                </Button>
+
+                                            </div></div><br/>
                                     </Grid>
 
                                 </Grid>
