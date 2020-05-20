@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import IconButton from "@material-ui/core/IconButton";
-import CartNumber from "../Component/UserManagement/Shopping Cart/CartNumber";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
@@ -13,12 +12,10 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
 import GetShoppingCart from "../Component/UserManagement/Shopping Cart/getShoppingCart";
 import {Badge} from "@material-ui/core";
-import LoginRegView from "../Component/UserManagement/Login/loginRegView";
 import Search from "@material-ui/icons/Search";
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink,withRouter} from "react-router-dom";
 let username='';
-let count=0;
-
+let cartcount=0;
 
 class NavBar extends Component{
     constructor(props) {
@@ -43,20 +40,23 @@ class NavBar extends Component{
     }
 
     componentDidMount() {
-
-
+        console.log(this.props)
         const user = AuthService.getCurrentUser();
         username = AuthService.getUsername();
         if (user) {
             if (AuthService.getCurrentUser().roles[0] === "ROLE_USER") {
+                console.log('1')
                 this.setState({
                     currentUser: true,
                 });
             } else if (AuthService.getCurrentUser().roles[0] === "ROLE_MODERATOR") {
+                console.log('2')
                 this.setState({
                     salesUser: true,
                 });
             } else if(AuthService.getCurrentUser().roles[0]==="ROLE_ADMIN") {
+                console.log('--3')
+                this.props.history.push('/Admin');
                 this.setState({
                     adminUser: true,
                 });
@@ -82,7 +82,7 @@ class NavBar extends Component{
         let addModalClose =() => this.setState({addModalShow : false});
         return(
             <Navbar bg="info" variant="dark">
-                {currentUser ? (
+                {currentUser || adminUser ? (
                     <Navbar.Brand href="/userMan"> Hi {username}! </Navbar.Brand>
                 ) : ( null )}
                 <Nav className="mr-auto">
@@ -123,7 +123,7 @@ class NavBar extends Component{
                         <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose} history={this.props.history}/>
                     ) : (
                         <IconButton aria-label="cart">
-                            <Badge badgeContent={this.state.count1} color="secondary">
+                            <Badge badgeContent={5} color="secondary">
                                 <ShoppingCartIcon style={{fill: "white"}} onClick={() => this.setState({addModalShow:true})}/>
                             </Badge>
                         </IconButton>
@@ -137,7 +137,7 @@ class NavBar extends Component{
                       <Nav.Link as={NavLink} to={'/search/'+this.state.SearchVal}>
                         <Button  variant="outline-light" size={'large'} startIcon={<Search/>}  />
                         </Nav.Link>
-                        {currentUser ? (
+                        {currentUser || adminUser ? (
                             <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>
                         ) : (
                             <Nav.Link href="/loginRegView">Login</Nav.Link>
@@ -148,8 +148,7 @@ class NavBar extends Component{
             </Navbar>
         )
     }
-
 }
 
-export default NavBar
+export default withRouter(NavBar)
 

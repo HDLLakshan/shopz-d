@@ -15,13 +15,16 @@ import AddProductManager from "./AddProductManager";
 import {deleteCat, deleteUser, indexPMlist, showEditForm, showForm} from "../../../ReduxStore/action";
 import EditProductManager from "./EditProductManager";
 import {Col, Row} from "react-bootstrap";
+import {HomeAdmin} from "../HomeAdmin/HomeAdmin";
+import {Unauthorized} from "../Unathorized/Unauthorized";
+import AuthService from "../../UserManagement/services/auth.service";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '40%',
         marginTop: 20,
         marginLeft: 10,
-        padding:10
+        padding: 10
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
@@ -42,7 +45,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export function ProductManager() {
+export function ProductManager(props) {
+    let admin;
+    let user = AuthService.getCurrentUser();
+    if (user) {
+        admin = AuthService.getCurrentUser().roles[0] === "ROLE_ADMIN"
+    } else {
+        admin = false
+    }
+
     const classes = useStyles();
     const dispatch = useDispatch();
     const [expanded, setExpanded] = React.useState(false);
@@ -53,7 +64,7 @@ export function ProductManager() {
 
     const list_PM = useSelector(state => state.AllPMs).map((pm, i) => {
         return (
-             <ExpansionPanel expanded={expanded === i} onChange={handleChange(i)}>
+            <ExpansionPanel expanded={expanded === i} onChange={handleChange(i)}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} aria-controls="panel1bh-content"
                                        id="panel1bh-header">
                     <Typography className={classes.secondaryHeading}>User Name</Typography>
@@ -76,9 +87,13 @@ export function ProductManager() {
                 </ExpansionPanelDetails>
                 <Divider/>
                 <ExpansionPanelActions>
-                    <Button size="small" onClick={()=>{dispatch(deleteUser(pm.email))}}>Delete</Button>
-                    <Button size="small" color="primary" onClick={()=>{ dispatch(indexPMlist(i));
-                                                                        dispatch(showEditForm())}}>
+                    <Button size="small" onClick={() => {
+                        dispatch(deleteUser(pm.email))
+                    }}>Delete</Button>
+                    <Button size="small" color="primary" onClick={() => {
+                        dispatch(indexPMlist(i));
+                        dispatch(showEditForm())
+                    }}>
                         Edit
                     </Button>
                 </ExpansionPanelActions>
@@ -86,23 +101,36 @@ export function ProductManager() {
         )
     });
 
+    let AddPM = useSelector(state => state.ShowAddPM);
+    let EditPM = useSelector(state => state.ShowEditPM);
+
     return (
-        <Row style={{width:'100%'}}>
-            <Col className={classes.root}>
-                <h2>Product Managers' Login details</h2>
-                {list_PM}
-            </Col>
-            <Col className={classes.root}>
-                <Button style={{width:'100%'}}
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<AddIcon/>}
-                        onClick={()=> dispatch(showForm())}
-                >Add</Button>
-                {useSelector(state=>state.ShowAddPM) ? <AddProductManager/>: null}
-                {useSelector(state=>state.ShowEditPM) ? <EditProductManager/>: null}
-            </Col>
-        </Row>
+        <div>
+            {
+                admin ?
+                    <div>
+                        <HomeAdmin path={props}/>
+                        <Row style={{width: '100%'}}>
+                            <Col className={classes.root}>
+                                <h2>Product Managers' Login details</h2>
+                                {list_PM}
+                            </Col>
+                            <Col className={classes.root}>
+                                <Button style={{width: '100%'}}
+                                        variant="contained"
+                                        color="secondary"
+                                        startIcon={<AddIcon/>}
+                                        onClick={() => dispatch(showForm())}
+                                >Add</Button>
+                                {AddPM ? <AddProductManager/> : null}
+                                {EditPM ? <EditProductManager/> : null}
+                            </Col>
+                        </Row>
+                    </div>
+                    :
+                    <Unauthorized />
+            }
+        </div>
     )
 }
 

@@ -1,75 +1,31 @@
 import * as React from "react";
-import { makeStyles } from '@material-ui/styles';
-import { Grid } from '@material-ui/core';
-import {ActiveUsers} from "./ActiveUsers/ActiveUsers";
-import {CategoryCount} from "./Category/CategoryCount";
-import {Managers} from "./ProjectManagers/Managers";
-import {TopSales} from "./TopSales/TopSales";
-import {UsersPerDay} from "./UsersPerDay/UsersPerDay";
-import {UsersPerDevice} from "./UsersByDevice/UsersByDevice";
+import {HomeAdmin} from "../HomeAdmin/HomeAdmin";
+import AuthService from "../../UserManagement/services/auth.service";
+import {Unauthorized} from "../Unathorized/Unauthorized";
 
-export function Dashboard(){
-        return(
-            <div>
-                <Grid
-                    container
-                    spacing={4}
-                >
-                    <Grid
-                        item
-                        lg={4}
-                        sm={6}
-                        xl={3}
-                        xs={12}
-                    >
-                        <ActiveUsers/>
-                    </Grid>
-                    <Grid
-                        item
-                        lg={4}
-                        sm={6}
-                        xl={3}
-                        xs={12}
-                    >
-                        <Managers/>
-                    </Grid>
-                    <Grid
-                        item
-                        lg={4}
-                        sm={6}
-                        xl={3}
-                        xs={12}
-                    >
-                        <CategoryCount/>
-                    </Grid>
-                    <Grid
-                        item
-                        lg={8}
-                        md={12}
-                        xl={9}
-                        xs={12}
-                    >
-                        <UsersPerDay/>
-                    </Grid>
-                    <Grid
-                        item
-                        lg={4}
-                        md={6}
-                        xl={3}
-                        xs={12}
-                    >
-                        <UsersPerDevice/>
-                    </Grid>
-                    <Grid
-                        item
-                        lg={8}
-                        md={12}
-                        xl={9}
-                        xs={12}
-                    >
-                        <TopSales/>
-                    </Grid>
-                </Grid>
-            </div>
-        )
+export function Dashboard(props) {
+    let admin;
+    let user = AuthService.getCurrentUser();
+    if (user) {
+        admin = AuthService.getCurrentUser().roles[0] === "ROLE_ADMIN"
+    } else {
+        admin = false
+    }
+
+    return (
+        <div>
+            {
+                admin ?
+                    <div>
+                        <HomeAdmin path={props}/>
+                        <div id="embed-api-auth-container"></div>
+                        <div id="chart-container"></div>
+                        <div id="view-selector-container"></div>
+                    </div>
+                    :
+                    <Unauthorized/>
+            }
+
+        </div>
+    )
 }

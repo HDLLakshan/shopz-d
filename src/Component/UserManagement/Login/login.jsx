@@ -47,6 +47,7 @@ class Login extends React.Component {
                     Username:'',
                     Password:''
                 });
+
                 if(res.success){
                     // window.location.assign('http://localhost:3000/');
                     this.props.history.push('/');

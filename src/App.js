@@ -19,48 +19,61 @@ import EditCreditCard from "./Component/Purchasing/EditPurchaseDetails/EditCredi
 import EditBilling from "./Component/Purchasing/EditPurchaseDetails/EditBilling";
 import DisplayRateComment from "./Component/RateComment/DisplayRateComment";
 import BoardUser from "./Component/UserManagement/check";
-import {Admin} from "./Component/Admin/Admin";
 import ShowAllProdcuts from "./Component/ProductMangement/EditProducts/ShowAllProdcuts";
 import EditProductsDetails from "./Component/ProductMangement/EditProducts/EditProductsDetails";
 import EditItemsOfProduct from "./Component/ProductMangement/EditProducts/EditItemsOfProduct";
 import AddNewItemToProduct from "./Component/ProductMangement/EditProducts/AddNewItemToProduct";
+import {ProductManager} from "./Component/Admin/ProductManagerComponents/ProductManager";
+import {Category} from "./Component/Admin/CategoryComponents/Category";
+import {applyMiddleware, compose, createStore} from "redux";
+import allReducers from "./ReduxStore/reducers";
+import thunk from "redux-thunk";
+import {fetchAllCats, fetchAllPMs} from "./ReduxStore/action";
+import {Provider} from "react-redux";
+import {Dashboard} from "./Component/Admin/DashBoard/Dashboard";
 
+const store = createStore(allReducers,
+    compose(applyMiddleware(thunk),
+  //      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    ));
+store.dispatch(fetchAllPMs());
+store.dispatch(fetchAllCats());
 
 class App extends Component {
 
     render() {
         return (
             <div>
-                    <NavBar/>
+                <NavBar />
+                <ReactNotification/>
+                <Provider store={store}>
                     <Switch>
+                        <Route path="/check" component={BoardUser} exact/>
 
+                        <Route path="/Admin" exact component={Dashboard}/>
+                        <Route path="/Admin/ProductManager" exact component={ProductManager}/>
+                        <Route path="/Admin/Category" exact component={Category}/>
+                        <Route exact path="/search/:id" component={ViewSerchedItem}/>
+                        <Route path="/cart" component={GetShoppingCart} exact/>
+                        <Route path="/wishlist" component={GetWishlist} exact/>
+                        <Route path="/userMan" component={UserManagement} exact/>
+                        <Route path="/loginRegView" component={LoginRegView} exact/>
+                        <Route path="/add" component={AddProduct} exact/>
+                        <Route path="/details/:id" component={ProductFullDetails} exact/>
+                        <Route path="/billing" component={BillingDetails} exact/>
+                        <Route path="/credit-card" component={CardDetails} exact/>
+                        <Route path="/edit-credit-card/:id" component={EditCreditCard} exact/>
+                        <Route path="/edit-billing/:id" component={EditBilling} exact/>
+                        <Route path="/review-order-details/:id" component={ReviewDetails} exact/>
+                        <Route path="/rate-comment/:id" component={DisplayRateComment} exact/>
+                        <Route path="/viewListOfProduct" component={ShowAllProdcuts} exact/>
+                        <Route path="/editProductDetails/:id" exact component={EditProductsDetails}/>
+                        <Route path="/editItemsDetails/:id" exact component={EditItemsOfProduct}/>
+                        <Route path="/addnewItemsToProduct/:id" exact component={AddNewItemToProduct}/>
+                        <Route path="/:id" exact component={MainView}/>
+                        <Route path="/" exact component={MainView}/>
                     </Switch>
-
-                        <ReactNotification/>
-                        <Switch>
-                            <Route path="/check" component={BoardUser} exact/>
-                            <Route path="/Admin" exact component={Admin}/>
-                            <Route exact path="/search/:id" component={ViewSerchedItem}/>
-                            <Route path="/cart" component={GetShoppingCart} exact/>
-                            <Route path="/wishlist" component={GetWishlist} exact/>
-                            <Route path="/userMan" component={UserManagement} exact/>
-                            <Route path="/loginRegView" component={LoginRegView} exact/>
-                            <Route path="/add" component={AddProduct} exact/>
-                            <Route path="/details/:id" component={ProductFullDetails} exact/>
-                            <Route path="/billing" component={BillingDetails} exact/>
-                            <Route path="/credit-card" component={CardDetails} exact/>
-                            <Route path="/edit-credit-card/:id" component={EditCreditCard} exact/>
-                            <Route path="/edit-billing/:id" component={EditBilling} exact/>
-                            <Route path="/review-order-details/:id" component={ReviewDetails} exact/>
-                            <Route path="/rate-comment/:id" component={DisplayRateComment} exact/>
-                            <Route path="/viewListOfProduct" component={ShowAllProdcuts} exact />
-                            <Route path="/editProductDetails/:id" exact component={EditProductsDetails}/>
-                            <Route path="/editItemsDetails/:id" exact component={EditItemsOfProduct} />
-                            <Route path="/addnewItemsToProduct/:id" exact component={AddNewItemToProduct} />
-                            <Route path="/:id" exact component={MainView}/>
-                            <Route path="/" exact component={MainView}/>
-                        </Switch>
-
+                </Provider>
             </div>
         );
     }
