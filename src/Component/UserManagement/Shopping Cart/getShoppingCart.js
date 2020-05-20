@@ -52,7 +52,6 @@ import AuthService from "../services/auth.service";
 
     }
     getShoppingCartTemplate(){
-
             return this.state.products.map((res , i )=>{
                 return <ShoppingCartRow obj={res} key={i} handleRemoveButton={this.handleRemoveButton} changeQuantity={this.changeQuantity}/>;
             });
@@ -63,6 +62,9 @@ import AuthService from "../services/auth.service";
         oldList = JSON.parse(sessionStorage.getItem("products"));
         for(var i = 0 ; i<oldList.length;i++){
             if(oldList[i].ProductId===id){
+                if(sessionStorage.getItem("count")){
+                    sessionStorage.removeItem("count");
+                }
                 var index = oldList.indexOf(id);
                 oldList.splice(index,1);
                 this.setState({
@@ -71,7 +73,7 @@ import AuthService from "../services/auth.service";
             }
         }
         sessionStorage.setItem('products', JSON.stringify(oldList));
-
+        sessionStorage.setItem('count', JSON.stringify(oldList.length));
 
     }
     getThePrice(){

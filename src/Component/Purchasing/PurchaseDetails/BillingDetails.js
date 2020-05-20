@@ -9,6 +9,9 @@ import Paper from "@material-ui/core/Paper/Paper";
 import {CountryDropdown} from "react-country-region-selector";
 import PhoneInput from "react-phone-number-input/mobile";
 import AuthService from "../../UserManagement/services/auth.service";
+import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox/Checkbox";
+
 
 
 
@@ -19,8 +22,7 @@ class  BillingDetails extends Component{
 
         this.onChangeFName = this.onChangeFName.bind(this);
         this.onChangeLName = this.onChangeLName.bind(this);
-        this.onChangeAdd1 = this.onChangeAdd1.bind(this);
-        this.onChangeAdd2 = this.onChangeAdd2.bind(this);
+        this.onChangeBillAddress = this.onChangeBillAddress.bind(this);
         this.onChangeCity = this.onChangeCity.bind(this);
         this.onChangeState = this.onChangeState.bind(this);
         this.onChangeZip = this.onChangeZip.bind(this);
@@ -28,50 +30,64 @@ class  BillingDetails extends Component{
         this.onChangePhoneNo = this.onChangePhoneNo.bind(this);
         this.onChangeInstructions = this.onChangeInstructions.bind(this);
         this.onChangeDeliveryAddress = this.onChangeDeliveryAddress.bind(this);
-        this.onChangeCashDelivery = this.onChangeCashDelivery.bind(this);
+        this.onCheckDelivery = this.onCheckDelivery.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            userName:'',
-            firstName:'',
-            lastName:'',
-            add1: '',
-            add2:'',
-            city: '',
-            State: '',
-            zip:'',
-            country:'',
-            pno:'',
-            instructions:'',
-            deliveryadd:'',
-            cashDelivery:false,
-
+            available:'',
+            uname:'',
+            checkdelivery:false,
+            DAddress:'',
+            Billing: {
+                userName: '',
+                firstName: '',
+                lastName: '',
+                billAddress:'',
+                city: '',
+                State: '',
+                zip: '',
+                country: '',
+                pno: '',
+                instructions: '',
+                deliveryadd: '',
+                cashDelivery: false,
+            },
+            firstNameError:'',
+            lastNameError:'',
+            cityError:'',
+            StateError:'',
+            zipError:'',
+            countryError:'',
+            pnoError:'',
+            deliveryaddError:'',
+            billaddError:'',
+            Error:false,
         }
     }
 
 
 
     onChangeFName(e) {
-        this.setState({firstName: e.target.value})
+        this.setState({Billing:{ ...this.state.Billing,firstName: e.target.value}})
+
     }
 
     onChangeLName(e) {
-        this.setState({lastName: e.target.value})
+        this.setState({Billing:{ ...this.state.Billing,lastName: e.target.value}})
+
     }
 
-    onChangeAdd1(e) {
-        this.setState({add1: e.target.value})
+    onChangeBillAddress(e) {
+        this.setState({Billing:{...this.state.Billing,billAddress: e.target.value}})
     }
-    onChangeAdd2(e) {
-        this.setState({add2: e.target.value})
-    }
+
 
     onChangeCity(e) {
-        this.setState({city: e.target.value})
+        this.setState({ Billing:{...this.state.Billing,city: e.target.value}})
     }
 
     onChangeState(e) {
-        this.setState({State: e.target.value})
+        this.setState({ Billing:{...this.state.Billing,State: e.target.value}})
     }
 
     onChangeZip(e) {
@@ -80,89 +96,182 @@ class  BillingDetails extends Component{
 
             return ;
         } else {
-            this.setState({ zip: e.target.value });
+            this.setState({ Billing:{...this.state.Billing,zip: e.target.value}});
 
         }
 
     }
     onChangeCountry(e) {
-        this.setState({country: e})
+        this.setState({Billing:{...this.state.Billing,country: e}})
     }
     onChangePhoneNo(phone) {
-        this.setState({pno: phone})
+        this.setState({Billing:{...this.state.Billing,pno: phone}})
     }
 
     onChangeDeliveryAddress(e){
-        this.setState({deliveryadd: e.target.value});
+        this.setState({DAddress: e.target.value});
     }
 
 
     onChangeInstructions(e){
-        this.setState({instructions: e.target.value})
+        this.setState({Billing:{...this.state.Billing,instructions: e.target.value}})
     }
 
-    onChangeCashDelivery(){
 
+
+    onCheckDelivery = (event) =>{
         this.setState({
-            cashDelivery: !this.state.cashDelivery
-        });
+            Billing:{...this.state.Billing,cashDelivery: event.target.checked
+            }});
     }
+    handleChange = (event) => {
+        this.setState({
+            checkDelivery: event.target.checked
+        });
+    };
+
+
+    validate(){
+        let firstNameError = "";
+        let lastNameError = "";
+        let billaddError = "";
+        let cityError="";
+        let StateError="";
+        let zipError="";
+        let countryError="";
+        let pnoError="";
+        let deliveryaddError="";
+        let Error=false;
+
+        const phoneformat = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+        if (!this.state.Billing.firstName) {
+            firstNameError = "First name cannot be empty";
+        }
+        if (!this.state.Billing.lastName) {
+            lastNameError = "Last name cannot be empty";
+        }
+        if (!this.state.Billing.billAddress) {
+            billaddError = "Bill Address cannot be empty";
+        }
+
+        if (phoneformat.test(this.state.Billing.pno)===false || this.state.Billing.pno===null) {
+            pnoError = "Phone number Error";
+        }
+        if (!this.state.Billing.city) {
+            cityError = "City cannot be empty";
+        }
+        if (!this.state.Billing.State) {
+            StateError = "State cannot be empty";
+        }
+        if (!this.state.Billing.zip) {
+            zipError = "Zip cannot be empty";
+        }
+
+        if (!this.state.Billing.deliveryadd) {
+            deliveryaddError = "Delivery address cannot be empty";
+        }
+        if (pnoError||firstNameError||lastNameError||billaddError||deliveryaddError||StateError||zipError||
+            cityError
+        ) {
+
+            this.setState({pnoError,firstNameError,lastNameError,billaddError,deliveryaddError,StateError,zipError,
+                cityError});
+            return false;
+        }
+        this.setState({
+            firstNameError:'',
+            lastNameError:'',
+            cityError:'',
+            StateError:'',
+            zipError:'',
+            countryError:'',
+            pnoError:'',
+            deliveryaddError:'',
+            billaddError:'',
+
+        })
+
+        return true;
+    };
 
     componentDidMount() {
 
-        this.state.userName   = AuthService.getUsername();
+        this.state.Billing.userName   = AuthService.getUsername();
+        this.state.uname = AuthService.getUsername();
+        axios.get('http://localhost:4000/billing/get-one-bill/' + this.state.Billing.userName)
+            .then(res => {
+                if(res.data === null){
+
+                }else{
+                    console.log("true")
+                    this.setState({
+                        Billing:res.data,
+                        available:true
+                    })}
+            })
+            .catch((error) => {
+                console.log(error + 'mko aul');
+            })
 
 
     }
-    isDisabled(){
-        if(!this.state.firstName ||!this.state.lastName || !this.state.add1||!this.state.add2 ||
-            !this.state.city ||!this.state.State ||!this.state.zip || !this.state.country ||
-            !this.state.pno || !this.state.deliveryadd
-        ){
-            return true;
-        }else {
-            return false;
-        }
-    }
+
 
     onSubmit(e) {
         e.preventDefault()
 
-        const purchaseObject = {
-            userName:this.state.userName,
-            firstName:this.state.firstName,
-            lastName:this.state.lastName,
-            add1: this.state.add1,
-            add2:this.state.add2,
-            city: this.state.city,
-            State: this.state.State,
-            zip:this.state.zip,
-            country:this.state.country,
-            pno:this.state.pno,
-            instructions:this.state.instructions,
-            deliveryadd: this.state.deliveryadd,
-            cashDelivery: this.state.cashDelivery
-        };
-        axios.post('http://localhost:4000/billing/add-billing', purchaseObject)
-            .then(res => console.log(res.data));
+        this.state.Billing.userName = this.state.uname
+        this.state.Billing.deliveryadd = this.state.DAddress
+        console.log(this.state.Billing.DAddress + "kkkk "+ this.state.Billing.lastName);
+        const isValid = this.validate();
 
-        this.setState({
-            userName:'',
-            firstName:'',
-            lastName:'',
-            add1: '',
-            add2:'',
-            city: '',
-            State: '',
-            zip:'',
-            country:'',
-            pno:'',
-            instructions:'',
-            deliveryadd:'',
-            cashDelivery:''
-        })
+        if(isValid) {
 
-        //alert("filled , move next..")
+            if (!(this.state.available === true)) {
+
+
+                axios.post('http://localhost:4000/billing/add-billing', this.state.Billing)
+                    .then(res => console.log("kooooo" + res.data));
+
+                if (this.state.Billing.cashDelivery===true) {
+                    this.props.history.push('/review-order-details/' + this.state.uname);
+                    window.location.reload();
+                }else if(this.state.Billing.cashDelivery===false){
+                    this.props.history.push('/credit-card');
+                    window.location.reload();
+                }else{
+                    this.props.history.push('/billing');
+                    window.location.reload();
+                }
+
+
+            }
+
+            else if (this.state.available === true) {
+
+                axios.put('http://localhost:4000/billing/update-bill/' + this.state.uname, this.state.Billing)
+                    .then((res) => {
+                        console.log(res.data)
+                        console.log('Billing  successfully updated');
+
+                    }).catch((error) => {
+                    console.log(error)
+                })
+
+                if (this.state.Billing.cashDelivery===true) {
+                    this.props.history.push('/review-order-details/' + this.state.uname)
+                    window.location.reload();
+                }else if(this.state.Billing.cashDelivery===false){
+                    this.props.history.push('/credit-card');
+                    window.location.reload();
+                }else{
+                    this.props.history.push('/billing');
+                    window.location.reload();
+                }
+            }
+
+        }
 
 
     }
@@ -203,47 +312,51 @@ class  BillingDetails extends Component{
 
                                                 <Col sm={6}>
                                                     <Input type="text"
-                                                           required
                                                            name="firstName"
                                                            maxlength={35}
                                                            placeholder="First Name"
                                                            autoComplete="fname"
-                                                           value={this.state.firstName}
+                                                           value={this.state.Billing.firstName}
                                                            onChange={this.onChangeFName}
                                                     />
+
+                                                    <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                        {this.state.firstNameError}
+                                                    </div>
+
+
                                                 </Col>
                                                 <Col sm={6}>
                                                     <Input type="text"
                                                            placeholder="Last Name"
-                                                           required
                                                            maxlength={35}
                                                            name="lastName"
                                                            autoComplete="lname"
-                                                           value={this.state.lastName}
+                                                           value={this.state.Billing.lastName}
                                                            onChange={this.onChangeLName}
                                                     />
+                                                    <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                        {this.state.lastNameError}
+                                                    </div>
+
                                                 </Col>
                                             </FormGroup><br/>
                                             <FormGroup row>
-                                                <Col sm={6}>
-                                                    <Input type="text"
-                                                           placeholder="Address Line 1"
-                                                           required
-                                                           maxlength={35}
-                                                           name="address1"
-                                                           autoComplete="billing address-line1"
-                                                           value={this.state.add1}
-                                                           onChange={this.onChangeAdd1}
+                                                <Col sm={12}>
+                                                    <Input type="textarea"
+                                                           placeholder="Billing Address"
+                                                           value={this.state.Billing.billAddress}
+                                                           onChange={this.onChangeBillAddress}
                                                     />
-                                                </Col>
-                                                <Col sm={6}>
-                                                    <Input type="text"
-                                                           placeholder="Address Line 2"
-                                                           name="address2"
-                                                           maxlength={35}
-                                                           autoComplete="billing address-line2"
-                                                           value={this.state.add2}
-                                                           onChange={this.onChangeAdd2}
+                                                    <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                        {this.state.billaddError}
+                                                    </div>
+
+                                                    <br/>
+                                                    <FormControlLabel
+
+                                                        control={<Checkbox  style={{color:"gray"}} checked={this.state.checkDelivery}onChange={this.handleChange} name="gilad" />}
+                                                        label="Billing address is not same for delivery address"
                                                     />
                                                 </Col>
                                             </FormGroup> <br/>
@@ -252,79 +365,106 @@ class  BillingDetails extends Component{
                                                 <Col sm={3}>
                                                     <Input type="text"
                                                            placeholder="City"
-                                                           required
                                                            maxlength={15}
                                                            name="city"
                                                            autoComplete="billing address-level2"
-                                                           value={this.state.city}
+                                                           value={this.state.Billing.city}
                                                            onChange={this.onChangeCity}
                                                     />
+                                                    <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                        {this.state.cityError}
+                                                    </div>
+
                                                 </Col>
                                                 <Col sm={4}>
                                                     <Input type="text"
                                                            placeholder="State"
                                                            maxlength={23}
                                                            name="state"
-                                                           value={this.state.State}
+                                                           value={this.state.Billing.State}
                                                            onChange={this.onChangeState}
                                                     />
+                                                    <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                        {this.state.StateError}
+                                                    </div>
+
                                                 </Col>
                                                 <Col sm={2}>
                                                     <CountryDropdown
                                                         className="dropdowns"
-                                                        value={this.state.country}
-                                                        onChange={(e) => this.onChangeCountry(e)} />
+                                                        value={this.state.Billing.country}
+                                                        onChange={(e) => this.onChangeCountry(e)}
+                                                    />
+                                                    <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                        {this.state.countryError}
+                                                    </div>
                                                 </Col>
+
                                             </FormGroup> <br/>
                                             <FormGroup row>
                                                 <Col sm={3}>
                                                     <Input type="text"
 
                                                            placeholder="Zip / Postal code"
-                                                           required
                                                            maxlength={10}
                                                            name="zip"
                                                            autoComplete="billing postal-code"
-                                                           value={this.state.zip}
+                                                           value={this.state.Billing.zip}
                                                            onChange={this.onChangeZip}
                                                     />
+                                                    <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                        {this.state.zipError}
+                                                    </div>
 
                                                 </Col>
                                                 <Col sm={9}>
                                                     <PhoneInput
                                                         className="phone"
                                                         placeholder="Enter phone number"
-                                                        value={ this.state.pno }
+                                                        value={ this.state.Billing.pno }
                                                         name="pno"
                                                         maxlength={16}
                                                         onChange={ phone => this.onChangePhoneNo(phone)} />
+                                                    <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                        {this.state.pnoError}
+                                                    </div>
                                                 </Col>
                                             </FormGroup> <br/>
                                             <Typography variant="h6" gutterBottom align="center">
                                                 Delivery Details
                                             </Typography>
                                             <br/>
-                                            <FormGroup row>
-                                                <Col sm={12}>
-                                                    <Input type="textarea"
-                                                           placeholder="Delivery Address"
-                                                           required
-                                                           name="deliveryadd"
-                                                           autoComplete="billing postal-code"
-                                                           value={this.state.deliveryadd}
-                                                           onChange={this.onChangeDeliveryAddress}
-                                                    />
-                                                </Col>
+                                            {(() => {
+                                                if (this.state.checkDelivery===true) {
+                                                    return <FormGroup row>
+                                                        <Col sm={12}>
+                                                            <Input type="textarea"
+                                                                   placeholder="Delivery Address"
+                                                                   required
+                                                                   name="deliveryadd"
+                                                                   autoComplete="billing postal-code"
+                                                                   value={this.state.DAddress}
+                                                                   onChange={this.onChangeDeliveryAddress}
+                                                            />
+                                                            <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                                {this.state.deliveryaddError}
+                                                            </div>
 
-                                            </FormGroup> <br/>
+                                                        </Col>
+
+                                                    </FormGroup>
+                                                }else{
+                                                    {this.state.DAddress=this.state.Billing.billAddress}
+                                                }
+                                            })()}
+
                                             <FormGroup row >
                                                 <Col sm={12} >
                                                     <Input type="textarea"
-                                                           required
                                                            placeholder="Note down if there special delivery instructions..."
                                                            name="instructions"
                                                            autoComplete="billing postal-code"
-                                                           value={this.state.instructions}
+                                                           value={this.state.Billing.instructions}
                                                            onChange={this.onChangeInstructions}
 
                                                     />
@@ -333,56 +473,31 @@ class  BillingDetails extends Component{
                                             <FormGroup row>
                                                 <Col sm={1}>
 
-                                                    <input
-                                                        id="completedCheckbox"
-                                                        type="checkbox"
-                                                        name="completedCheckbox"
-                                                        onChange={this.onChangeCashDelivery}
-                                                        checked={this.state.cashDelivery}
-                                                        value={this.state.cashDelivery}
-                                                    />
+                                                    <FormControlLabel
+                                                        control={<Checkbox style={{color:"gray"}} checked={this.state.Billing.cashDelivery}onChange={this.onCheckDelivery} name="gilad" />}
 
+                                                    />
                                                 </Col>
                                                 <Col sm={4}><label>Wish to do payment with cash on delivery</label> </Col>
                                                 <Col sm={4}>
                                                     <div align="center">
                                                         <Button variant="danger" size="md"  type="submit" float-center="true"  >
-                                                            Save Delivery Details
+                                                            Save Details & Next
                                                         </Button></div>
                                                 </Col>
                                             </FormGroup>
-                                            <br/>
-                                        </Form>
-                                        <div align="right">
-                                            {(() => {
-                                                if (this.state.cashDelivery==true) {
-                                                    return   <Button variant="danger" size="md" type="submit"
-                                                                     onClick={() => this.props.history.push('/credit-card')}
-                                                   disabled={this.isDisabled()} >
-                                                        Next
-                                                    </Button>
-                                                }
-                                            })()}
-                                            {(() => {
-                                                if (this.state.cashDelivery==false) {
-                                                    return   <Button variant="danger" size="md" type="submit"
-                                                                     onClick={() => this.props.history.push('/credit-card')}
-                                                                     disabled={this.isDisabled()}   >
-                                                        Next Step
-                                                    </Button>
-                                                }
-                                            })()}
 
-                                        </div>
+
+                                        </Form>
                                     </Grid>
                                 </Grid>
                             </React.Fragment>
 
                         </React.Fragment>
                     </Paper>
-
                 </main>
             </React.Fragment>
+
 
         );
     }}

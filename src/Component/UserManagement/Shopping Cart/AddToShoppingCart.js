@@ -2,8 +2,7 @@ import React, {Component} from "react";
 import axios from 'axios';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
-import CartNumber from "./CartNumber";
-import NavBar from "../../../NavBar/NavBar";
+import {f} from "../../../NavBar/NavBar";
 
 export default class AddToShoppingCart extends Component{
     constructor(props) {
@@ -59,11 +58,15 @@ export default class AddToShoppingCart extends Component{
     const arrayproduct = JSON.parse(oldproduct);
 
     if(this.state.isInList){
-        console.log("came in");
         for(var i= 0 ; i <arrayproduct.length ; i++){
             if(arrayproduct[i].ProductId===this.props.productId) {
+                if(sessionStorage.getItem("count")){
+                    sessionStorage.removeItem("count");
+                }
                 arrayproduct.splice(i, 1);
                 sessionStorage.setItem('products', JSON.stringify(arrayproduct));
+                // f(arrayproduct.length+1);
+                sessionStorage.setItem("count", JSON.stringify(arrayproduct.length))
             }
         }
 
@@ -72,6 +75,9 @@ export default class AddToShoppingCart extends Component{
     else{
         axios.get('http://localhost:4000/products/view-product/' + this.props.productId)
             .then(res => {
+                if(sessionStorage.getItem("count")){
+                    sessionStorage.removeItem("count");
+                }
                 const productObj = {
                     ProductId: res.data._id,
                     PricePerUnit: res.data.PricePerUnit,
@@ -80,8 +86,10 @@ export default class AddToShoppingCart extends Component{
                     Size:this.props.size,
                     Color:this.props.color
                 };
+                console.log(productObj)
                 arrayproduct.push(productObj);
                 sessionStorage.setItem('products', JSON.stringify(arrayproduct));
+                sessionStorage.setItem('count', JSON.stringify(arrayproduct.length))
             });
     }
 
@@ -90,11 +98,11 @@ export default class AddToShoppingCart extends Component{
             count:arrayproduct.length+1
         });
 
-        CartNumber(arrayproduct.length+1);
+
     }
 
     render() {
-        const {productId, imagePath , quantity, size, color}= this.props;
+
 
         return(
             <div>

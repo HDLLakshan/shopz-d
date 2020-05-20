@@ -15,8 +15,6 @@ import ViewSerchedItem from "./Component/ProductMangement/Search/ViewSerchedItem
 import BillingDetails from "./Component/Purchasing/PurchaseDetails/BillingDetails";
 import CardDetails from "./Component/Purchasing/PurchaseDetails/CardDetails";
 import ReviewDetails from "./Component/Purchasing/PurchaseDetails/ReviewDetails";
-import EditCreditCard from "./Component/Purchasing/EditPurchaseDetails/EditCreditCard";
-import EditBilling from "./Component/Purchasing/EditPurchaseDetails/EditBilling";
 import DisplayRateComment from "./Component/RateComment/DisplayRateComment";
 import BoardUser from "./Component/UserManagement/check";
 import ShowAllProdcuts from "./Component/ProductMangement/EditProducts/ShowAllProdcuts";
@@ -62,8 +60,6 @@ class App extends Component {
                         <Route path="/details/:id" component={ProductFullDetails} exact/>
                         <Route path="/billing" component={BillingDetails} exact/>
                         <Route path="/credit-card" component={CardDetails} exact/>
-                        <Route path="/edit-credit-card/:id" component={EditCreditCard} exact/>
-                        <Route path="/edit-billing/:id" component={EditBilling} exact/>
                         <Route path="/review-order-details/:id" component={ReviewDetails} exact/>
                         <Route path="/rate-comment/:id" component={DisplayRateComment} exact/>
                         <Route path="/viewListOfProduct" component={ShowAllProdcuts} exact/>

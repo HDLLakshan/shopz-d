@@ -93,8 +93,9 @@ class AddToWishlist extends Component {
                                 PricePerUnit: res.data.PricePerUnit,
                                 SubCategory: res.data.SubCategory,
                                 ImageOfProduct: this.props.imagePath,
-                                Quantity: this.props.quantity
-
+                                Quantity: this.props.quantity,
+                                Color:this.props.color,
+                                Size:this.props.size
                             };
                             this.state.product.push(productObj);
                             axios.put('http://localhost:4000/wishlist/edit-details' + this.state.userId, this.state.product)
@@ -117,8 +118,7 @@ class AddToWishlist extends Component {
                                 PricePerUnit: res.data.PricePerUnit,
                                 SubCategory: res.data.SubCategory,
                                 ImageOfProduct: this.props.imagePath,
-                                Quantity: this.props.quantity
-
+                                Quantity: this.props.quantity,
                             };
                             const proObj = [];
                             proObj.push(productObj);

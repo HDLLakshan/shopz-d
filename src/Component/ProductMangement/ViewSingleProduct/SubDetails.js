@@ -120,7 +120,7 @@ class SubDetails extends Component{
                          </div>
                          <div style={{margin: "20px"}}>
                              <AddToWishlist productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity}
-                                            size={this.state.size} color={this.state.color}/>
+                                            size={this.state.size} color={this.props.product.Details[this.props.position].color}/>
                          </div>
 
                      </Row>

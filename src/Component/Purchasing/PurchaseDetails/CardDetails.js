@@ -18,61 +18,170 @@ export default class CardDetails extends React.Component {
         this.onChangeExDay = this.onChangeExDay.bind(this);
         this.onChangeExMonth = this.onChangeExMonth.bind(this);
         this.onChangeCVV = this.onChangeCVV.bind(this);
+        this.handleChangeCtype = this.handleChangeCtype.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            userName:'',
-            nameCard: 'xxxxx xxx',
-            cno: '0000000000000000',
-            month: 'xx',
-            year: 'xx',
-            cvc: 'CVC'
+            uname:'',
+            available:'',
+            CreditCard: {
+                userName: '',
+                nameCard: 'xxxxx xxxxxx',
+                cno: '0000000000000000',
+                month: 'xx',
+                year: 'xx',
+                cvc: 'CVC'
+            },
+            nameCardError:'',
+            cnoError:'',
+            monthError:'',
+            yearError:'',
+            cvcError:'',
+            value:'Visa'
         }
     }
 
     //Name of Card Owner
     onChangeCName(n) {
         this.setState({
-            nameCard: n.target.value
+            CreditCard:{ ...this.state.CreditCard,nameCard: n.target.value}
         });
     }
     //Card Number
     onChangeCardNo(c) {
         this.setState({
-            cno: c.target.value
+            CreditCard:{ ...this.state.CreditCard,cno: c.target.value}
         });
     }
     //Expiration
     onChangeExMonth(m) {
         this.setState({
-            month: m.target.value
+            CreditCard:{ ...this.state.CreditCard, month: m.target.value}
         });
     }
     onChangeExDay(d) {
         this.setState({
-            year: d.target.value
+            CreditCard:{ ...this.state.CreditCard, year: d.target.value}
         });
     }
     //CCV
     onChangeCVV(v) {
         this.setState({
-            cvc: v.target.value
+            CreditCard:{ ...this.state.CreditCard, cvc: v.target.value}
         });
     }
-
-    isDisabled(){
-        if(!this.state.cno|| !this.state.nameCard || !this.state.month ||!this.state.year||
-            !this.state.cvc){
-            return true;
-        }else{
-            return false;
-        }
+    handleChangeCtype(e){
+        this.setState({value: e.target.value});
     }
 
+    yearvalidate(){
+        let thisdate = new Date();
+        let currentyear = thisdate.getFullYear();
+
+        return this.state.CreditCard.year < currentyear;
+
+    }
+    monthvalidate(){
+        const thisdate = new Date();
+        const currentmonth = thisdate.getMonth()+1;
+        let currentyear = thisdate.getFullYear();
+
+        return ((this.state.CreditCard.month < currentmonth)&& (this.state.CreditCard.year==currentyear));
+
+    }
+
+    validate(){
+
+        let nameCardError="";
+        let  cnoError="";
+        let monthError="";
+        let yearError="";
+        let cvcError="";
+
+        let visaRegEx = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
+        let mastercardRegEx = /^(?:5[1-5][0-9]{14})$/;
+        let amexpRegEx = /^(?:3[47][0-9]{13})$/;
+        let discovRegEx = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/;
+        let ccvNo = /^[0-9]{3,4}$/;
+
+        if (!this.state.CreditCard.nameCard) {
+            nameCardError = "Invalid card holder name";
+        }
+        if ((!this.state.CreditCard.cno)
+        ) {
+            cnoError = "Invalid card number";
+        }
+
+        if(this.state.value==='Visa'){
+            if(visaRegEx.test(this.state.CreditCard.cno)===false) {
+                cnoError = "Invalid Visa Card Number"
+            }
+        } else if(this.state.value==='AMEX'){
+            if(amexpRegEx.test(this.state.CreditCard.cno)===false) {
+                cnoError = "Invalid American Express Card Number "
+            }
+        }else if(this.state.value==='Master'){
+            if(mastercardRegEx.test(this.state.CreditCard.cno)===false) {
+                cnoError = "Invalid Master Card Number "
+            }
+        }else if(this.state.value==='Discover'){
+            if(discovRegEx.test(this.state.CreditCard.cno)===false) {
+                cnoError = "Invalid Discover Card Number "
+            }
+        }
+
+
+        if ((!this.state.CreditCard.month)||(!(this.state.CreditCard.month >= 1 && this.state.CreditCard.month <= 12))||
+            (this.monthvalidate()===true)
+        ) {
+            monthError = "Invalid month";
+        }
+
+        if ((!this.state.CreditCard.year)||(!(this.state.CreditCard.year >= 1000 && this.state.CreditCard.year <= 2100))||
+            (this.yearvalidate()===true)
+        ) {
+            yearError = "Invalid year";
+        }
+        if ((!this.state.CreditCard.cvc)||((ccvNo.test(this.state.CreditCard.cvc)===false))) {
+            cvcError = "Invalid CCV";
+        }
+
+        if (nameCardError||cnoError||monthError||yearError||cvcError)
+        {
+
+            this.setState({nameCardError,cnoError,monthError,yearError,cvcError});
+            return false;
+        }
+        this.setState({
+            nameCardError:'',
+            cnoError:'',
+            monthError:'',
+            yearError:'',
+            cvcError:''
+
+        })
+
+        return true;
+    };
+
+
     componentDidMount() {
+        this.state.uname = AuthService.getUsername();
 
-        this.state.userName   = AuthService.getUsername();
+        axios.get('http://localhost:4000/credit-card/get-single-creditcard/' + this.state.uname)
+            .then(res => {
+                if(res.data === null){
 
+                }else{
+                    console.log("true")
+                    this.setState({
+                        CreditCard:res.data,
+                        available:true
+                    })}
+            })
+            .catch((error) => {
+                console.log(error + 'credit get error');
+            })
 
 
     }
@@ -80,25 +189,35 @@ export default class CardDetails extends React.Component {
     onSubmit(e) {
         e.preventDefault()
 
-        const paymentObject = {
-            userName:this.state.userName,
-            cno:this.state.cno,
-            nameCard:this.state.nameCard,
-            month:this.state.month,
-            year:this.state.year,
-            cvc:this.state.cvc
-        };
-        axios.post('http://localhost:4000/payment/add-payment', paymentObject)
-            .then(res => console.log(res.data));
 
-        this.setState({
-            userName:'',
-            cno: '',
-            nameCard: '',
-            month:'',
-            year: '',
-            cvc:''
-        })
+        this.state.CreditCard.userName = this.state.uname
+        const isValid = this.validate();
+
+        if(isValid) {
+
+
+            if (!(this.state.available === true)) {
+
+                axios.post('http://localhost:4000/credit-card/add-creditcard', this.state.CreditCard)
+                    .then(res => console.log(res.data));
+
+                this.props.history.push('/review-order-details/' + this.state.uname)
+                window.location.reload();
+
+            } else if (this.state.available === true) {
+
+                axios.put('http://localhost:4000/credit-card/update-creditcard/' + this.state.uname, this.state.CreditCard)
+                    .then((res) => {
+                        console.log(res.data)
+                        console.log('Credit card successfully updated');
+
+                    }).catch((error) => {
+                    console.log(error)
+                })
+                this.props.history.push('/review-order-details/' + this.state.uname)
+                window.location.reload();
+            }
+        }
     }
 
     render() {
@@ -113,7 +232,6 @@ export default class CardDetails extends React.Component {
                         <br/>
 
                         <React.Fragment>
-
 
                             <Grid container spacing={1} justify="center">
                                 <Typography variant="h6" gutterBottom align="center">
@@ -134,7 +252,7 @@ export default class CardDetails extends React.Component {
                                                 </div>
                                                 <div className="row">
                                                     <div className="column">
-                                                        <p className="creditcard-number">{this.state.cno}</p>
+                                                        <p className="creditcard-number">{this.state.CreditCard.cno}</p>
 
                                                     </div>
 
@@ -142,16 +260,16 @@ export default class CardDetails extends React.Component {
                                                 </div>
                                                 <div className="row">
                                                     <div className="small-9 columns">
-                                                        <label className="creditname">Card Holder &nbsp;
-                                                            {this.state.nameCard}
+                                                        <label className="creditname">Card Holder: &nbsp;
+                                                            {this.state.CreditCard.nameCard}
                                                         </label>
                                                     </div>
                                                 </div>
 
                                                 <div className="row">
                                                     <div className="small-9 columns">
-                                                        <label className="creditdate">Expire &nbsp;
-                                                          {this.state.month} / {this.state.year}
+                                                        <label className="creditdate">Expire: &nbsp;
+                                                            {this.state.CreditCard.month} / {this.state.CreditCard.year}
                                                         </label>
                                                     </div>
 
@@ -159,7 +277,7 @@ export default class CardDetails extends React.Component {
                                                 <div className="row">
                                                     <div className="small-9 columns">
                                                         <label className="creditdate">
-                                                           {this.state.cvc}
+                                                            CVV: &nbsp;   {this.state.CreditCard.cvc}
                                                         </label>
                                                     </div>
 
@@ -171,16 +289,28 @@ export default class CardDetails extends React.Component {
                                                 <form onSubmit={this.onSubmit}>
                                                     <div className="form-row align-items-center">
                                                         <div className="col-md-10">
-
+                                                            <div class="row">
+                                                            <select value={this.state.value} onChange={this.handleChangeCtype}
+                                                            className="customdroplist"
+                                                            >
+                                                                <option value="Visa">Visa</option>
+                                                                <option value="AMEX">AMEX</option>
+                                                                <option value="Master">Master</option>
+                                                                <option value="Discover">Discover</option>
+                                                            </select>
                                                             <input type="text"
-                                                                   className="form-control mb-2" id="inlineFormInput"
+                                                                   className="form-control mb-2 f" id="inlineFormInput"
                                                                    placeholder="Card Number"
-                                                                   required
                                                                    name="cno"
-                                                                   maxLength="16"
+                                                                   value={this.state.CreditCard.cno}
                                                                    onChange={this.onChangeCardNo.bind(this)}
 
                                                             />
+                                                            </div>
+                                                            <div align="center" style={{ fontSize: 16, color: "red" }} className="cnoError">
+                                                                {this.state.cnoError}
+                                                            </div>
+
                                                         </div>
                                                     </div><br/>
                                                     <div className="form-row align-items-center">
@@ -189,10 +319,13 @@ export default class CardDetails extends React.Component {
                                                             <input type="text"
                                                                    className="form-control mb-2" id="inlineFormInput"
                                                                    placeholder="Card Holder"
-                                                                   required
                                                                    name="nameCard"
+                                                                   value={this.state.CreditCard.nameCard}
                                                                    onChange={this.onChangeCName.bind(this)}
                                                             />
+                                                            <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                                {this.state.nameCardError}
+                                                            </div>
                                                         </div>
                                                     </div><br/>
 
@@ -201,24 +334,28 @@ export default class CardDetails extends React.Component {
                                                         <div className="col-md-5">
                                                             <input type="text" className="form-control"
                                                                    placeholder="Year"
-                                                                   maxLength="4"
-                                                                   required
                                                                    id="year"
                                                                    name="year"
+                                                                   value={this.state.CreditCard.year}
                                                                    onChange={this.onChangeExDay.bind(this)}
 
                                                             />
+                                                            <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                                {this.state.yearError}
+                                                            </div>
                                                         </div>
                                                         <div className="col-md-5 ">
                                                             <input type="text" className="form-control"
                                                                    placeholder="Month"
-                                                                   required
                                                                    id="month"
                                                                    name="month"
-                                                                   maxLength="2"
+                                                                   value={this.state.CreditCard.month}
                                                                    onChange={this.onChangeExMonth.bind(this)}
 
                                                             />
+                                                            <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                                {this.state.monthError}
+                                                            </div>
                                                         </div>
                                                     </div><br/>
                                                     <div className="row ">
@@ -226,15 +363,17 @@ export default class CardDetails extends React.Component {
                                                             <input type="text"
                                                                    className="form-control"
                                                                    placeholder="CVV"
-                                                                   required
                                                                    id="cvc"
                                                                    name="cvc"
-                                                                   maxLength="3"
+                                                                   value={this.state.CreditCard.cvc}
                                                                    onChange={this.onChangeCVV.bind(this)}
                                                             />
+                                                            <div align="center" style={{ fontSize: 16, color: "red" }}>
+                                                                {this.state.cvcError}
+                                                            </div>
                                                         </div>
                                                         <div className="col-md-4 ">
-                                                            <button className="btn btn-primary" type="submit" value="Submit"> Save Details</button>
+                                                            <button className="btn btn-primary" type="submit" value="Submit"> Save & Next</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -246,13 +385,13 @@ export default class CardDetails extends React.Component {
                                 </div>
 
                             </Grid>
-                            <div align="center" className="divv">
-                            <Button variant="contained" size="md" type="submit"
-                                    onClick={() => this.props.history.push('/review-order-details/'+this.state.userName)}
-                                    disabled={this.isDisabled()}
-                            >
-                                Review Order
-                            </Button>
+                            <div align="center" className="divv" >
+                                <Button variant="contained" size="md" type="submit" style={{width:100}}
+                                        onClick={() => this.props.history.push('/billing')}
+
+                                >
+                                    Back
+                                </Button>
                             </div>
                         </React.Fragment>
                     </Paper>
