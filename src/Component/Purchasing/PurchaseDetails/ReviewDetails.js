@@ -14,48 +14,64 @@ export default class ReviewDetails extends Component {
     constructor(props) {
         super(props)
 
-
-
         // State
         this.state = {
-            firstName:'',
-            lastName:'',
-            add1: '',
-            add2:'',
-            city: '',
-            State: '',
-            zip:'',
-            country:'',
-            pno:'',
-            instructions:'',
-            deliveryadd:'',
-            cashDelivery:'',
-            s: '',
-            delivey:'',
-            pay:'',
+            uname:'',
+            totpay:0,
+            Billing: {
+                firstName: '',
+                lastName: '',
+                billAddress:'',
+                city: '',
+                State: '',
+                zip: '',
+                country: '',
+                pno: '',
+                instructions: '',
+                deliveryadd: '',
+                cashDelivery: false,
+            },
 
-            cno:'',
-            nameCard:'',
-            year:'',
-            month:'',
-            cvc:'',
+            CreditCard: {
+                cno: '',
+                nameCard: '',
+                year: '',
+                month: '',
+                cvc: '',
+            },
             price:0,
+            datee:'',
             products:[],
             delCharge:100,
-            totalpay:0
+            totalpay:0,
+            paying:'',
         }
     }
 
 
-
-
-
-
-
-
     componentDidMount() {
 
-        this.state.s = AuthService.getUsername();
+        this.state.uname = AuthService.getUsername();
+
+        axios.get('http://localhost:4000/billing/get-one-bill/' + this.state.uname)
+            .then(res => {
+                this.setState({
+                    Billing:res.data,
+                })
+            })
+            .catch((error) => {
+                console.log(error + 'geterror');
+            })
+
+        axios.get('http://localhost:4000/credit-card/get-single-creditcard/' + this.state.uname)
+            .then(res => {
+                this.setState({
+                        CreditCard:res.data,
+                })
+            })
+            .catch((error) => {
+                console.log(error + 'credit get error');
+            })
 
         let oldproduct = [];
         oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
@@ -84,50 +100,10 @@ export default class ReviewDetails extends Component {
             })
         });
 
-
-        axios.get('https://servershopping.azurewebsites.net/billing/getbill/' + this.state.s)
-            .then(res => {
-                this.setState({
-
-                    firstName:res.data[0].firstName,
-                    lastName:res.data[0].lastName,
-                    add1: res.data[0].add1,
-                    add2:res.data[0].add2,
-                    city: res.data[0].city,
-                    State: res.data[0].State,
-                    zip:res.data[0].zip,
-                    country:res.data[0].country,
-                    pno:res.data[0].pno,
-                    instructions: res.data[0].instructions,
-                    deliveryadd:res.data[0].deliveryadd,
-                    cashDelivery:res.data[0].cashDelivery
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-
-
-        axios.get('https://servershopping.azurewebsites.net/payment/getpayment/' + this.state.s)
-            .then(res => {
-                this.setState({
-
-                    cno:res.data[0].cno,
-                    nameCard:res.data[0].nameCard,
-                    year: res.data[0].year,
-                    month:res.data[0].month,
-                    cvc:res.data[0].cvc
-
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-
-
     }
 
     getThePrice(){
+
         var price1=0;
         this.state.products.map((res , i )=>{
             price1=res.PricePerUnit* res.Quantity+price1
@@ -136,10 +112,32 @@ export default class ReviewDetails extends Component {
                 price:price1
             })
         });
-        this.state.totalpay = this.state.delCharge + price1
-        return price1
+        this.state.price = price1
+        this.state.totalpay = this.state.delCharge + this.state.price
+        return this.state.price
 
     }
+
+   oncliick(){
+
+        const payobj = {
+            totpay: this.state.totalpay
+        }
+        axios.post('http://localhost:4000/billing/add-payment/' + this.state.uname, payobj)
+           .then(res =>
+               console.log(res.data + " succeeeededddd"));
+       this.setState({
+           totpay: 0,
+           price:0,
+           paying:true
+
+       })
+       this.props.history.push('/rate-comment/' + this.state.uname);
+       window.location.reload();
+
+
+
+   }
 
 
     render() {
@@ -154,9 +152,9 @@ export default class ReviewDetails extends Component {
                         <br/>
                         <Typography variant="h6" gutterBottom align="center">
                             Review Details
+                            {this.state.price}
                         </Typography>
                         <br/>
-
                         <React.Fragment>
 
                             <div className="roots">
@@ -165,36 +163,24 @@ export default class ReviewDetails extends Component {
                                     <Grid item xs={4}>
                                         <Paper className="papers1">
                                             <h6 align="center" > Billing Details</h6>
-                                            <p className="facts">Name : {this.state.firstName} &nbsp; {this.state.lastName}</p>
-                                            <p className="facts">Address : {this.state.zip}, {this.state.add1} &nbsp; {this.state.add2}</p>
-                                            <p className="facts">City:   {this.state.city} </p>
-                                            <p className="facts">State :  {this.state.State}</p>
-                                            <p className="facts">Country :  {this.state.country}</p>
-                                            <p className="facts">Phone Number :  {this.state.pno}</p>
-
-
-
-
-
-
+                                            <p className="facts">Name : {this.state.Billing.firstName} &nbsp; {this.state.Billing.lastName}</p>
+                                            <p className="facts">Address : {this.state.Billing.zip}, {this.state.Billing.billAddress}</p>
+                                            <p className="facts">City:   {this.state.Billing.city} </p>
+                                            <p className="facts">State :  {this.state.Billing.State}</p>
+                                            <p className="facts">Country :  {this.state.Billing.country}</p>
+                                            <p className="facts">Phone Number :  {this.state.Billing.pno}</p>
                                         </Paper><br/>
-                                        <div align="center">
-                                            <Button
-                                                variant="contained"
-                                                onClick={() => this.props.history.push('/edit-billing/'+this.state.s)}
-                                            >
-                                                Edit Billing Details
-                                            </Button></div>
+
                                     </Grid>
                                     <Grid item xs={4}>
                                         <Paper className="papers1 box" >
 
                                             <h6 align="center" > Delivery Details</h6><br/>
-                                            <p className="facts">Delivery address :  {this.state.deliveryadd}
+                                            <p className="facts">Delivery address :  {this.state.Billing.deliveryadd}
                                             </p>
-                                            <p className="facts">Delivery Instructions :  {this.state.instructions}</p>
+                                            <p className="facts">Delivery Instructions :  {this.state.Billing.instructions}</p>
                                             {(() => {
-                                                if (this.state.cashDelivery==true) {
+                                                if (this.state.Billing.cashDelivery===true) {
                                                     return   <p className="facts">Payment Type : Cash on Delivery</p>
                                                 }
                                             })()}
@@ -203,16 +189,16 @@ export default class ReviewDetails extends Component {
                                     </Grid>
 
                                     {(() => {
-                                        if (this.state.cashDelivery==false) {
+                                        if (this.state.Billing.cashDelivery===false) {
                                             // noinspection JSAnnotator
                                             return  <Grid item xs={4}>
                                                 <Paper className="papers1">
                                                     <h6 align="center" >Payment Details</h6>
                                                     <p className="facts">Payment Type : Credit Card </p>
-                                                    <p className="facts">Card Number : {this.state.cno} </p>
-                                                    <p className="facts">Card Holder Name : {this.state.nameCard}</p>
-                                                    <p className="facts">Expire Date: {this.state.month}/{this.state.year} </p>
-                                                    <p className="facts">CCV Number :  {this.state.cvc}</p>
+                                                    <p className="facts">Card Number : {this.state.CreditCard.cno} </p>
+                                                    <p className="facts">Card Holder Name : {this.state.CreditCard.nameCard}</p>
+                                                    <p className="facts">Expire Date: {this.state.CreditCard.month}/{this.state.CreditCard.year} </p>
+                                                    <p className="facts">CCV Number :  {this.state.CreditCard.cvc}</p>
                                                     <p className="facts">Delivery Charges : Rs.{this.state.price=this.getThePrice()}+{this.state.delCharge}</p>
                                                     <p className="facts">Total Payment :
                                                         Rs.{this.state.totalpay}</p>
@@ -220,13 +206,7 @@ export default class ReviewDetails extends Component {
 
 
                                                 </Paper><br/>
-                                                <div align="center">
-                                                    <Button
-                                                        variant="contained"
-                                                        onClick={() => this.props.history.push('/edit-credit-card/'+this.state.s)}
-                                                    >
-                                                        Edit Payment Details
-                                                    </Button></div>
+
                                             </Grid>
                                         }else {
                                             return  <Grid item xs={4}>
@@ -251,7 +231,7 @@ export default class ReviewDetails extends Component {
                                         <div align="center" >
                                             <Button
                                                 variant="contained"  type="submit"
-                                                onClick={() => this.props.history.push('/rate-comment/'+this.state.s)}
+                                                onClick={() => this.oncliick()}
                                                 color="secondary"
 
                                             >
