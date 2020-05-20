@@ -28,7 +28,7 @@ export class ShoppingCartRow extends Component{
         const {key, obj, handleRemoveButton, changeQuantity}= this.props;
         return(
 
-                   <div className="card mb-3 card  shadow-lg" style={{"max-width": "95%", "height":"300px", padding: "20px",margin: "20px" }}>
+                   <div className="card mb-3 card  shadow-lg" style={{"max-width": "auto", "height":"auto", padding: "20px",margin: "20px" }}>
                         <div className="row no-gutters">
                              <div className="row" style={{"width":"100%"}}>
                                  <div className="card-body" >
@@ -44,8 +44,8 @@ export class ShoppingCartRow extends Component{
                                         <p className="card-text">{this.state.products.Category}  </p>
                                         <p className="card-text"><small className="text-muted">{this.state.products.SubCategory}</small></p>
                                         <br/>
-                                        <p className="card-text"><small className="text-muted">Color: {this.state.products.Color}</small>  </p>
-                                        <p className="card-text"><small className="text-muted">Size: {this.state.products.Size} </small> </p>
+                                        <p className="card-text"><small className="text-muted">Color: {this.props.obj.Color}</small>  </p>
+                                        <p className="card-text"><small className="text-muted">Size: {this.props.obj.Size} </small> </p>
                                     </div>
                                      </Col>
                                          <Col style={{"width":"50%"}}>

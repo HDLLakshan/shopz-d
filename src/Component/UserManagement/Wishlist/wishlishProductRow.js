@@ -30,7 +30,8 @@ export class WishlistProductRow extends Component{
                                     <Delete color="secondary" fontSize="large" onClick={() => handleRemoveButton(this.state.productId)}/>
                                 </div>
                                 <div style={{margin:"20px"}}>
-                                    <AddToShoppingCart productId={this.props.obj.ProductId} imagePath={this.props.obj.ImageOfProduct} quantity={1} />
+                                    <AddToShoppingCart productId={this.props.obj.ProductId} imagePath={this.props.obj.ImageOfProduct}
+                                                color={this.props.obj.Color} size={this.props.obj.Size} quantity={1} />
                                 </div>
                             </Row>
                             </div>

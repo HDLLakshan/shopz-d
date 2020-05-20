@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import IconButton from "@material-ui/core/IconButton";
-import CartNumber from "../Component/UserManagement/Shopping Cart/CartNumber";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
@@ -17,10 +16,10 @@ import LoginRegView from "../Component/UserManagement/Login/loginRegView";
 import Search from "@material-ui/icons/Search";
 import {Link, NavLink} from "react-router-dom";
 let username='';
-let count=0;
 
 
-class NavBar extends Component{
+
+export default class NavBar extends Component{
     constructor(props) {
         super(props);
         this.logOut = this.logOut.bind(this);
@@ -32,14 +31,8 @@ class NavBar extends Component{
             adminUser:false,
             CategoryList:[],
             addModalShow:false,
-            count:1
+            count:sessionStorage.getItem("count")
         };
-    }
-    get(props){
-        console.log("came");
-        this.setState({
-            count:props
-        })
     }
 
     componentDidMount() {
@@ -62,6 +55,12 @@ class NavBar extends Component{
                 });
             }
         }
+
+        setInterval(()=>{
+            this.setState({
+                count:sessionStorage.getItem("count")
+            })
+        }, 1000)
 
         axios.get('https://servershopping.azurewebsites.net/category/all')
             .then(res => {
@@ -90,7 +89,7 @@ class NavBar extends Component{
                     <Nav.Link as={NavLink} to={"/viewListOfProduct"}> View </Nav.Link>
                     <Nav.Link as={Link} to="/">Home</Nav.Link>
                     {currentUser ? (
-                    <Nav.Link href="/wishlist"><FavoriteBorderIcon/></Nav.Link>
+                    <Nav.Link as={Link} to="/wishlist"><FavoriteBorderIcon/></Nav.Link>
                     ) : ( null )}
 
                     {adminUser && (
@@ -123,7 +122,7 @@ class NavBar extends Component{
                         <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose} history={this.props.history}/>
                     ) : (
                         <IconButton aria-label="cart">
-                            <Badge badgeContent={this.state.count1} color="secondary">
+                            <Badge badgeContent={this.state.count} color="secondary">
                                 <ShoppingCartIcon style={{fill: "white"}} onClick={() => this.setState({addModalShow:true})}/>
                             </Badge>
                         </IconButton>
@@ -150,6 +149,12 @@ class NavBar extends Component{
     }
 
 }
-
-export default NavBar
-
+export function f(props) {
+   console.log(props);
+   if(sessionStorage.getItem("count")){
+       sessionStorage.removeItem("count");
+       sessionStorage.setItem("count", JSON.stringify(props));
+   }else{
+       sessionStorage.setItem("count", JSON.stringify(props));
+   }
+}
