@@ -19,12 +19,17 @@ import {HomeAdmin} from "../HomeAdmin/HomeAdmin";
 import AuthService from "../../UserManagement/services/auth.service";
 import {Unauthorized} from "../Unathorized/Unauthorized";
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
     root: {
-        width: '50%',
-        marginTop: 20,
+        marginTop: 10,
         marginLeft: 10,
         padding: 10
+    },
+    marginTop:{
+        marginTop: '15px'
+    },
+    content:{
+        marginTop: 10
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
@@ -63,7 +68,7 @@ export function Category(props) {
 
     const list_CAT = useSelector(state => state.AllCats).map((cat, i) => {
         return (
-            <ExpansionPanel expanded={expanded === i} onChange={handleChange(i)}>
+            <ExpansionPanel expanded={expanded === i} onChange={handleChange(i)} className={classes.marginTop}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} aria-controls="panel1bh-content"
                                        id="panel1bh-header">
                     <Typography className={classes.secondaryHeading}>Category Name</Typography>
@@ -97,10 +102,10 @@ export function Category(props) {
                 </ExpansionPanelDetails>
                 <Divider/>
                 <ExpansionPanelActions>
-                    <Button size="small" onClick={() => {
+                    <Button variant="contained" size="small" onClick={() => {
                         dispatch(deleteCat(cat.name))
                     }}>DELETE</Button>
-                    <Button size="small" color="primary" onClick={() => {
+                    <Button variant="contained" size="small" color="primary" onClick={() => {
                         dispatch(indexCatlist(i));
                         dispatch(showEditFormCat())
                     }}>
@@ -118,17 +123,16 @@ export function Category(props) {
         <div>
             {
                 admin ?
-                    <div>
+                    <div className={classes.root}>
                         <HomeAdmin path={props}/>
-                        <Row style={{width: '100%'}}>
-                            <Col className={classes.root}>
+                        <Row className={classes.content}>
+                            <Col sm={6} className={classes.marginTop}>
                                 <h2>Category details</h2>
                                 {list_CAT}
                             </Col>
-                            <Col className={classes.root}>
+                            <Col sm={6} className={classes.marginTop}>
                                 <Button style={{width: '100%'}}
                                         variant="contained"
-                                        color="secondary"
                                         startIcon={<AddIcon/>}
                                         onClick={() => dispatch(showFormCat())}
                                 >Add</Button>

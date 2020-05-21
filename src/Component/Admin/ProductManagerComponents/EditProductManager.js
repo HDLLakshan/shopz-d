@@ -3,6 +3,7 @@ import { reduxForm, Field } from 'redux-form';
 import {connect} from "react-redux";
 import {updateUser} from "../../../ReduxStore/action";
 import {FormControl} from "react-bootstrap";
+import Button from "@material-ui/core/Button";
 
 const required = value => value ? undefined : 'Required';
 const renderField = ({ input, label, type, meta: { touched, error },disabled }) => (
@@ -43,7 +44,7 @@ function EditProductManager(props) {
             </div>
             <div className="field">
                 <div className="control">
-                    <button type="submit">Submit</button>
+                    <Button variant="contained" type="submit">Submit</Button>
                 </div>
             </div>
         </form>

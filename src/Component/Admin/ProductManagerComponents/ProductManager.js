@@ -18,32 +18,7 @@ import {Col, Row} from "react-bootstrap";
 import {HomeAdmin} from "../HomeAdmin/HomeAdmin";
 import {Unauthorized} from "../Unathorized/Unauthorized";
 import AuthService from "../../UserManagement/services/auth.service";
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '40%',
-        marginTop: 20,
-        marginLeft: 10,
-        padding: 10
-    },
-    heading: {
-        fontSize: theme.typography.pxToRem(15),
-        flexBasis: '33.33%',
-        flexShrink: 0,
-    },
-    column: {
-        flexBasis: '50%',
-    },
-    helper: {
-        borderLeft: `2px solid ${theme.palette.divider}`,
-        padding: theme.spacing(1, 2),
-    },
-    secondaryHeading: {
-        fontSize: theme.typography.pxToRem(15),
-        flexBasis: '33.33%',
-        color: theme.palette.text.secondary,
-    },
-}));
+import {useStyles} from '../CategoryComponents/Category'
 
 export function ProductManager(props) {
     let admin;
@@ -64,7 +39,7 @@ export function ProductManager(props) {
 
     const list_PM = useSelector(state => state.AllPMs).map((pm, i) => {
         return (
-            <ExpansionPanel expanded={expanded === i} onChange={handleChange(i)}>
+            <ExpansionPanel expanded={expanded === i} onChange={handleChange(i)} className={classes.marginTop}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} aria-controls="panel1bh-content"
                                        id="panel1bh-header">
                     <Typography className={classes.secondaryHeading}>User Name</Typography>
@@ -87,10 +62,10 @@ export function ProductManager(props) {
                 </ExpansionPanelDetails>
                 <Divider/>
                 <ExpansionPanelActions>
-                    <Button size="small" onClick={() => {
+                    <Button variant="contained" size="small" onClick={() => {
                         dispatch(deleteUser(pm.email))
                     }}>Delete</Button>
-                    <Button size="small" color="primary" onClick={() => {
+                    <Button variant="contained" size="small" color="primary" onClick={() => {
                         dispatch(indexPMlist(i));
                         dispatch(showEditForm())
                     }}>
@@ -108,17 +83,16 @@ export function ProductManager(props) {
         <div>
             {
                 admin ?
-                    <div>
+                    <div className={classes.root}>
                         <HomeAdmin path={props}/>
-                        <Row style={{width: '100%'}}>
-                            <Col className={classes.root}>
+                        <Row className={classes.content}>
+                            <Col sm={6} className={classes.marginTop}>
                                 <h2>Product Managers' Login details</h2>
                                 {list_PM}
                             </Col>
-                            <Col className={classes.root}>
+                            <Col sm={6} className={classes.marginTop}>
                                 <Button style={{width: '100%'}}
                                         variant="contained"
-                                        color="secondary"
                                         startIcon={<AddIcon/>}
                                         onClick={() => dispatch(showForm())}
                                 >Add</Button>
@@ -128,7 +102,7 @@ export function ProductManager(props) {
                         </Row>
                     </div>
                     :
-                    <Unauthorized />
+                    <Unauthorized/>
             }
         </div>
     )
