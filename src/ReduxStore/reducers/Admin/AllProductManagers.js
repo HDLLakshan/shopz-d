@@ -6,13 +6,13 @@ const AllProductManagerReducer = (state =[],action) =>{
             return [...state,action.payload]
         case 'UPDATE' :
             return state.map((user,key)=>{
-                if(user.username=== action.payload.username){
+                if(user.email=== action.payload.email){
                     return action.payload;
                 }
                 return user;
             });
         case 'DELETE' :
-            return state.filter(pm => pm.username !== action.payload)
+            return state.filter(pm => pm.email !== action.payload)
         default:
             return state
     }

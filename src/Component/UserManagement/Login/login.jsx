@@ -36,6 +36,7 @@ class Login extends React.Component {
                     Username:'',
                     Password:''
                 });
+
                 if(res.success){
                     this.props.history.push('/');
                     window.location.reload();

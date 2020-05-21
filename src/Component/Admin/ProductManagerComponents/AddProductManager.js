@@ -3,6 +3,7 @@ import { reduxForm, Field } from 'redux-form';
 import {addUser} from "../../../ReduxStore/action";
 import {connect} from "react-redux";
 import {FormControl} from "react-bootstrap";
+import Button from "@material-ui/core/Button";
 
 const required = value => value ? undefined : 'Required';
 const minLength = min => value =>
@@ -54,7 +55,7 @@ function AddProductManager(props) {
                 </div>
                 <div className="field">
                     <div className="control">
-                        <button type="submit">Submit</button>
+                        <Button variant="contained" type="submit">Submit</Button>
                     </div>
                 </div>
             </form>

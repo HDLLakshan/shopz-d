@@ -39,6 +39,7 @@ export const DeleteListPM = (data) => {
     }
 };
 export const addUser = (data) => {
+
     return (dispatch) => {
         confirmAlert({
             title: 'Confirm to submit',
@@ -46,13 +47,23 @@ export const addUser = (data) => {
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => {
-                        dispatch(showForm());
-                        dispatch(AssignUser(data));
-                        return axios.post('http://localhost:4000/admin/add', data)
-                            .then(() => {})
+                    onClick:  () => {
+
+                        axios.post('http://localhost:4000/admin/add', data , )
+                            .then((response) => {
+                                console.log(response)
+                                if (response.status == 200){
+                                    dispatch(AssignUser(data));
+                                    dispatch(showForm());
+                                }
+                                else if (response.status == 208){
+                                    alert('user email already exist')
+                                }else {
+                                    alert(response.status)
+                                }
+                            })
                             .catch(error => {
-                                throw(error);
+                                alert(error);
                             });
                     }
                 },
@@ -62,9 +73,10 @@ export const addUser = (data) => {
                 }
             ]
         });
-
     }
 };
+
+
 
 
 export const updateUser = (data) => {
@@ -76,10 +88,16 @@ export const updateUser = (data) => {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        dispatch(showEditForm());
-                        dispatch(UpdateList(data));
-                        return axios.put(`http://localhost:4000/admin/${data.username}`,data)
-                            .then(() => {})
+
+                        return axios.put(`http://localhost:4000/admin/${data.email}`,data)
+                            .then((response) => {
+                                if (response.status == 200){
+                                    dispatch(showEditForm());
+                                    dispatch(UpdateList(data));
+                                } else {
+                                    alert(response.status)
+                                }
+                            })
                             .catch(error => {
                                 throw(error);
                             });
@@ -95,6 +113,7 @@ export const updateUser = (data) => {
     }
 };
 export const deleteUser = (data) => {
+    console.log(data)
     return (dispatch) => {
         confirmAlert({
             title: 'Confirm to submit',
@@ -103,9 +122,14 @@ export const deleteUser = (data) => {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        dispatch(DeleteListPM(data));
+
                         return axios.delete(`http://localhost:4000/admin/${data}`)
                             .then(response => {
+                                if (response.status == 200){
+                                    dispatch(DeleteListPM(data));
+                                } else {
+                                    alert(response.status)
+                                }
                             })
                             .catch(error => {
                                 throw(error);
@@ -187,10 +211,16 @@ export const addCat = (data) => {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        dispatch(showFormCat());
-                        dispatch(AssignCat(data));
+
                         return axios.post('http://localhost:4000/category/add', data)
-                            .then(response => {})
+                            .then(response => {
+                                if (response.status == 200){
+                                    dispatch(showFormCat());
+                                    dispatch(AssignCat(data));
+                                } else {
+                                    alert(response.status)
+                                }
+                            })
                             .catch(error => {
                                 throw(error);
                             });
@@ -216,11 +246,14 @@ export const updateCat = (data) => {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        dispatch(showEditFormCat());
-                        dispatch(UpdateListCat(data))
                         return axios.put(`http://localhost:4000/category/${data.name}`,data)
                             .then(response => {
-
+                                if (response.status === 200){
+                                    dispatch(showEditFormCat());
+                                    dispatch(UpdateListCat(data));
+                                } else {
+                                    alert(response.status)
+                                }
                             })
                             .catch(error => {
                                 throw(error);
@@ -246,9 +279,14 @@ export const deleteCat = (data) => {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        dispatch(DeleteListCat(data));
+
                         return axios.delete(`http://localhost:4000/category/${data}`)
                             .then(response => {
+                                if (response.status === 200){
+                                    dispatch(DeleteListCat(data));
+                                } else {
+                                    alert(response.status)
+                                }
                             })
                             .catch(error => {
                                 throw(error);
@@ -296,5 +334,9 @@ export const Login = (data)=>{
             throw(error);
         });
     throw new SubmissionError({ username: 'User does not exist', _error: 'Login failed!' })
+};
+
+export const CartLength = (data)=>{
+    return {type:'count', payload:data}
 };
 

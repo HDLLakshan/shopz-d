@@ -8,8 +8,10 @@ import ShowEditFormCat from "./Category/ShowEditFormCat";
 import ShowFormCat from "./Category/ShowFormCat";
 import AllCategoryReducer from "./Category/AllCategories";
 import IndexCategory from "./Category/IndexCategory";
+import CartCount from "./Cart/CartCount";
 
 const allReducers = combineReducers({
+    CartCount:CartCount,
     ShowEditPM: ShowEdit,
     ShowAddPM: ShowForm,
     AllPMs: AllProductManagerReducer,
