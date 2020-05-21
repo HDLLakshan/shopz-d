@@ -34,8 +34,6 @@ class AuthService {
 
 
     register(userObj) {
-        console.log("came");
-        console.log(userObj);
         return axios.post(API_URL + "register", userObj);
     }
 

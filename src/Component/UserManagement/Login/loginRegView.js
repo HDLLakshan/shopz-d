@@ -1,8 +1,7 @@
 import React from 'react';
 import Login from "./login"
-import { Register } from "./register"
+import Register from "./register"
 import './style.scss';
-// import '../../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import "bootstrap/dist/css/bootstrap.css";
 import AuthService from "../services/auth.service";
@@ -47,7 +46,6 @@ export default class LoginRegView extends React.Component{
         const currentActive = isLogginActive ? "login" : "register";
         return (
             <router>
-                {/*<div onClick={this.state.loading ? (<Home/>) : (*/}
                 <div className="App">
                     <div className="login">
                         <div className="container2" ref={ref => (this.container = ref)}>
@@ -66,7 +64,6 @@ export default class LoginRegView extends React.Component{
                         />
                     </div>
                 </div>
-                {/*)}></div>*/}
             </router>
         );
     }

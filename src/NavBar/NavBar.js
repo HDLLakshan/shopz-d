@@ -12,12 +12,9 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
 import GetShoppingCart from "../Component/UserManagement/Shopping Cart/getShoppingCart";
 import {Badge} from "@material-ui/core";
-import LoginRegView from "../Component/UserManagement/Login/loginRegView";
 import Search from "@material-ui/icons/Search";
 import {Link, NavLink} from "react-router-dom";
 let username='';
-
-
 
 export default class NavBar extends Component{
     constructor(props) {

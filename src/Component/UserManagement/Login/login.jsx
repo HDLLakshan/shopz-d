@@ -1,7 +1,6 @@
 import React from "react";
 import LoginImg from "../../../Assests/download.svg";
 import AuthService from "../services/auth.service";
-import {LoginRegView} from "./loginRegView";
 import { withRouter } from 'react-router-dom'
 
 class Login extends React.Component {
@@ -21,23 +20,13 @@ class Login extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
-    handleValidation(){
-        if(!this.state.Username)
-            alert('Please enter the username');
-        else if(!this.state.Password)
-            alert('Please enter the password');
-        else
-           this.setState({isValidated:true});
-    }
-
     handleSubmit(event){
         event.preventDefault();
         const userData = {
             Username: this.state.Username,
             Password: this.state.Password
         };
-
+        //Calling the AuthService login axios method
         AuthService.login(userData).then(
             res => {
                 console.log(res);
@@ -48,7 +37,6 @@ class Login extends React.Component {
                     Password:''
                 });
                 if(res.success){
-                    // window.location.assign('http://localhost:3000/');
                     this.props.history.push('/');
                     window.location.reload();
                 }
@@ -81,14 +69,13 @@ class Login extends React.Component {
     }
 
 render(){
-    const { errors } = this.state;
     return (
 
             <div className="base-container">
                 <div className="header">Login</div>
                 <div className="content">
                     <div className="image">
-                        <img src={LoginImg}/>
+                        <img src={LoginImg} alt="Login image"/>
                     </div>
                     <form onSubmit={this.handleSubmit}>
                         <div className="form">
@@ -114,7 +101,7 @@ render(){
                 </div>
             </div>
 
-    );}
-
+        );
+    }
 }
 export default withRouter(Login);
