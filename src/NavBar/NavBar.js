@@ -141,18 +141,18 @@ class NavBar extends Component {
                         </IconButton>
                     )}
                 </Nav>
-                {currentUser || adminUser ? (
+
                     <Nav>
                         <Form inline>
-                            {currentUser || salesUser ? (<div>
+                           <div>
                                 <FormControl defaultValue={this.state.SearchVal} type="text" placeholder="Search"
                                              className="mr-sm-2"
                                              onChange={(e) => this.setState({SearchVal: e.target.value})}/>
 
                                 <Nav.Link as={NavLink} to={'/search/' + this.state.SearchVal}>
-                                    <Button variant="outline-light" size={'large'} startIcon={<Search/>}/>
+                                    <Button  size={'large'} variant="contained" color="primary" size="large" startIcon={<Search/>}/>
                                 </Nav.Link>
-                            </div>) : (null)}
+                            </div>
 
                             {currentUser || adminUser ? (
                                 <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>
@@ -161,7 +161,7 @@ class NavBar extends Component {
                             )}
                         </Form>
                     </Nav>
-                ) : (null)}
+
 
             </Navbar>
         )
