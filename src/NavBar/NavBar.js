@@ -10,12 +10,14 @@ import Button from "@material-ui/core/Button";
 import AuthService from "../Component/UserManagement/services/auth.service";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
+import SearchIcon from '@material-ui/icons/Search';
 import GetShoppingCart from "../Component/UserManagement/Shopping Cart/getShoppingCart";
 import {Badge} from "@material-ui/core";
 import LoginRegView from "../Component/UserManagement/Login/loginRegView";
 import Search from "@material-ui/icons/Search";
 import {Link, NavLink, withRouter} from "react-router-dom";
 import './NavBar.scss'
+import Row from "react-bootstrap/Row";
 
 let username = '';
 
@@ -85,85 +87,86 @@ class NavBar extends Component {
         const {currentUser, salesUser, adminUser} = this.state;
         let addModalClose = () => this.setState({addModalShow: false});
         return (
-            <Navbar className="layout" variant="dark">
-                <text className="name">RARE</text>
+            <Navbar className="layout" sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
+                <Navbar.Brand className="name">RARE</Navbar.Brand>
+
                 {currentUser || adminUser ? (
-                    <Navbar.Brand href="/userMan"> Hi {username}! </Navbar.Brand>
+                    <Nav.Link style={{color: 'white'}} as={NavLink} to={"/add"}> Hi {username}! </Nav.Link>
                 ) : (null)}
-                <Nav className="mr-auto">
 
-                    {currentUser || salesUser ? (
-                        <div>
-                            <Nav.Link as={NavLink} to={"/add"}>Add</Nav.Link>
-                            <Nav.Link as={NavLink} to={"/viewListOfProduct"}> View </Nav.Link>
-                        </div>   ) : (null)}
-                            <Nav.Link as={Link} to="/">Home</Nav.Link>
-                            < NavDropdown title="Categories">
-                                {
-                                    this.state.CategoryList.map((item, index) => {
-                                        return (
-                                            <div key={index}>
+                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        {currentUser || salesUser ? (
+                                <Nav.Link as={NavLink} to={"/add"}>Add</Nav.Link>
+                            ) : (null)}
 
-                                                <NavDropdown.Header
-                                                    class="dropdown-submenu">{item.name}</NavDropdown.Header>
-                                                <NavDropdown.Item as={Link} to={'/search/' + item.name}
-                                                                  style={{color: "blue"}}> All {item.name} </NavDropdown.Item>
-                                                {
-                                                    item.subCategory.map((txt, i) => {
-                                                        return (
-                                                            <NavDropdown.Item key={i} class="dropdown-menu" as={Link}
-                                                                              to={'/search/' + txt}>{txt}</NavDropdown.Item>
-                                                        )
-                                                    })
-                                                }
-                                            </div>
-                                        )
-                                    })
-                                }
-                                <NavDropdown.Divider/>
-                                <NavDropdown.Item href={'/rated'} eventKey="4.4">Top-Rated</NavDropdown.Item>
-                            </NavDropdown>
+                        {currentUser || salesUser ? (
+                            <Nav.Link as={NavLink} to={"/viewListOfProduct"}>View</Nav.Link>
+                        ) : (null)}
 
+                        {!adminUser ? (
+                        <Nav.Link as={Link} to="/">Home</Nav.Link>
+                        ) : (null)}
 
+                        {!adminUser ? (
+                        <NavDropdown title="Categories" id="basic-nav-dropdown">
+                            {
+                                this.state.CategoryList.map((item, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <NavDropdown.Header
+                                                class="dropdown-submenu">{item.name}</NavDropdown.Header>
+                                            <NavDropdown.Item as={Link} to={'/search/' + item.name}
+                                                              style={{color: "blue"}}> All {item.name} </NavDropdown.Item>
+                                            {
+                                                item.subCategory.map((txt, i) => {
+                                                    return (
+                                                        <NavDropdown.Item key={i} class="dropdown-menu" as={Link}
+                                                                          to={'/search/' + txt}>{txt}</NavDropdown.Item>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    )
+                                })
+                            }
+                            <NavDropdown.Divider/>
+                            <NavDropdown.Item href={'/rated'} eventKey="4.4">Top-Rated</NavDropdown.Item>
+                        </NavDropdown>
+                        ) : (null)}
 
-                    {currentUser ? (
-                        <Nav.Link as={Link} to="/wishlist"><FavoriteBorderIcon/></Nav.Link>
-                    ) : (null)}
-                    {this.state.addModalShow ? (
-                        <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose}
-                                         history={this.props.history}/>
-                    ) : (
-                        <IconButton aria-label="cart">
-                            <Badge badgeContent={this.state.count} color="secondary">
-                                <ShoppingCartIcon style={{fill: "white"}}
-                                                  onClick={() => this.setState({addModalShow: true})}/>
-                            </Badge>
-                        </IconButton>
-                    )}
-                </Nav>
-
-                    <Nav>
-                        <Form inline>
-                           <div>
-                                <FormControl defaultValue={this.state.SearchVal} type="text" placeholder="Search"
-                                             className="mr-sm-2"
-                                             onChange={(e) => this.setState({SearchVal: e.target.value})}/>
-
-                                <Nav.Link as={NavLink} to={'/search/' + this.state.SearchVal}>
-                                    <Button  size={'large'} variant="contained" color="primary" size="large" startIcon={<Search/>}/>
-                                </Nav.Link>
-                            </div>
-
-                            {currentUser || adminUser ? (
-                                <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>
-                            ) : (
-                                <Nav.Link href="/loginRegView">Login</Nav.Link>
-                            )}
-                        </Form>
+                        {currentUser ? (
+                        <Nav.Link href="#link"><FavoriteBorderIcon/></Nav.Link>
+                        ) : (null)}
+                        { !adminUser || (this.state.addModalShow && currentUser) ? (
+                            <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose}
+                                             history={this.props.history}/>
+                        ) : (
+                            <IconButton aria-label="cart">
+                                <Badge badgeContent={this.state.count} color="secondary">
+                                    <ShoppingCartIcon style={{fill: "white"}}
+                                                      onClick={() => this.setState({addModalShow: true})}/>
+                                </Badge>
+                            </IconButton>
+                        )}
                     </Nav>
-
-
+                    <Form inline>
+                        <FormControl defaultValue={this.state.SearchVal}
+                                     type="text" placeholder="Search" className="mr-sm-2"
+                                     onChange={(e) => this.setState({SearchVal: e.target.value})}/>
+                        <Nav.Link className="paddingNone" as={NavLink} to={'/search/' + this.state.SearchVal}>
+                            <IconButton style={{color: "white", padding: 0}}><SearchIcon/></IconButton>
+                        </Nav.Link>
+                    </Form>
+                    {currentUser || adminUser || salesUser ? (
+                        <Nav.Link style={{color: 'white'}} href="/" onClick={this.logOut}>Logout</Nav.Link>
+                    ) : (
+                        <Nav.Link style={{color: 'white'}} href="/loginRegView">Login</Nav.Link>
+                    )}
+                </Navbar.Collapse>
             </Navbar>
+
         )
     }
 }
