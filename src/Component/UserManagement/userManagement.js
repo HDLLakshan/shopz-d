@@ -4,8 +4,13 @@ import LoginImg from "../../Assests/download.svg";
 import axios from "axios";
 import {store} from "react-notifications-component";
 import AuthService from "./services/auth.service";
+import swal from 'sweetalert';
+import { withRouter } from 'react-router-dom';
 
-export default class UserManagement extends Component{
+class UserManagement extends Component{
+    passwordChanged;
+    modifiedUser;
+    _id;
 
     constructor(props) {
         super(props);
@@ -15,7 +20,10 @@ export default class UserManagement extends Component{
             Username:undefined,
             Email:'',
             PasswordOne:'',
-            PasswordTwo:''
+            PasswordTwo:'',
+            showPasswordChange:false,
+            passwordNoMatch:'',
+            CurrentPassword:''
         };
 
 
@@ -26,21 +34,21 @@ export default class UserManagement extends Component{
         this.handleEmail= this.handleEmail.bind(this);
         this.handlePassword= this.handlePassword.bind(this);
         this.handleConfirmPassword= this.handleConfirmPassword.bind(this);
+        this.handleCurrentPassword= this.handleCurrentPassword.bind(this);
+        this.handleDelete= this.handleDelete.bind(this);
     }
 
     componentDidMount() {
 
         const user = AuthService.getUsername();
-
         if (user) {
-            console.log(user);
             this.setState({
                 Username: user,
             }, () => {
                 axios.post('http://localhost:4000/users/getOne' + this.state.Username)
                     .then(res => {
-                        console.log(res.data);
                         this.setState({
+                            UserId:res.data._id,
                             FirstName: res.data.FirstName,
                             LastName: res.data.LastName,
                             UserName: res.data.Username,
@@ -52,25 +60,39 @@ export default class UserManagement extends Component{
 
     }
 
-    handleSubmit(){
+    handleSubmit(event){
+        event.preventDefault();
+        if(this.state.CurrentPassword){
+            const newDetails={
+                FirstName: this.state.FirstName,
+                LastName: this.state.LastName,
+                Username:this.state.Username,
+                Email: this.state.Email,
+                PasswordOne: this.state.PasswordOne,
+                PasswordTwo: this.state.PasswordTwo,
+                CurrentPassword:this.state.CurrentPassword
+            };
 
-
-        console.log("aaaaaa");
-        const newDetails={
-            FirstName: this.state.FirstName,
-            LastName: this.state.LastName,
-            Username:this.state.Username,
-            Email: this.state.Email,
-            PasswordOne: this.state.PasswordOne,
-        };
-
-        console.log(newDetails);
-        axios.put('http://localhost:4000/users/edit-details'+this.state.Email, newDetails)
-            .then(res =>{
-                alert(res.data);
-            });
-
-
+            axios.put('http://localhost:4000/users/edit-details'+this.state.UserId, newDetails).then(res=>{
+                if(res.data.success){
+                    swal("Hey!", "You changed your data!", "success").then(() =>null );
+                    this.setState({
+                        FirstName: res.data.modifiedUser.FirstName,
+                        LastName: res.data.modifiedUser.LastName,
+                        UserName: res.data.modifiedUser.Username,
+                    })
+                }
+                else{
+                    if(res.data.Error)
+                    swal("Hey!", "Current Password you entered is wrong!", "error").then(() => null);
+                }
+                if(res.data.passwordChanged){
+                    this.props.history.push('./loginRegView');
+                }
+            })
+        }else{
+            swal("Hey!", "Please Enter your current Password ", "error").then(() => null);
+        }
     }
     handleFirstName(event){
         this.setState({
@@ -97,14 +119,14 @@ export default class UserManagement extends Component{
         });
     }
     handlePassword(event){
-        if(event.target.value.length === 1){
-            var generator = require('generate-password');
+        const generator = require('generate-password');
+        const password = generator.generate({
+            length: 8,
+            numbers: true,
+            uppercase: true
+        });
+        if(event.target.value.length === 1 && !password){
 
-            var password = generator.generate({
-                length: 8,
-                numbers: true,
-                uppercase: true
-            });
             store.addNotification({
                 title: "Let's put a strong password!! Copy this password :) ",
                 message: password,
@@ -131,6 +153,41 @@ export default class UserManagement extends Component{
 
         });
     }
+    handleCurrentPassword(event){
+        this.setState({
+            CurrentPassword:event.target.value,
+
+        });
+    }
+    handleDelete(event){
+        event.preventDefault();
+        const deleteUser={
+            CurrentPassword:this.state.CurrentPassword
+        };
+        if(this.state.CurrentPassword){
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, your account will be deleted!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+
+                .then((willDelete) => {
+                    if (willDelete) {
+                        axios.post('http://localhost:4000/users/delete-user' + this.state.Username, deleteUser ).then(res => {
+                            if (res.data.success) {
+                                 AuthService.logout();
+                                this.props.history.push('/');
+                                window.location.reload();
+                            }
+                        });
+                    }});
+        }else{
+            swal("Hey!", "Please Enter your current Password ", "error").then(() => null);
+        }
+
+    }
     render() {
         return(
 
@@ -138,9 +195,9 @@ export default class UserManagement extends Component{
             <div className="header">Edit Details</div>
             <div className="content ">
             <div className="image">
-                <img src={LoginImg}/>
+                <img src={LoginImg} alt="Login image"/>
             </div>
-                <Form onSubmit={this.handleSubmit}>
+                <Form>
                     <Form.Group as={Row} controlId="formPlaintextFirstName">
                         <Form.Label column sm="8">
                             First Name
@@ -179,26 +236,58 @@ export default class UserManagement extends Component{
 
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Form.Label column sm="8">
-                            New Password
+                            Current Password
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type="password" placeholder="Password" onChange={this.handlePassword}/>
+                            <Form.Control type="password" placeholder="Current Password" onChange={this.handleCurrentPassword}/>
                         </Col>
                     </Form.Group>
 
-                    <Form.Group as={Row} controlId="formPlaintextPassword">
-                        <Form.Label column sm="8">
-                            Confirm new password
-                        </Form.Label>
-                        <Col sm="10">
-                            <Form.Control type="password" placeholder="Confirm Password" onChange={this.handleConfirmPassword} />
-                        </Col>
+
+                    <Form.Group as={Row} controlId="formPlainPasswordButton">
+                        <Button onClick={()=>{
+                            this.setState({
+                                showPasswordChange:!this.state.showPasswordChange
+                            })
+                        }} type="button" variant="info" size="lg" block >
+                            Change Password
+                        </Button>
+                    </Form.Group>
+
+
+                    {this.state.showPasswordChange? (
+                        <Form.Group as={Row} controlId="formPlaintextPassword">
+                            <Form.Label column sm="8">
+                                New Password
+                            </Form.Label>
+                            <Col sm="10">
+                                <Form.Control type="password" placeholder="Password" onChange={this.handlePassword}/>
+                            </Col>
+                        </Form.Group>
+                    ):null}
+
+                    {this.state.showPasswordChange? (
+                        <Form.Group as={Row} controlId="formPlaintextPassword">
+                            <Form.Label column sm="8">
+                                Confirm new password
+                            </Form.Label>
+                            <Col sm="10">
+                                <Form.Control type="password" placeholder="Confirm Password" onChange={this.handleConfirmPassword} />
+                            </Col>
+                        </Form.Group>
+                    ):null}
+
+
+                    <Form.Group as={Row} controlId="formPlainButton">
+                    <Button type="submit" variant="info" size="lg" block onClick={this.handleSubmit}>
+                        Submit
+                    </Button>
                     </Form.Group>
 
                     <Form.Group as={Row} controlId="formPlainButton">
-                    <Button type="submit" variant="info" size="lg" block>
-                        Submit
-                    </Button>
+                        <Button type="submit" variant="info" size="lg" block onClick={this.handleDelete}>
+                            Delete account
+                        </Button>
                     </Form.Group>
                 </Form>
                 </div>
@@ -208,3 +297,4 @@ export default class UserManagement extends Component{
     }
 
 }
+export default withRouter(UserManagement)

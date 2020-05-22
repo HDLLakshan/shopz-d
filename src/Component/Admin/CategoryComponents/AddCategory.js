@@ -1,34 +1,45 @@
 import React from 'react';
-import {reduxForm, Field,FieldArray} from 'redux-form';
+import {reduxForm, Field, FieldArray} from 'redux-form';
 import {addCat} from "../../../ReduxStore/action";
 import {connect} from "react-redux";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {FormControl, Form, Row} from "react-bootstrap";
+import IconButton from "@material-ui/core/IconButton";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const required = value => value ? undefined : 'Required';
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
+const renderField = ({input, label, type, meta: {touched, error}}) => (
     <div>
-        <FormControl {...input} type={type} placeholder={label} />
+        <FormControl {...input} type={type} placeholder={label}/>
         <small>{touched && ((error && <span>{error}</span>))}</small>
         <br/>
     </div>
 );
+const useStyles = makeStyles((theme) => ({
+    margin: {
+        margin: theme.spacing(1),
+    }
+}));
 
 function AddCategory(props) {
-    const {handleSubmit, dispatch,pristine,submitting} = props;
+    const classes = useStyles();
 
-    const renderSubCat = ({ fields, meta: { error } }) => (
+    const {handleSubmit, dispatch, pristine, submitting} = props;
+
+    const renderSubCat = ({fields, meta: {error}}) => (
         <div>
-                <button type="button" onClick={() => fields.push()}>
-                    Add Sub Category
-                </button>
+            <Button variant="contained" type="button" onClick={() => fields.push()}>
+                Add Sub Category
+            </Button>
             {fields.map((hobby, index) => (
                 <div key={index}>
-                    <Row>
-                        <Button type="button" startIcon={<DeleteIcon/>} onClick={() => fields.remove(index)}/>
+                    <Row style={{paddingTop: '10px'}}>
+                        <IconButton type="button" onClick={() => fields.remove(index)}>
+                            <DeleteIcon fontSize="small" />
+                        </IconButton>
                         <Field name={hobby} type="text" component={renderField}
-                               label={`Sub Category ${index + 1}`} />
+                               label={`Sub Category ${index + 1}`}/>
                     </Row>
 
                 </div>
@@ -57,18 +68,19 @@ function AddCategory(props) {
                 <div className="control">
                     <Form.Label className="label">Description</Form.Label>
                     <Field className="input" name="description" component={renderField} type="text"
-                           placeholder="Description" />
+                           placeholder="Description"/>
                 </div>
             </div>
 
-            <div className="field">
+            <div className="field" >
                 <div className="control">
                     <FieldArray name="subCategory" component={renderSubCat}/>
                 </div>
             </div>
+            <hr/>
             <div className="field">
                 <div className="control">
-                    <button type="submit">Submit</button>
+                    <Button variant="contained" type="submit">Submit</Button>
                 </div>
             </div>
         </form>

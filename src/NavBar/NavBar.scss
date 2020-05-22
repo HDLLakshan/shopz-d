@@ -1,0 +1,17 @@
+.layout{
+  background: url("./wallpaper.jpg") no-repeat center;
+  height: 90px;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.logout{
+  text-decoration-color: white;
+}
+
+.name{
+  color: white;
+  font-size: 60px;
+  font-family: 'Caesar Dressing', cursive;  position: fixed;
+  left: 40%;
+}

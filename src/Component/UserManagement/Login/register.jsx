@@ -1,10 +1,11 @@
 import React from "react";
 import { store } from 'react-notifications-component';
 import AuthService from "../services/auth.service";
+import { withRouter } from 'react-router-dom';
+import swal from 'sweetalert';
+let password;
 
-
-
-export class Register extends React.Component {
+class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state={
@@ -17,7 +18,6 @@ export class Register extends React.Component {
             isValidated:false,
             errors:[],
             successful: false,
-            role:[]
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,76 +29,56 @@ export class Register extends React.Component {
         this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
     }
 
-    handleValidation(){
-        if(!this.state.FirstName)
-            alert('Please enter the FirstName');
-        else if(!this.state.LastName)
-            alert('Please enter the LastName');
-        else if(!this.state.Username)
-            alert('Please enter the email');
-        else if(!this.state.PasswordOne)
-            alert('Please enter the password');
-        else if(!this.state.PasswordTwo)
-            alert('Please confirm the password');
-        else if(!this.state.PasswordOne===this.state.PasswordTwo)
-            alert('The confirmation password does not match!');
-        else
-            this.setState({isValidated : true});
 
-    }
     handleSubmit(event) {
 
-        event.preventDefault();
-        if (this.state.errors)
-            this.setState({errors: ''});
-        this.setState({
-            successful: false,
-            role:this.state.role.push("user")
-        });
-        // this.handleValidation(res => {
-        //     if (!this.state.isValidated) {
-                const userObject = {
-                    FirstName: this.state.FirstName,
-                    LastName: this.state.LastName,
-                    Username: this.state.Username,
-                    Email: this.state.Email,
-                    PasswordOne: this.state.PasswordOne,
-                    PasswordTwo: this.state.PasswordTwo,
-                    roles:this.state.role
-                };
-
-                AuthService.register(userObject).then(
-                    response => {
-                        console.log(response.data);
-                        this.setState({
-                            errors: response.data,
-                            successful: true
-                        });
-                    },
-                    error => {
-                        const resMessage =
-                            (error.response &&
-                                error.response.data &&
-                                error.response.data.message) ||
-                            error.message ||
-                            error.toString();
-
-                        this.setState({
-                            successful: false,
-                            message: resMessage
-                        });
+            event.preventDefault();
+            const userObject = {
+                FirstName: this.state.FirstName,
+                LastName: this.state.LastName,
+                Username: this.state.Username,
+                Email: this.state.Email,
+                PasswordOne: this.state.PasswordOne,
+                PasswordTwo: this.state.PasswordTwo,
+                roles:'user'
+            };
+            //Calling the axios method in AuthService class by sending an object
+            AuthService.register(userObject).then(
+                response => {
+                    this.setState({
+                        errors: response.data,
+                    });
+                    //Sweet alert showing when successful
+                    if(response.data.success){
+                        swal("Good job!", "You are now registered!", "success");
                     }
-                );
+                },
+                error => {
+                    const resMessage =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
 
-                this.setState({
-                    FirstName: '',
-                    LastName: '',
-                    Username: '',
-                    Email: '',
-                    PasswordOne: '',
-                    PasswordTwo: ''
-                });
+                    this.setState({
+                        successful: false,
+                        message: resMessage
+                    });
+                },
+            );
 
+            //Setting the form empty
+            this.setState({
+                FirstName: '',
+                LastName: '',
+                Username: '',
+                Email: '',
+                PasswordOne: '',
+                PasswordTwo: '',
+                errors:[]
+            });
+        password=''
     }
 
 
@@ -127,15 +107,15 @@ export class Register extends React.Component {
         });
     }
     handlePassword(event){
-        if(event.target.value.length === 1){
-            var generator = require('generate-password');
-
-            var password = generator.generate({
+        if(event.target.value.length === 1 && !password){
+            let generator = require('generate-password');
+            //Generating a random password
+            password = generator.generate({
                 length: 8,
                 numbers: true,
                 uppercase: true
             });
-
+            //Showing the password through a notification
             store.addNotification({
                 title: "Let's put a strong password!! Copy this password :) ",
                 message: password,
@@ -145,12 +125,11 @@ export class Register extends React.Component {
                 animationIn: ["animated", "fadeIn"],
                 animationOut: ["animated", "fadeOut"],
                 dismiss: {
-                    duration: 10000,
+                    duration: 11000,
                     onScreen: true
                 }
             });
         }
-        console.log(password);
         this.setState({
             PasswordOne:event.target.value,
 
@@ -214,5 +193,5 @@ export class Register extends React.Component {
         );
     }
 }
-
+export default withRouter(Register);
 
