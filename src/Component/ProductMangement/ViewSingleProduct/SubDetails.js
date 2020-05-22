@@ -36,7 +36,7 @@ class SubDetails extends Component{
                  return this.props.product.Details[this.props.position].small
              }
              else {
-                 return this.props.product.Details[this.props.position].small
+                 return 0
              }
 
         }
@@ -45,7 +45,7 @@ class SubDetails extends Component{
                 return this.props.product.Details[this.props.position].medium
             }
             else {
-                return this.props.product.Details[this.props.position].medium
+                return 0
 
             }
 
@@ -55,7 +55,7 @@ class SubDetails extends Component{
                 return this.props.product.Details[this.props.position].large
             }
             else {
-                return this.props.product.Details[this.props.position].large
+                return 0
             }
 
         }
@@ -64,7 +64,7 @@ class SubDetails extends Component{
                 return this.props.product.Details[this.props.position].xl
             }
             else {
-                return this.props.product.Details[this.props.position].xl
+                return 0
             }
         }
     }
@@ -105,7 +105,7 @@ class SubDetails extends Component{
                          </FormControl>
                      </div>
 
-                     <p><b>Availability:</b>{this.setAvailability()} </p>
+                     <p><b>Availability : </b><strong style={this.setAvailability() < 10 ? {color:'red' }:{}}>{this.setAvailability()}</strong> </p>
 
                      <input className={' col-md-2'} placeholder="Enter Quantity" required type="number" value={this.state.OrderQuantity} min="1" max={this.setAvailability()}
                      onChange={(event)=> this.setState({OrderQuantity:event.target.value})}/>

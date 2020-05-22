@@ -86,7 +86,7 @@ class MainView extends Component{
             slidesToShow: width/300,
             slidesToScroll: 1,
             autoplay :true,
-            autoplaySpeed : 30000,
+            autoplaySpeed : 7000,
             lazyLoad: true,
             swipe:true,
             swipeToSlide:true,
