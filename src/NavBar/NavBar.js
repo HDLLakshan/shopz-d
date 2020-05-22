@@ -91,11 +91,12 @@ class NavBar extends Component {
                     <Navbar.Brand href="/userMan"> Hi {username}! </Navbar.Brand>
                 ) : (null)}
                 <Nav className="mr-auto">
-                    <Nav.Link hidden={!this.state.adminUser || !this.state.salesUser} href="/add">Add</Nav.Link>
 
                     {currentUser || salesUser ? (
                         <div>
+                            <Nav.Link as={NavLink} to={"/add"}>Add</Nav.Link>
                             <Nav.Link as={NavLink} to={"/viewListOfProduct"}> View </Nav.Link>
+                        </div>   ) : (null)}
                             <Nav.Link as={Link} to="/">Home</Nav.Link>
                             < NavDropdown title="Categories">
                                 {
@@ -122,8 +123,8 @@ class NavBar extends Component {
                                 <NavDropdown.Divider/>
                                 <NavDropdown.Item href={'/rated'} eventKey="4.4">Top-Rated</NavDropdown.Item>
                             </NavDropdown>
-                        </div>
-                    ) : (null)}
+
+
 
                     {currentUser ? (
                         <Nav.Link as={Link} to="/wishlist"><FavoriteBorderIcon/></Nav.Link>
