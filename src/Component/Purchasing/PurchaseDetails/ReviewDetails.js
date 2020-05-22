@@ -7,6 +7,7 @@ import Paper from "@material-ui/core/Paper/Paper";
 import './layout.css'
 import Typography from "@material-ui/core/Typography/Typography";
 import AuthService from "../../UserManagement/services/auth.service";
+import LoaderComponent from "../../ProductMangement/ViewProducts/LoaderComponent";
 
 
 export default class ReviewDetails extends Component {
@@ -45,6 +46,7 @@ export default class ReviewDetails extends Component {
             delCharge:100,
             totalpay:0,
             paying:'',
+            loading:false
         }
     }
 
@@ -80,6 +82,7 @@ export default class ReviewDetails extends Component {
         this.setState({
             products : arrayproduct
         });
+
     }
     changeQuantity(e, id) {
         var myObj=[];
@@ -89,6 +92,8 @@ export default class ReviewDetails extends Component {
                 myObj[j].Quantity = e;
                 sessionStorage.setItem("products", JSON.stringify(myObj));
             }
+
+
         }
         this.setState({
             products: this.state.products.map((res, i) => {
@@ -107,6 +112,7 @@ export default class ReviewDetails extends Component {
     getThePrice(){
 
         var price1=0;
+        var priceDis = 0
         this.state.products.map((res , i )=>{
             price1=res.PricePerUnit* res.Quantity+price1
         },()=>{
@@ -120,16 +126,36 @@ export default class ReviewDetails extends Component {
 
     }
 
-    oncliick(){
 
-        const payobj = {
-            totpay: this.state.totalpay
-        }
-        axios.post('http://localhost:4000/billing/add-payment/' + this.state.uname, payobj)
-            .then(res =>
-                console.log(res.data + " succeeeededddd"));
-        this.props.history.push('/rate-comment/' + this.state.uname);
-        window.location.reload();
+
+    oncliick(e){
+        e.preventDefault();
+        this.setState({
+            loading:true
+        })
+        sessionStorage.removeItem("count");
+        // this.SaveTotal();
+
+        axios.all([
+            axios.post('http://localhost:4000/billing/add-payment/' + this.state.uname+"/"+this.state.totalpay),
+            axios.post('http://localhost:4000/products/sold',this.state.products)
+        ]).then(()=> this.setState({
+            loading:false
+        })).then(()=>
+            this.props.history.push('/rate-comment/' + this.state.uname)
+
+        )
+        //window.location.reload();
+
+
+
+
+    }
+    afterSubmit = () => {
+
+        this.setState({
+            loading:false
+        })
 
 
 
@@ -139,140 +165,155 @@ export default class ReviewDetails extends Component {
 
     render() {
         return (
-            <React.Fragment>
+            <div>
+                {this.state.loading ?     <div >
+                        <div className="d-flex justify-content-center">
+                            <LoaderComponent top={'100px'}/>
+                        </div>
+                    </div> :
+                    <React.Fragment>
 
-                <main className="layout">
-                    <Paper className="paper2">
-                        <Typography component="h1" variant="h4" align="center">
-                            Purchasing Details
-                        </Typography>
-                        <br/>
-                        <Typography variant="h6" gutterBottom align="center">
-                            Review Details
-                        </Typography>
-                        <br/>
-                        <React.Fragment>
+                        <main>
+                            <Paper>
+                                <Typography component="h1" variant="h4" align="center">
+                                    Purchasing Details
+                                </Typography>
+                                <br/>
+                                <Typography variant="h6" gutterBottom align="center">
+                                    Review Details
+                                </Typography>
+                                <br/>
+                                <React.Fragment>
 
-                            <div className="roots">
-                                <Grid container spacing={3}>
+                                    <div className="roots">
+                                        <Grid container spacing={3}>
 
-                                    <Grid item xs={4}>
-                                        <Paper className="papers1">
-                                            <h6 align="center" > Billing Details</h6>
-                                            <p className="facts">Name : {this.state.Billing.firstName} &nbsp; {this.state.Billing.lastName}</p>
-                                            <p className="facts">Address : {this.state.Billing.zip}, {this.state.Billing.billAddress}</p>
-                                            <p className="facts">City:   {this.state.Billing.city} </p>
-                                            <p className="facts">State :  {this.state.Billing.State}</p>
-                                            <p className="facts">Country :  {this.state.Billing.country}</p>
-                                            <p className="facts">Phone Number :  {this.state.Billing.pno}</p>
-                                        </Paper><br/>
 
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        <Paper className="papers1 box" >
 
-                                            <h6 align="center" > Delivery Details</h6><br/>
-                                            <p className="facts">Delivery address :  {this.state.Billing.deliveryadd}
-                                            </p>
-                                            <p className="facts">Delivery Instructions :  {this.state.Billing.instructions}</p>
+                                            <Grid item xs={4}>
+                                                <Paper className="papers1">
+                                                    <h6 align="center"> Billing Details</h6>
+                                                    <p className="facts">Name
+                                                        : {this.state.Billing.firstName} &nbsp; {this.state.Billing.lastName}</p>
+                                                    <p className="facts">Address
+                                                        : {this.state.Billing.zip}, {this.state.Billing.billAddress}</p>
+                                                    <p className="facts">City: {this.state.Billing.city} </p>
+                                                    <p className="facts">State : {this.state.Billing.State}</p>
+                                                    <p className="facts">Country : {this.state.Billing.country}</p>
+                                                    <p className="facts">Phone Number : {this.state.Billing.pno}</p>
+                                                </Paper><br/>
+
+                                            </Grid>
+                                            <Grid item xs={4}>
+                                                <Paper className="papers1 box" style={{marginLeft:30}}>
+
+                                                    <h6 align="center"> Delivery Details</h6><br/>
+                                                    <p className="facts">Delivery address : {this.state.Billing.deliveryadd}
+                                                    </p>
+                                                    <p className="facts">Delivery Instructions
+                                                        : {this.state.Billing.instructions}</p>
+                                                    {(() => {
+                                                        if (this.state.Billing.cashDelivery === true) {
+                                                            return <p className="facts">Payment Type : Cash on Delivery</p>
+                                                        }
+                                                    })()}
+                                                </Paper>
+
+                                            </Grid>
+
                                             {(() => {
-                                                if (this.state.Billing.cashDelivery===true) {
-                                                    return   <p className="facts">Payment Type : Cash on Delivery</p>
+                                                if (this.state.Billing.cashDelivery === false) {
+                                                    // noinspection JSAnnotator
+                                                    return <Grid item xs={4}>
+                                                        <Paper className="papers1">
+                                                            <h6 align="center">Payment Details</h6>
+                                                            <p className="facts">Payment Type : Credit Card </p>
+                                                            <p className="facts">Card Number : {this.state.CreditCard.cno} </p>
+                                                            <p className="facts">Card Holder Name
+                                                                : {this.state.CreditCard.nameCard}</p>
+                                                            <p className="facts">Expire
+                                                                Date: {this.state.CreditCard.month}/{this.state.CreditCard.year} </p>
+                                                            <p className="facts">CCV Number : {this.state.CreditCard.cvc}</p>
+                                                            <p className="facts">Delivery Charges :
+                                                                Rs.{this.state.price = this.getThePrice()}+{this.state.delCharge}</p>
+                                                            <p className="facts">Total Payment :
+                                                                Rs.{this.state.totalpay}</p>
+                                                            <br/>
+
+
+                                                        </Paper><br/>
+
+                                                    </Grid>
+                                                } else {
+                                                    return <Grid item xs={4}>
+                                                        <Paper className="papers1">
+                                                            <h6 align="center">Payment Details</h6>
+                                                            <p className="facts">Payment Type : Cash on Delivery </p>
+                                                            <p className="facts">Delivery Charges :
+                                                                Rs.{this.state.price = this.getThePrice()}+{this.state.delCharge}</p>
+                                                            <p className="facts">Total Payment :
+                                                                Rs.{this.state.totalpay}</p>
+                                                            <br/>
+
+
+                                                        </Paper><br/>
+
+                                                    </Grid>
                                                 }
                                             })()}
-                                        </Paper>
-
-                                    </Grid>
-
-                                    {(() => {
-                                        if (this.state.Billing.cashDelivery===false) {
-                                            // noinspection JSAnnotator
-                                            return  <Grid item xs={4}>
-                                                <Paper className="papers1">
-                                                    <h6 align="center" >Payment Details</h6>
-                                                    <p className="facts">Payment Type : Credit Card </p>
-                                                    <p className="facts">Card Number : {this.state.CreditCard.cno} </p>
-                                                    <p className="facts">Card Holder Name : {this.state.CreditCard.nameCard}</p>
-                                                    <p className="facts">Expire Date: {this.state.CreditCard.month}/{this.state.CreditCard.year} </p>
-                                                    <p className="facts">CCV Number :  {this.state.CreditCard.cvc}</p>
-                                                    <p className="facts">Delivery Charges : Rs.{this.state.price=this.getThePrice()}+{this.state.delCharge}</p>
-                                                    <p className="facts">Total Payment :
-                                                        Rs.{this.state.totalpay}</p>
-                                                    <br/>
 
 
-                                                </Paper><br/>
+                                            <Grid item xs={12}>
+                                                <div class="row">
+                                                    <div class="col-md-9" align="left" style={{"margin-left": 30}}>
+                                                        {(() => {
+                                                            if (this.state.Billing.cashDelivery === true) {
+                                                                return <Button
+                                                                    variant="contained" type="submit"
+                                                                    onClick={() => this.props.history.push('/billing')}
+                                                                    color="primary"
 
-                                            </Grid>
-                                        }else {
-                                            return  <Grid item xs={4}>
-                                                <Paper className="papers1">
-                                                    <h6 align="center" >Payment Details</h6>
-                                                    <p className="facts">Payment Type : Cash on Delivery </p>
-                                                    <p className="facts">Delivery Charges : Rs.{this.state.price=this.getThePrice()}+{this.state.delCharge}</p>
-                                                    <p className="facts">Total Payment :
-                                                        Rs.{this.state.totalpay}</p>
-                                                    <br/>
+                                                                >
+                                                                    Back to Details
+                                                                </Button>
+                                                            } else {
+                                                                return <Button
+                                                                    variant="contained" type="submit"
+                                                                    onClick={() => this.props.history.push('/credit-card')}
+                                                                    color="primary"
+
+                                                                >
+                                                                    Back to Details
+                                                                </Button>
+                                                            }
+                                                        })()}
 
 
-
-                                                </Paper><br/>
-
-                                            </Grid>
-                                        }
-                                    })()}
-
-
-                                    <Grid item xs={12} >
-                                        <div class="row">
-                                            <div class="col-md-9" align="left" style={{"margin-left":30}}>
-                                                {(() => {
-                                                    if (this.state.Billing.cashDelivery===true) {
-                                                        return  <Button
-                                                            variant="contained"  type="submit"
-                                                            onClick={() => this.props.history.push('/billing')}
+                                                    </div>
+                                                    <div align="right" style={{"margin-right": 30}}>
+                                                        <Button
+                                                            variant="contained" type="submit"
+                                                            onClick={(e) => this.oncliick(e)}
                                                             color="primary"
 
                                                         >
-                                                            Back to Details
+                                                            Place Order
                                                         </Button>
-                                                    }else{
-                                                        return  <Button
-                                                            variant="contained"  type="submit"
-                                                            onClick={() => this.props.history.push('/credit-card')}
-                                                            color="primary"
 
-                                                        >
-                                                            Back to Details
-                                                        </Button>
-                                                    }
-                                                })()}
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                            </Grid>
 
+                                        </Grid>
+                                    </div>
+                                </React.Fragment>
+                            </Paper>
 
-
-                                            </div>
-                                            <div align="right" style={{"margin-right":30}}>
-                                                <Button
-                                                    variant="contained"  type="submit"
-                                                    onClick={() => this.oncliick()}
-                                                    color="primary"
-
-                                                >
-                                                    Place Order
-                                                </Button>
-
-                                            </div></div><br/>
-                                    </Grid>
-
-                                </Grid>
-                            </div>
-                        </React.Fragment>
-                    </Paper>
-
-                </main>
-            </React.Fragment>
-
-
+                        </main>
+                    </React.Fragment>
+                }
+            </div>
 
 
         );

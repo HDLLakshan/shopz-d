@@ -29,7 +29,7 @@ export default class DisplayRateComment extends Component {
         this.setState({
             products : arrayproduct
         });
-
+        console.log("hiiiiiii"+this.state.products)
     }
 
     RatingTable() {
@@ -44,7 +44,7 @@ export default class DisplayRateComment extends Component {
             products : oldList
         });
         sessionStorage.setItem('products', JSON.stringify(oldList));
-        sessionStorage.removeItem("count");
+        // sessionStorage.removeItem("count");
         this.props.history.push('/');
         window.location.reload();
 
@@ -56,8 +56,8 @@ export default class DisplayRateComment extends Component {
         return (
             <React.Fragment>
 
-                <main className="layout">
-                    <Paper className="paper">
+                <main>
+                    <Paper>
                         <React.Fragment>
 
                             <React.Fragment>
