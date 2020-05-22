@@ -6,7 +6,7 @@
   overflow: scroll;
 
   .header {
-    color: #17a2b8;
+    color: #888844;
     font-size: 24px;
     font-family: "Open Sans", sans-serif;
   }
@@ -56,7 +56,7 @@
 
           &:focus {
             outline: none;
-            box-shadow: 0px 0px 12px 0.8px #17a2b8;
+            box-shadow: 0px 0px 12px 0.8px #888844;
           }
         }
       }
@@ -95,7 +95,7 @@
 }
 
 .App-header {
-  background-color: #17a2b8;
+  background-color: #888844;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -149,7 +149,7 @@
   flex-direction: column;
   justify-content: center;
   height: 90%;
-  background-color: #17a2b8;
+  background-color: #888844;
   width: 100%;
   position: absolute;
   right: -34%;
@@ -163,8 +163,8 @@
   font-size: 21px;
   padding: 5px 20px;
   border: 0;
-  background-color: #17a2b8;
-  color: #17a2b8;
+  background-color: #888844;
+  color: #888844;
   border-radius: 3px;
   transition: all 250ms ease-in-out;
   cursor: pointer;
@@ -174,7 +174,7 @@
   flex-direction: column;
   justify-content: center;
   height: 90%;
-  background-color: #17a2b8;
+  background-color: #888844;
   width: 100%;
   position: absolute;
   right: -34%;

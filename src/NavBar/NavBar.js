@@ -12,7 +12,6 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
 import GetShoppingCart from "../Component/UserManagement/Shopping Cart/getShoppingCart";
 import {Badge} from "@material-ui/core";
-import LoginRegView from "../Component/UserManagement/Login/loginRegView";
 import Search from "@material-ui/icons/Search";
 import {Link, NavLink, withRouter} from "react-router-dom";
 import './NavBar.scss'
@@ -64,7 +63,7 @@ class NavBar extends Component {
             this.setState({
                 count: sessionStorage.getItem("count")
             })
-        }, 1000)
+        }, 1000);
 
         axios.get('https://servershopping.azurewebsites.net/category/all')
             .then(res => {
@@ -83,7 +82,8 @@ class NavBar extends Component {
 
     render() {
         const {currentUser, salesUser, adminUser} = this.state;
-        let addModalClose = () => this.setState({addModalShow: false});
+        let addModalClose = () => {this.setState({addModalShow: false});
+        }
         return (
             <Navbar className="layout" variant="dark">
                 <text className="name">RARE</text>
@@ -92,11 +92,11 @@ class NavBar extends Component {
                 ) : (null)}
                 <Nav className="mr-auto">
                     <Nav.Link hidden={!this.state.adminUser || !this.state.salesUser} href="/add">Add</Nav.Link>
-
+                    <Nav.Link as={Link} to="/">Home</Nav.Link>
                     {currentUser || salesUser ? (
                         <div>
                             <Nav.Link as={NavLink} to={"/viewListOfProduct"}> View </Nav.Link>
-                            <Nav.Link as={Link} to="/">Home</Nav.Link>
+
                             < NavDropdown title="Categories">
                                 {
                                     this.state.CategoryList.map((item, index) => {
@@ -140,7 +140,7 @@ class NavBar extends Component {
                         </IconButton>
                     )}
                 </Nav>
-                {currentUser || adminUser ? (
+
                     <Nav>
                         <Form inline>
                             {currentUser || salesUser ? (<div>
@@ -153,14 +153,14 @@ class NavBar extends Component {
                                 </Nav.Link>
                             </div>) : (null)}
 
-                            {currentUser || adminUser ? (
+                            {currentUser || adminUser || salesUser ? (
                                 <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>
                             ) : (
                                 <Nav.Link href="/loginRegView">Login</Nav.Link>
                             )}
                         </Form>
                     </Nav>
-                ) : (null)}
+
 
             </Navbar>
         )

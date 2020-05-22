@@ -181,7 +181,7 @@ class Register extends React.Component {
                             <input type="password" value={this.state.PasswordTwo} onChange={this.handleConfirmPassword} placeholder="Confirm Password" />
                         </div>
                         <div className="footer">
-                            <button type="submit" className="btn btn-info">
+                            <button type="submit" className='btn' style={{"background-color" :'#888844', color:"#fff"}}>
                                 Register
                             </button>
                         </div>

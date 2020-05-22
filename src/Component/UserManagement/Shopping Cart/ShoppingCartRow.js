@@ -53,9 +53,10 @@ export class ShoppingCartRow extends Component{
                                             <p className="card-text"> Quantity: <input type="number" id="quantity" placeholder={this.props.obj.Quantity} min="0"
                                                                                        onChange={(e)=>changeQuantity(e.target.value, this.state.ProductId)}/></p>
                                             <br/>
-                                            <h5 className="card-title">LKR {this.state.products.PricePerUnit}.00</h5>
+                                            <h5 className="card-title">LKR {this.state.products.PricePerUnit}.00 <p className="card-text"><small className="text-muted">{this.state.products.Discount}% OFF</small></p> </h5>
+
                                             <br/>
-                                            <Delete color="disabled" fontSize="large" onClick={() => handleRemoveButton(this.state.ProductId)}/>
+                                            <Delete color="disabled" fontSize="large" onClick={() => handleRemoveButton(this.props.obj.ProductId)}/>
                                         </div>
                                          </Col>
                                      </Row>

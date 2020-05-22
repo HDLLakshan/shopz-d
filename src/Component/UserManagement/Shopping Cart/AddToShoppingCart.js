@@ -2,12 +2,11 @@ import React, {Component} from "react";
 import axios from 'axios';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
-import {f} from "../../../NavBar/NavBar";
 
 export default class AddToShoppingCart extends Component{
     constructor(props) {
         super(props);
-
+    console.log("qqqq")
         this.state={
             index:0,
             ToDelete:false,
@@ -15,28 +14,31 @@ export default class AddToShoppingCart extends Component{
             ProductId:'',
             PricePerUnit:'',
             ImagePath:'',
-            count:0
+            count:0,
+            Remove:false
 
         };
         this.handleClick= this.handleClick.bind(this);
     }
     componentDidMount() {
-        let oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
-        const arrayproduct =  JSON.parse(oldproduct);
-        for(var i= 0 ; i <arrayproduct.length ; i++){
-            if(arrayproduct[i].ProductId===this.props.productId){
-                this.setState({
-                    isInList:true,
-                    index:i,
-                    products:[]
-                })
-            }
-        }
+
+                let oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
+                const arrayproduct =  JSON.parse(oldproduct);
+                for(var i= 0 ; i <arrayproduct.length ; i++) {
+                    if (arrayproduct[i].ProductId === this.props.productId) {
+                        this.setState({
+                            isInList: true,
+                            index: i,
+                            products: []
+                        })
+                    }else{
+                        console.log('came')
+                    }
+                }
+
     }
 
-
     componentWillReceiveProps(nextProps, nextContext) {
-
         let oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
         const arrayproduct =  JSON.parse(oldproduct);
         for(var i= 0 ; i <arrayproduct.length ; i++){
@@ -48,6 +50,7 @@ export default class AddToShoppingCart extends Component{
                 })
             }
         }
+
 
     }
 
@@ -65,7 +68,6 @@ export default class AddToShoppingCart extends Component{
                 }
                 arrayproduct.splice(i, 1);
                 sessionStorage.setItem('products', JSON.stringify(arrayproduct));
-                // f(arrayproduct.length+1);
                 sessionStorage.setItem("count", JSON.stringify(arrayproduct.length))
             }
         }
@@ -84,9 +86,9 @@ export default class AddToShoppingCart extends Component{
                     Quantity: this.props.quantity,
                     ImagePath: this.props.imagePath,
                     Size:this.props.size,
-                    Color:this.props.color
+                    Color:this.props.color,
+                    Discount: res.data.Discount
                 };
-                console.log(productObj)
                 arrayproduct.push(productObj);
                 sessionStorage.setItem('products', JSON.stringify(arrayproduct));
                 sessionStorage.setItem('count', JSON.stringify(arrayproduct.length))
@@ -103,15 +105,14 @@ export default class AddToShoppingCart extends Component{
 
     render() {
 
-
-        return(
-            <div>
+            return(
+                <div>
                     {this.state.isInList ? (
                         <RemoveShoppingCartIcon  fontSize="large"  onClick={this.handleClick}/>
                     ):( <AddShoppingCartIcon  fontSize="large"  onClick={this.handleClick} /> )}
-            </div>
-        );
-    }
+                </div>
+            );
 
+    }
 
 }
