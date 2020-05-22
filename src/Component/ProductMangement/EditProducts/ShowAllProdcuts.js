@@ -118,7 +118,7 @@ class ShowAllProdcuts extends Component{
                         <div>
                             <Button size="small" variant="btn btn-warning" startIcon={<Edit/>}
                                     onClick={() => this.props.history.push('/editProductDetails/' + props.original._id)}/>
-                            <Button size="small" variant="btn btn-danger" startIcon={<DeleteIcon/>}
+                            <Button size="small" variant="btn btn-danger"  startIcon={<DeleteIcon/>}
                               onClick={(e) => {
                                   if (window.confirm('Are you sure you wish to delete this item?')) this.deleteProduct(e, props.original._id)
                               }} />

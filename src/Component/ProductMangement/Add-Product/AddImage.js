@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-
+import Button from "@material-ui/core/Button";
+import DeleteForeverSharp from "@material-ui/icons/DeleteForeverSharp"
 
 class AddImage extends Component{
 
@@ -50,17 +51,17 @@ class AddImage extends Component{
                                </div>
 
                                <div className="col col-md-2">
-                                   <input type="number" min={0} className="form-control" placeholder="Medium" name={"StockMedium"}
+                                   <input  type="number" min={0} className="form-control" placeholder="Medium" name={"StockMedium"}
                            onChange={(event) => this.props.Products.StockMedium[txt]=event.target.value} required/>
                                </div>
 
-                               <div className="col col-md-2">
-                                   <input type="number" min={0} className="form-control" placeholder="Large" name={"StockLarge"}
+                               <div  className="col col-md-2">
+                                   <input  type="number" min={0} className="form-control" placeholder="Large" name={"StockLarge"}
                            onChange={(event) =>this.props.Products.StockLarge[txt]=event.target.value} required/>
                                </div>
 
                                <div className="col col-md-2">
-                                   <input type="number" min={0} className="form-control" placeholder="XL" name={"StockXL"}
+                                   <input  type="number" min={0} className="form-control" placeholder="XL" name={"StockXL"}
                            onChange={(event) => this.props.Products.StockXL[txt]=event.target.value} required/>
                                </div>
 
@@ -72,6 +73,10 @@ class AddImage extends Component{
                            onChange={(event => this.onFileChange(event, txt))} required/>
                            <label className="custom-file-label" >{this.state.imageURL[txt]}</label>
                                </div>
+                               <Button hidden={(txt+1) !== this.props.length || txt === 0 } size="medium"
+                                       onClick={(e)=>this.props.remove(e)} color="secondary" startIcon={<DeleteForeverSharp/>}  />
+
+
                            </div>
                            <br/>
                        </div>

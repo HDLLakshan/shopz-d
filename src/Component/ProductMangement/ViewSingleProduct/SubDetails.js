@@ -2,10 +2,8 @@ import React, {Component} from "react";
 import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
 import {Rating} from "@material-ui/lab";
-import axios from "axios";
 import AddToShoppingCart from "../../UserManagement/Shopping Cart/AddToShoppingCart";
 import AddToWishlist from "../../UserManagement/Wishlist/AddToWishlist";
-import Nav from "react-bootstrap/Nav";
 import {Row} from "react-bootstrap";
 
 class SubDetails extends Component{

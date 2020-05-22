@@ -56,14 +56,14 @@ class AddNewItemToProduct extends Component{
 
         axios.post('https://servershopping.azurewebsites.net/products/addnewItemToProduct/' + this.props.match.params.id, formData)
             .then((res) => {
-                console.log(res.data)
+                // Redirect to Product List
+                this.props.history.push('/viewListOfProduct')
                 console.log('Student successfully updated')
             }).catch((error) => {
             console.log(error)
         })
 
-        // Redirect to Product List
-        this.props.history.push('/viewListOfProduct')
+
 
 
     }

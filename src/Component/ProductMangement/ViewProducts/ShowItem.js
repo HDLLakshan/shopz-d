@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import Figure from "react-bootstrap/Figure";
-import {Link,withRouter} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import ImageView from "./ImageView";
 import '../../../css/App.css'
 import {Rating} from "@material-ui/lab";
@@ -33,8 +32,8 @@ const {product} = this.props
                         <strong hidden={product.Discount === 0} style={{float: 'right', color:'red'}}>{product.Discount}% OFF</strong>
                     </Card.Body>
                     <Card.Footer>
-                        <Rating precision={0.5}  style={{marginLeft: '20px', marginTop:'10px'}}
-                                defaultValue={product.TotRate} size="small" disabled={true}/>
+                        {product.TotRate === 0 ?  <p className={"newarrival text-center"}>NEW</p> :  <Rating precision={0.5}  style={{marginLeft: '20px', marginTop:'10px'}}
+                                defaultValue={product.TotRate} size="small" disabled={true}/> }
                     </Card.Footer>
                 </Card.Body>
             </Card>
