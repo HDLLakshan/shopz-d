@@ -83,7 +83,9 @@ export default class RateCommentRow extends Component{
                 <td>
                     <Grid container spacing={3} justify="center"  >
                         <Grid item xs={4} >
-                            < img src={this.props.obj.ImagePath}/>
+                            < img src={this.props.obj.ImagePath}
+                                  style={{width: '15vw', height: '15vw'}}
+                            />
                         </Grid>
 
 

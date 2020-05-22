@@ -7,6 +7,7 @@ import Paper from "@material-ui/core/Paper/Paper";
 import './layout.css'
 import {Button, Col} from "reactstrap";
 import AuthService from "../../UserManagement/services/auth.service";
+import Box from "@material-ui/core/Box/Box";
 
 export default class CardDetails extends React.Component {
 
@@ -224,20 +225,25 @@ export default class CardDetails extends React.Component {
         return (
             <React.Fragment>
 
-                <main className="layout">
-                    <Paper className="paper">
+                <main>
+                    <Paper>
+
+                        <br/>
                         <Typography component="h1" variant="h4" align="center">
+
                             Purchasing Details
+
                         </Typography>
                         <br/>
 
                         <React.Fragment>
-
+                            <Typography variant="h5" gutterBottom align="center">
+                                Payment Details
+                            </Typography>
                             <Grid container spacing={1} justify="center">
-                                <Typography variant="h6" gutterBottom align="center">
-                                    Payment Details
-                                </Typography>
+
                                 <br/>
+
                                 <div >
                                     <div className="row">
                                         <div className="small-5 small-offset-1 columns ">
@@ -290,22 +296,22 @@ export default class CardDetails extends React.Component {
                                                     <div className="form-row align-items-center">
                                                         <div className="col-md-10">
                                                             <div class="row">
-                                                            <select value={this.state.value} onChange={this.handleChangeCtype}
-                                                            className="customdroplist"
-                                                            >
-                                                                <option value="Visa">Visa</option>
-                                                                <option value="AMEX">AMEX</option>
-                                                                <option value="Master">Master</option>
-                                                                <option value="Discover">Discover</option>
-                                                            </select>
-                                                            <input type="text"
-                                                                   className="form-control mb-2 f" id="inlineFormInput"
-                                                                   placeholder="Card Number"
-                                                                   name="cno"
-                                                                   value={this.state.CreditCard.cno}
-                                                                   onChange={this.onChangeCardNo.bind(this)}
+                                                                <select value={this.state.value} onChange={this.handleChangeCtype}
+                                                                        className="customdroplist"
+                                                                >
+                                                                    <option value="Visa">Visa</option>
+                                                                    <option value="AMEX">AMEX</option>
+                                                                    <option value="Master">Master</option>
+                                                                    <option value="Discover">Discover</option>
+                                                                </select>
+                                                                <input type="text"
+                                                                       className="form-control mb-2 f" id="inlineFormInput"
+                                                                       placeholder="Card Number"
+                                                                       name="cno"
+                                                                       value={this.state.CreditCard.cno}
+                                                                       onChange={this.onChangeCardNo.bind(this)}
 
-                                                            />
+                                                                />
                                                             </div>
                                                             <div align="center" style={{ fontSize: 16, color: "red" }} className="cnoError">
                                                                 {this.state.cnoError}
@@ -381,7 +387,7 @@ export default class CardDetails extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <br/><br/>
+                                    <br/>
                                 </div>
 
                             </Grid>
@@ -393,9 +399,10 @@ export default class CardDetails extends React.Component {
                                     Back
                                 </Button>
                             </div>
+                            <br/>
                         </React.Fragment>
-                    </Paper>
 
+                    </Paper>
                 </main>
             </React.Fragment>
 

@@ -276,22 +276,15 @@ class  BillingDetails extends Component{
 
     }
 
-
-
-
-
-
-
-
-
-
     render(){
         return (
 
             <React.Fragment>
 
-                <main className="layout">
-                    <Paper className="paper">
+
+                <main>
+                    <Paper className="paper" >
+                        <br/>
                         <Typography component="h1" variant="h4" align="center">
                             Purchasing Details
                         </Typography>
@@ -304,9 +297,10 @@ class  BillingDetails extends Component{
                                     Billing Details
                                 </Typography>
                                 <br/>
+
                                 <Grid container spacing={1} justify="center" >
 
-                                    <Grid item xs={11} >
+                                    <Grid item xs={7} >
                                         <Form onSubmit={this.onSubmit} >
                                             <FormGroup row inline  justify="center" >
 
@@ -391,10 +385,12 @@ class  BillingDetails extends Component{
                                                 </Col>
                                                 <Col sm={2}>
                                                     <CountryDropdown
-                                                        className="dropdowns"
+                                                        style={{width:320,height:35}}
                                                         value={this.state.Billing.country}
                                                         onChange={(e) => this.onChangeCountry(e)}
+
                                                     />
+
                                                     <div align="center" style={{ fontSize: 16, color: "red" }}>
                                                         {this.state.countryError}
                                                     </div>
