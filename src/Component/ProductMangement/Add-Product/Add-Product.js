@@ -6,9 +6,11 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import axios from 'axios';
 import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
-
+import AddCircleSharp from '@material-ui/icons/AddCircleSharp'
 import AddImage from "./AddImage";
 import Typography from "@material-ui/core/Typography";
+import AuthService from "../../UserManagement/services/auth.service";
+import LoaderComponent from "../ViewProducts/LoaderComponent";
 
 
 class AddProduct extends Component{
@@ -32,9 +34,10 @@ class AddProduct extends Component{
                 StockXL:[],
 
             },
+            addBy:'',
             SubCat:['Select'],
             CategoryList:[],
-            show:false,
+            loading:false,
             Addarr:[0],
         }
 
@@ -63,11 +66,13 @@ class AddProduct extends Component{
             .catch((error) => {
                 console.log(error);
             })
+
+        this.setState({addBy:AuthService.getUsername() })
     }
 
     onSubmit = (e) => {
         e.preventDefault()
-
+this.setState({loading:true})
         const formData = new FormData()
         formData.append("ProductName", this.state.Products.ProductName);
         formData.append("ProductBrand", this.state.Products.ProductBrand);
@@ -75,33 +80,27 @@ class AddProduct extends Component{
         formData.append("PricePerUnit", this.state.Products.PricePerUnit);
         formData.append("SubCategory", this.state.Products.SubCategory);
         formData.append("Discount", this.state.Products.Discount);
-        for (let l = 0; l < this.state.Products.ImageOfProduct.length; l++) {
-            formData.append('ImageOfProduct', this.state.Products.ImageOfProduct[l]);
-        }
-
-        for (let m = 0; m < this.state.Products.ColorOfImg.length; m++) {
-            console.log(this.state.Products.ColorOfImg[m])
+        formData.append("addBy", this.state.addBy);
+        for (let m = 0; m < this.state.Products.ImageOfProduct.length; m++) {
+            formData.append('ImageOfProduct', this.state.Products.ImageOfProduct[m]);
             formData.append('ColorOfImg['+m+']', this.state.Products.ColorOfImg[m]);
             formData.append('StockSmall['+m+']', this.state.Products.StockSmall[m]);
             formData.append('StockMedium['+m+']', this.state.Products.StockMedium[m]);
             formData.append('StockLarge['+m+']', this.state.Products.StockLarge[m]);
             formData.append('StockXL['+m+']', this.state.Products.StockXL[m]);
-            }
+        }
 
 
-            formData.append("StockAmount", this.state.Products.StockAmount);
             axios.post('https://servershopping.azurewebsites.net/products/add-product', formData, {headers: {"Content-type": "multipart/form-data"}})
-                .then(()=> this.afterSubmit() )
+                .then(()=>  this.props.history.push('/viewListOfProduct') )
             ;
 
             this.setState({
                 Products: '',
-                show:false,
+                loading:false,
             })
 
     }
-
-
 
 
     render() {
@@ -109,6 +108,12 @@ class AddProduct extends Component{
                 return null
 
         return(
+            <div>
+            {this.state.loading ?     <div >
+                        <div className="d-flex justify-content-center">
+                            <LoaderComponent top={'100px'}/>
+                        </div>
+                    </div> :
             <div className="container-fluid">
                 <Typography component="h1" variant="h4" align="center">
                     Add New Product
@@ -167,23 +172,23 @@ class AddProduct extends Component{
                     <div >
                         {this.state.Addarr.map((index) => {
                             return(
-                            <AddImage key={index} txt={index} keyss={1} Products={this.state.Products}/>
+                            <AddImage key={index} txt={index} length={this.state.Addarr.length} remove={this.removeItem} Products={this.state.Products}/>
                             )
                         })}
                     </div>
 
 
-                    <Button size="small" variant="contained" color="primary"  onClick={(e)=>this.AddItem(e)}>
+                    <Button style={{marginLeft:"48%"}} size="small" variant="contained" color="primary" startIcon={<AddCircleSharp/>}  onClick={(e)=>this.AddItem(e)}>
                             Add More
                     </Button>
                      <br/><br/>
-                         <Button className={"center"} type={"submit"} variant="contained" color="primary" size="large" >
+                         <Button style={{marginLeft:"48%"}} type={"submit"} variant="contained" color="primary" size="large" startIcon={<SaveIcon/>}>
                              Save
                          </Button>
 
                      </form>
                 </div>
-            </div>
+            </div> } </div>
         )
     }
 
@@ -193,6 +198,11 @@ class AddProduct extends Component{
         });
     }
 
+    removeItem = (e) => {
+
+        this.state.Addarr.pop()
+        this.forceUpdate()
+    }
 
     findIndex = () => {
         if(this.state.CategoryList.length === 0)
@@ -207,10 +217,6 @@ class AddProduct extends Component{
         }
     }
 
-    afterSubmit = () => {
-        this.props.history.push('/viewListOfProduct')
-        window.location.reload()
-    }
 
 }
 

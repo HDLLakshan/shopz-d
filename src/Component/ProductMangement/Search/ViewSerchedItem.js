@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 import axios from 'axios';
 import {Alert, Card} from "react-bootstrap";
-import ImageView from "../ViewProducts/ImageView";
-import {Rating} from "@material-ui/lab";
 import LoaderComponent from "../ViewProducts/LoaderComponent";
 import ShowItem from "../ViewProducts/ShowItem";
 

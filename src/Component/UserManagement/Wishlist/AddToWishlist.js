@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import {Delete} from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
 
 class AddToWishlist extends Component {
     constructor(props) {
@@ -92,6 +93,7 @@ class AddToWishlist extends Component {
                                 Category: res.data.Category,
                                 PricePerUnit: res.data.PricePerUnit,
                                 SubCategory: res.data.SubCategory,
+                                Discount:res.data.Discount,
                                 ImageOfProduct: this.props.imagePath,
                                 Quantity: this.props.quantity,
                                 Color:this.props.color,
@@ -117,8 +119,11 @@ class AddToWishlist extends Component {
                                 Category: res.data.Category,
                                 PricePerUnit: res.data.PricePerUnit,
                                 SubCategory: res.data.SubCategory,
+                                Discount:res.data.Discount,
                                 ImageOfProduct: this.props.imagePath,
                                 Quantity: this.props.quantity,
+                                Color:this.props.color,
+                                Size:this.props.size
                             };
                             const proObj = [];
                             proObj.push(productObj);
@@ -145,8 +150,14 @@ class AddToWishlist extends Component {
         return(
             <div>
                 {this.state.addToWishList ? (
-                    <FavoriteIcon color="secondary"  fontSize="large"  onClick={this.handleWishlist}/>
-                ):( <FavoriteBorderIcon fontSize="large"  onClick={this.handleWishlist} /> )}
+                    <IconButton>
+                        <FavoriteIcon  color="secondary"  fontSize="large"  onClick={this.handleWishlist}/>
+                    </IconButton>
+
+                ):( <IconButton>
+                        <FavoriteBorderIcon fontSize="large"  onClick={this.handleWishlist} />
+                    </IconButton>
+                    )}
             </div>
 
         );

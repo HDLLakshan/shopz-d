@@ -5,7 +5,7 @@ import AuthService from '../services/auth.service';
 import authHeader from "../services/auth-header";
 import { withRouter } from 'react-router-dom'
 import {Col, Row} from "react-bootstrap";
-import Image from './images.png';
+import Image from './wallpaper.jpg';
 import GetShoppingCart from "../Shopping Cart/getShoppingCart";
 
 class GetWishlist extends Component{
@@ -71,7 +71,7 @@ class GetWishlist extends Component{
         let addModalClose =() => this.setState({addModalShow : false});
         return(
         <div>
-            <div style={{ fontWeight: 'bold', backgroundColor:'#a3c2c2',  padding: "15px",margin: "20px" }} className='text-center text-white'
+            <div style={{ fontWeight: 'bold', backgroundColor:'#000000',  padding: "15px",margin: "20px" }} className='text-center text-white'
                  onClick={()=>{
                      this.props.history.push('/');
                      window.location.reload();
@@ -81,45 +81,29 @@ class GetWishlist extends Component{
             <Row>
                 <Col md="4" >
                     <div className="block-example border border-dark" style={{  margin: "40px" }}>
-                        <div style={{ backgroundColor:'#a3c2c2', "width": "100%","height":"100px"}}></div>
+                        <div style={{ backgroundColor:'#000000', "width": "100%","height":"100px"}}></div>
                         <div style={{ "height":"400px"}}>
+                            <img src={Image} style={{"height":"25%", "width":"100%"}}/>
                             <Row>
-                                <Col md="3">
-                                    <img src={Image} style={{"height":"75%", "width":"75%", margin:"15px"}}/>
+                                <Col>
+                                    <h5 style={{"margin-top":"35px", "margin-left":'100px', fontWeight: 'bold'}}>{this.state.username}'s RARE Wishlist</h5>
                                 </Col>
-                                <Col md="9">
-                                    <h5 style={{"margin-top":"35px"}}>{this.state.username}</h5>
-                                </Col>
+
                             </Row>
                             <Row>
-                                <div onClick={()=>{this.props.history.push('/userMan')}} style={{width:"100%"}}>
+                                <div className='btn' onClick={()=>{this.props.history.push('/userMan')}} style={{width:"100%"}}>
                                     <Col>
                                         <hr/>
-                                        <p style={{margin:"15px", fontWeight: 'bold'}}>My Account</p>
+                                        <p style={{margin:"15px", fontWeight: 'bold', color:'#888844'}}>My Account</p>
                                         <hr/>
                                     </Col>
                                 </div>
                             </Row>
                             <Row>
-                                <div style={{width:"100%"}} onClick={()=> {
-                                    this.setState({
-                                        addModalShow: true
-                                    }, ()=>{
-                                        return <GetShoppingCart show={true} onHide={addModalClose}/>
-                                    })
-                                }}>
+                                <div className='btn' style={{width:"100%"}} onClick={()=>{this.props.history.push('/userMan')}}>
                                     <Col>
                                         <hr/>
-                                        <p style={{margin:"15px", fontWeight: 'bold'}}>Shopping Cart</p>
-                                        <hr/>
-                                    </Col>
-                                </div>
-                            </Row>
-                            <Row>
-                                <div style={{width:"100%"}} onClick={()=>{this.props.history.push('/userMan')}}>
-                                    <Col>
-                                        <hr/>
-                                        <p style={{margin:"15px", fontWeight: 'bold'}}>Home</p>
+                                        <p style={{margin:"15px", fontWeight: 'bold', color:'#888844'}}>Home</p>
                                         <hr/>
                                     </Col>
                                 </div>
@@ -127,7 +111,7 @@ class GetWishlist extends Component{
                         </div>
                     </div>
                 </Col>
-                <Col md="8">
+                <Col md="8" xs="12">
                     <div className="card-deck">
                         {this.WishlistComponentTemplate()}
                     </div>

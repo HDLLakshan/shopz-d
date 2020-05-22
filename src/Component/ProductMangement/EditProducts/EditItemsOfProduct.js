@@ -1,8 +1,10 @@
 import React, {Component} from "react";
 import Typography from "@material-ui/core/Typography";
 import axios from "axios";
-import {Button} from "react-bootstrap";
+import Button from "@material-ui/core/Button";
 import LoaderComponent from "../ViewProducts/LoaderComponent";
+import DeleteSharp from "@material-ui/icons/DeleteSharp"
+import SaveRounded from "@material-ui/icons/SaveRounded"
 
 class EditItemsOfProduct extends Component{
 
@@ -94,6 +96,7 @@ class EditItemsOfProduct extends Component{
 
                                             <p>Item {txt + 1}</p>
                                             <div className={"form-group row"}>
+                                                <img className="col col-md-2" src={item.imgPath} style={{width:'15vw',height:'15vw'}}/>
 
                                                 <div className="col col-md-2">
                                                     <label>Color</label>
@@ -138,12 +141,13 @@ class EditItemsOfProduct extends Component{
                                                            required/>
                                                 </div>
 
-                                                <div>
-                                                    <Button size="small" variant="btn btn-warning"
+                                                <div style={{marginLeft:'40%', marginTop:'-70px' }}>
+                                                    <Button startIcon={<SaveRounded/>} size="medium" color={"primary"} variant="outlined"
                                                             onClick={e => this.onEdit(e, txt)}>Edit & Save</Button>
-                                                    <br/>
-                                                    <Button hidden={Products.Details.length === 1} size="small"
-                                                            variant="btn btn-danger"
+
+                                                    <Button startIcon={<DeleteSharp/>} hidden={Products.Details.length === 1} size="medium"
+                                                            variant="outlined"
+                                                            color={"red"}
                                                             onClick={e => {
                                                                 if (window.confirm('Are you sure you wish to delete this item?')) this.onDelete(e, item.color)
                                                             }}>Delete</Button>

@@ -249,7 +249,7 @@ class UserManagement extends Component{
                             this.setState({
                                 showPasswordChange:!this.state.showPasswordChange
                             })
-                        }} type="button" variant="info" size="lg" block >
+                        }} type="button" className='btn' style={{"background-color" :'#888844', color:"#fff"}} size="lg" block >
                             Change Password
                         </Button>
                     </Form.Group>
@@ -279,13 +279,13 @@ class UserManagement extends Component{
 
 
                     <Form.Group as={Row} controlId="formPlainButton">
-                    <Button type="submit" variant="info" size="lg" block onClick={this.handleSubmit}>
+                    <Button type="submit" className='btn' style={{"background-color" :'#888844', color:"#fff"}} size="lg" block onClick={this.handleSubmit}>
                         Submit
                     </Button>
                     </Form.Group>
 
                     <Form.Group as={Row} controlId="formPlainButton">
-                        <Button type="submit" variant="info" size="lg" block onClick={this.handleDelete}>
+                        <Button type="submit" className='btn' style={{"background-color" :'#888844', color:"#fff"}} size="lg" block onClick={this.handleDelete}>
                             Delete account
                         </Button>
                     </Form.Group>

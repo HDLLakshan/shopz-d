@@ -2,10 +2,8 @@ import React, {Component} from "react";
 import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
 import {Rating} from "@material-ui/lab";
-import axios from "axios";
 import AddToShoppingCart from "../../UserManagement/Shopping Cart/AddToShoppingCart";
 import AddToWishlist from "../../UserManagement/Wishlist/AddToWishlist";
-import Nav from "react-bootstrap/Nav";
 import {Row} from "react-bootstrap";
 
 class SubDetails extends Component{
@@ -114,8 +112,9 @@ class SubDetails extends Component{
 
                      <Row>
                          <div style={{margin: "20px"}}>
+
                              <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity}
-                                                size={this.state.size} color={this.props.product.Details[this.props.position].color}/>
+                                                                                        size={this.state.size} color={this.props.product.Details[this.props.position].color}/>
 
                          </div>
                          <div style={{margin: "20px"}}>
@@ -127,7 +126,7 @@ class SubDetails extends Component{
                  </div>
         )
     }
-
 }
+
 
 export default SubDetails
