@@ -112,8 +112,9 @@ class SubDetails extends Component{
 
                      <Row>
                          <div style={{margin: "20px"}}>
+
                              <AddToShoppingCart productId={this.props.product._id} imagePath={this.props.product.Details[this.props.position].imgPath} quantity={this.state.OrderQuantity}
-                                                size={this.state.size} color={this.props.product.Details[this.props.position].color}/>
+                                                                                        size={this.state.size} color={this.props.product.Details[this.props.position].color}/>
 
                          </div>
                          <div style={{margin: "20px"}}>
@@ -125,7 +126,7 @@ class SubDetails extends Component{
                  </div>
         )
     }
-
 }
+
 
 export default SubDetails

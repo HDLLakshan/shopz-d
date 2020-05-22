@@ -94,7 +94,7 @@ render(){
 
                         </div>
                         <div className="footer">
-                            <button type="submit" className="btn btn-info">
+                            <button type="submit" className='btn' style={{"background-color" :'#888844', color:"#fff"}}>
                                 Login
                             </button>
                         </div>

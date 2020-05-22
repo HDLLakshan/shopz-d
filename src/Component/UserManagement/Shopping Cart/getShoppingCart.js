@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import {ShoppingCartRow} from "./ShoppingCartRow";
-import {Modal,Button} from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import { withRouter } from 'react-router-dom'
 import AuthService from "../services/auth.service";
-
 
  class GetShoppingCart extends Component{
 
@@ -22,7 +21,7 @@ import AuthService from "../services/auth.service";
         this.handleRemoveButton=this.handleRemoveButton.bind(this);
     }
     componentDidMount() {
-        let oldproduct = [];
+        let oldproduct;
         oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
         const arrayproduct = JSON.parse(oldproduct);
         console.log(arrayproduct);
@@ -31,16 +30,16 @@ import AuthService from "../services/auth.service";
         });
     }
     changeQuantity(e, id) {
-        var myObj=[];
+        let myObj;
         myObj = JSON.parse(sessionStorage.getItem("products"));
-        for(var j=0; j<myObj.length; j++){
+        for(let j=0; j<myObj.length; j++){
             if(myObj[j].ProductId===id){
                 myObj[j].Quantity = e;
                 sessionStorage.setItem("products", JSON.stringify(myObj));
             }
         }
         this.setState({
-            products: this.state.products.map((res, i) => {
+            products: this.state.products.map((res) => {
                 if (res.ProductId === id) {
                     res.Quantity = parseInt(e);
                     return res;
@@ -60,13 +59,13 @@ import AuthService from "../services/auth.service";
     handleRemoveButton(id){
         var oldList=[];
         oldList = JSON.parse(sessionStorage.getItem("products"));
-        for(var i = 0 ; i<oldList.length;i++){
+        for(let i = 0 ; i<oldList.length; i++){
             if(oldList[i].ProductId===id){
+                console.log(oldList[i].ProductId);
                 if(sessionStorage.getItem("count")){
                     sessionStorage.removeItem("count");
                 }
-                var index = oldList.indexOf(id);
-                oldList.splice(index,1);
+                oldList.splice(i,1);
                 this.setState({
                     products:oldList
                 })
@@ -74,12 +73,12 @@ import AuthService from "../services/auth.service";
         }
         sessionStorage.setItem('products', JSON.stringify(oldList));
         sessionStorage.setItem('count', JSON.stringify(oldList.length));
-
+        this.props.history.push('/');
     }
     getThePrice(){
-        var price1=0;
-        this.state.products.map((res , i )=>{
-            price1=res.PricePerUnit* res.Quantity+price1
+        let price1 = 0;
+        this.state.products.map((res)=>{
+            price1=(res.PricePerUnit - res.PricePerUnit*(res.Discount/100))* res.Quantity + price1
         },()=>{
             this.setState({
                 price:price1
@@ -91,24 +90,23 @@ import AuthService from "../services/auth.service";
     }
 
     render(){
-        const {history}=this.props;
         return(
 
                 <Modal show={this.props.show} aria-labelledby="contained-modal-title-vcenter" size="lg">
                     <Modal.Header closeButton onClick={this.props.onHide}>
-                        <Modal.Title style={{color:"#334d4d", fontWeight: 'bold'}}>
+                        <Modal.Title style={{color:"#888844", fontWeight: 'bold'}}>
                             RARE
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div>
-                            <p style={{ color: '#94b8b8', fontWeight: 'bold' }}>
+                            <p style={{ color: '#888844', fontWeight: 'bold' }}>
                                 your
                             </p>
-                            <p style={{ color: '#527a7a', fontWeight: 'bold', fontSize:'30px'}}>
+                            <p style={{ color: '#888844', fontWeight: 'bold', fontSize:'30px'}}>
                                 Cart
                             </p>
-                            <div style={{ fontWeight: 'bold', backgroundColor:'#d1e0e0',  padding: "15px",margin: "20px" }} className='text-center text-white'
+                            <div style={{ fontWeight: 'bold', backgroundColor:'#ddddbb',  padding: "15px",margin: "20px" }} className='text-center text-white'
                             onClick={()=>{
                                 this.props.history.push('/');
                                 window.location.reload();
