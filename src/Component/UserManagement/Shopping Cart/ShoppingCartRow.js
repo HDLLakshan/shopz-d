@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import { Delete } from '@material-ui/icons';
 import axios from "axios";
 import {Col, Row} from "react-bootstrap";
+import IconButton from "@material-ui/core/IconButton";
 
 export class ShoppingCartRow extends Component{
     constructor(props) {
@@ -56,7 +57,9 @@ export class ShoppingCartRow extends Component{
                                             <h5 className="card-title">LKR {this.state.products.PricePerUnit}.00 <p className="card-text"><small className="text-muted">{this.state.products.Discount}% OFF</small></p> </h5>
 
                                             <br/>
+                                            <IconButton aria-label="delete">
                                             <Delete color="disabled" fontSize="large" onClick={() => handleRemoveButton(this.props.obj.ProductId)}/>
+                                            </IconButton>
                                         </div>
                                          </Col>
                                      </Row>

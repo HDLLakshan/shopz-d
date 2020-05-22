@@ -2,11 +2,11 @@ import React, {Component} from "react";
 import axios from 'axios';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
+import IconButton from "@material-ui/core/IconButton";
 
 export default class AddToShoppingCart extends Component{
     constructor(props) {
         super(props);
-    console.log("qqqq")
         this.state={
             index:0,
             ToDelete:false,
@@ -24,15 +24,13 @@ export default class AddToShoppingCart extends Component{
 
                 let oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
                 const arrayproduct =  JSON.parse(oldproduct);
-                for(var i= 0 ; i <arrayproduct.length ; i++) {
+                for(let i= 0 ; i <arrayproduct.length ; i++) {
                     if (arrayproduct[i].ProductId === this.props.productId) {
                         this.setState({
                             isInList: true,
                             index: i,
                             products: []
                         })
-                    }else{
-                        console.log('came')
                     }
                 }
 
@@ -41,7 +39,7 @@ export default class AddToShoppingCart extends Component{
     componentWillReceiveProps(nextProps, nextContext) {
         let oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
         const arrayproduct =  JSON.parse(oldproduct);
-        for(var i= 0 ; i <arrayproduct.length ; i++){
+        for(let i= 0 ; i <arrayproduct.length ; i++){
             if(arrayproduct[i].ProductId===nextProps.productId){
                 this.setState({
                     isInList:true,
@@ -56,12 +54,12 @@ export default class AddToShoppingCart extends Component{
 
     handleClick()
     {
-    let oldproduct = [];
+    let oldproduct;
     oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
     const arrayproduct = JSON.parse(oldproduct);
 
     if(this.state.isInList){
-        for(var i= 0 ; i <arrayproduct.length ; i++){
+        for(let i= 0 ; i <arrayproduct.length ; i++){
             if(arrayproduct[i].ProductId===this.props.productId) {
                 if(sessionStorage.getItem("count")){
                     sessionStorage.removeItem("count");
@@ -108,8 +106,14 @@ export default class AddToShoppingCart extends Component{
             return(
                 <div>
                     {this.state.isInList ? (
-                        <RemoveShoppingCartIcon  fontSize="large"  onClick={this.handleClick}/>
-                    ):( <AddShoppingCartIcon  fontSize="large"  onClick={this.handleClick} /> )}
+                        <IconButton>
+                            <RemoveShoppingCartIcon  fontSize="large"  onClick={this.handleClick}/>
+                        </IconButton>
+
+                    ):( <IconButton>
+                            <AddShoppingCartIcon  fontSize="large"  onClick={this.handleClick} />
+                        </IconButton>
+                         )}
                 </div>
             );
 
