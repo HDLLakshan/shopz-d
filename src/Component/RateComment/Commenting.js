@@ -39,36 +39,42 @@ class Commenting extends Component{
         return (
 
 
-                        <Paper
-                           style={{width:450}}
-                           elevation={0}
+            <Paper
+                style={{width:450}}
+                elevation={0}
+            >
+
+                <h3 align="center">Comments</h3>
+                <div
+                    style={getListStyle()}
+                    class="scroll scroll2 scroll3 scroll4 spacee"
+                >
+
+                    {this.props.com.map(e =>
+
+
+
+                        <div
+
                         >
-
-                            <h3 align="center">Comments</h3>
-                          <div
-                              style={getListStyle()}
-                              class="scroll scroll2 scroll3 scroll4 spacee"
-                          >
-
-                            {this.props.com.map(e =>
-
-
-
-                                <Paper
-                                    class="scroll scroll2 scroll3 scroll4 border1"
-                                style={getItemStyle()}
-                                >
+                            {(() => {
+                                if (!(e.comment==='')) {
+                                    return<Paper  class="scroll scroll2 scroll3 scroll4 border1"
+                                                  style={getItemStyle()}>
+                                        <h6>  {e.userid}:</h6>
+                                        {e.comment}
+                                    </Paper>
+                                }
+                            })()}
 
 
-                                    <h6>{e.userid}:</h6>
-                                {e.comment}
 
-                                </Paper>
+                        </div>
 
-                            )}
+                    )}
 
-                          </div>
-                        </Paper>
+                </div>
+            </Paper>
 
 
         );

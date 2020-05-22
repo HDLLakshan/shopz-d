@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import axios from 'axios';
 import {Alert, Card} from "react-bootstrap";
-import ImageView from "../ViewProducts/ImageView";
-import {Rating} from "@material-ui/lab";
 import LoaderComponent from "../ViewProducts/LoaderComponent";
+import ShowItem from "../ViewProducts/ShowItem";
 
 class ViewSerchedItem extends Component{
 
@@ -69,26 +68,8 @@ this.getdata()
             <div className={"row mt-4"}>
 
                 {
-                    this.state.product.map((obj,index) =>
-                        <div onClick={()=>this.props.history.push('/details/'+ obj._id)} className={"col-auto - variable width content"}>
-
-                        <Card  style={{ width: '14rem' }}>
-                            <div >
-                            <ImageView ImgArr={obj.Details}/>
-                            </div >
-                            <Card.Body>
-                                <Card.Title>{obj.ProductName}</Card.Title>
-                                <Card.Body >
-                                    <strong>Rs.{obj.PricePerUnit}</strong>
-                                    <strong hidden={obj.Discount === 0} style={{float: 'right', color:'red'}}>{obj.Discount}% OFF</strong>
-                                </Card.Body>
-                                <Card.Footer>
-                                    <Rating precision={0.5}  style={{marginLeft: '20px', marginTop:'10px'}}
-                                            defaultValue={obj.TotRate} size="small" disabled={true}/>
-                                </Card.Footer>
-                            </Card.Body>
-                        </Card>
-                        </div>
+                    this.state.product.map((item,index) =>
+                       <ShowItem product={item} key={index}/>
                     )}
             </div>
             </div>

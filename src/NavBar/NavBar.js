@@ -82,8 +82,7 @@ class NavBar extends Component {
 
     render() {
         const {currentUser, salesUser, adminUser} = this.state;
-        let addModalClose = () => {this.setState({addModalShow: false});
-        }
+        let addModalClose = () => this.setState({addModalShow: false});
         return (
             <Navbar className="layout" variant="dark">
                 <text className="name">RARE</text>
@@ -91,12 +90,13 @@ class NavBar extends Component {
                     <Navbar.Brand href="/userMan"> Hi {username}! </Navbar.Brand>
                 ) : (null)}
                 <Nav className="mr-auto">
-                    <Nav.Link hidden={!this.state.adminUser || !this.state.salesUser} href="/add">Add</Nav.Link>
-                    <Nav.Link as={Link} to="/">Home</Nav.Link>
+
                     {currentUser || salesUser ? (
                         <div>
+                            <Nav.Link as={NavLink} to={"/add"}>Add</Nav.Link>
                             <Nav.Link as={NavLink} to={"/viewListOfProduct"}> View </Nav.Link>
-
+                        </div>   ) : (null)}
+                            <Nav.Link as={Link} to="/">Home</Nav.Link>
                             < NavDropdown title="Categories">
                                 {
                                     this.state.CategoryList.map((item, index) => {
@@ -122,8 +122,8 @@ class NavBar extends Component {
                                 <NavDropdown.Divider/>
                                 <NavDropdown.Item href={'/rated'} eventKey="4.4">Top-Rated</NavDropdown.Item>
                             </NavDropdown>
-                        </div>
-                    ) : (null)}
+
+
 
                     {currentUser ? (
                         <Nav.Link as={Link} to="/wishlist"><FavoriteBorderIcon/></Nav.Link>
@@ -143,15 +143,15 @@ class NavBar extends Component {
 
                     <Nav>
                         <Form inline>
-                            {currentUser || salesUser ? (<div>
+                           <div>
                                 <FormControl defaultValue={this.state.SearchVal} type="text" placeholder="Search"
                                              className="mr-sm-2"
                                              onChange={(e) => this.setState({SearchVal: e.target.value})}/>
 
                                 <Nav.Link as={NavLink} to={'/search/' + this.state.SearchVal}>
-                                    <Button variant="outline-light" size={'large'} startIcon={<Search/>}/>
+                                    <Button  size={'large'} variant="contained" color="primary" size="large" startIcon={<Search/>}/>
                                 </Nav.Link>
-                            </div>) : (null)}
+                            </div>
 
                             {currentUser || adminUser || salesUser ? (
                                 <Nav.Link href="/" onClick={this.logOut}>Logout</Nav.Link>

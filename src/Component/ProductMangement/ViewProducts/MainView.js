@@ -118,7 +118,7 @@ class MainView extends Component{
 
                                     <React.Fragment key={index}>
                                         <Col>
-                                            <ShowItem  product={item} cat={txt.name}/>
+                                            <ShowItem  product={item} />
                                         </Col>
                                     </React.Fragment>
 
