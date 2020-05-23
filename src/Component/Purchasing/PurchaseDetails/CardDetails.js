@@ -226,7 +226,7 @@ export default class CardDetails extends React.Component {
             <React.Fragment>
 
                 <main>
-                    <Paper>
+                    <Paper elevation={0}>
 
                         <br/>
                         <Typography component="h1" variant="h4" align="center">
@@ -379,7 +379,7 @@ export default class CardDetails extends React.Component {
                                                             </div>
                                                         </div>
                                                         <div className="col-md-4 ">
-                                                            <button className="btn btn-primary" type="submit" value="Submit"> Save & Next</button>
+                                                            <button className="btn"  style={{"background-color" :'#888844', color:"#fff"}} type="submit" value="Submit"> Save & Next</button>
                                                         </div>
                                                     </div>
                                                 </form>

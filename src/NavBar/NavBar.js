@@ -157,7 +157,7 @@ class NavBar extends Component {
                     </Nav>
                     <Form inline>
                         <FormControl defaultValue={this.state.SearchVal}
-                                     type="text" placeholder="Search" className="mr-sm-2"
+                                     type="text" placeholder="Search" className="mr-sm-2 form-controlnav"
                                      onChange={(e) => this.setState({SearchVal: e.target.value})}/>
                         <Nav.Link className="paddingNone" as={NavLink} to={'/search/' + this.state.SearchVal}>
                             <IconButton style={{color: "white", padding: 0}}><SearchIcon/></IconButton>

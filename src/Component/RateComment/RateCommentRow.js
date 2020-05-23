@@ -78,58 +78,54 @@ export default class RateCommentRow extends Component{
 
 
         return (
-            <tr>
+            <div className="row" style={{marginTop: 40}}>
 
-                <td>
-                    <Grid container spacing={3} justify="center"  >
-                        <Grid item xs={4} >
-                            < img src={this.props.obj.ImagePath}
-                                  style={{width: '15vw', height: '15vw'}}
-                            />
-                        </Grid>
+                <div className="col-md-3" style={{marginLeft: 100}}>
+                    < img src={this.props.obj.ImagePath} style={{width: '17vw', height: '17vw'}}/>
+                </div>
 
+                <div className="col-md-5" style={{marginLeft: 10}}>
+                    <Form onSubmit={this.onSubmit}>
+                        <FormGroup row inline justify="center">
+                            <Col sm={8}>
+                                <StarRatingComponent
+                                    className={"Ratingss"}
+                                    name="rate1"
+                                    starCount={5}
+                                    size={90}
+                                    value={this.state.ratingno}
+                                    onStarClick={this.onStarClick.bind(this)}
+                                    onStarHover={this.onStarHover.bind(this)}
 
-                        <Grid item xs={8}>
-                            <Form onSubmit={this.onSubmit}>
-                                <FormGroup row inline  justify="center" >
-                                    <Col sm={8}>
-                                        <StarRatingComponent
-                                            className={"Ratingss"}
-                                            name="rate1"
-                                            starCount={5}
-                                            size={100}
-                                            value={this.state.ratingno}
-                                            onStarClick={this.onStarClick.bind(this)}
-                                            onStarHover={this.onStarHover.bind(this)}
-                                        />
-                                        <input  className="Hide" value={this.state.ratingno}/>
-                                        <input className="Hide" value={this.state.productId=this.props.obj.ProductId}/>
+                                />
+                                <input className="Hide" value={this.state.ratingno}/>
+                                <input className="Hide" value={this.state.productId = this.props.obj.ProductId}/>
 
-                                        <br/>
+                                <br/>
 
-                                        <Input type="textarea"
-                                               placeholder="Add a comment..."
-                                               name="comment"
-                                               autoComplete="billing postal-code"
-                                               value={this.state.comment}
-                                               onChange={this.onChangeComment}
-                                               rowsMax={5}
-                                        />
-                                        <br/>
-                                        <Button variant="contained" size="sm"  type="submit" float-center="true">
-                                            Save Response
-                                        </Button>
-                                    </Col><br/><br/>
+                                <Input type="textarea"
+                                       placeholder="Add a comment..."
+                                       name="comment"
+                                       autoComplete="billing postal-code"
+                                       value={this.state.comment}
+                                       onChange={this.onChangeComment}
+                                       rowsMax={5}
+                                />
+                                <br/>
+                                <Button variant="contained" size="sm" type="submit" float-center="true">
+                                    Save Response
+                                </Button>
+                            </Col><br/><br/>
 
 
+                        </FormGroup>
+                    </Form>
 
-                                </FormGroup>
-                            </Form>
-                        </Grid>
-                    </Grid><br/><br/>
-                </td>
+                </div>
+                <br/><br/>
 
-            </tr>
+
+            </div>
         );
 
     }
