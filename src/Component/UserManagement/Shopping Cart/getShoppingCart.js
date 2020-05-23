@@ -4,6 +4,7 @@ import {ShoppingCartRow} from "./ShoppingCartRow";
 import {Modal} from "react-bootstrap";
 import { withRouter } from 'react-router-dom'
 import AuthService from "../services/auth.service";
+let price1=0;
 
  class GetShoppingCart extends Component{
 
@@ -14,6 +15,7 @@ import AuthService from "../services/auth.service";
             products : [],
             productIds:[],
             price:0,
+            paymentButton:false
         };
         this.getShoppingCartTemplate= this.getShoppingCartTemplate.bind(this);
         this.getThePrice= this.getThePrice.bind(this);
@@ -28,6 +30,7 @@ import AuthService from "../services/auth.service";
         this.setState({
             products : arrayproduct
         });
+
     }
     changeQuantity(e, id) {
         let myObj;
@@ -76,14 +79,16 @@ import AuthService from "../services/auth.service";
         this.props.history.push('/');
     }
     getThePrice(){
-        let price1 = 0;
+        price1 = 0;
         this.state.products.map((res)=>{
             price1=(res.PricePerUnit - res.PricePerUnit*(res.Discount/100))* res.Quantity + price1
         },()=>{
             this.setState({
                 price:price1
-            })
+            });
+
         });
+
 
         return <p style={{"font-size":"30px"}}> LKR {price1}.00</p>
 
@@ -124,20 +129,24 @@ import AuthService from "../services/auth.service";
                 </div>
 
                     </Modal.Body>
-                    <Modal.Footer>
-                        Proceed to checkout <DoubleArrowIcon fontSize="large"
-                        onClick={() => {
-                            if(AuthService.getCurrentUser() != null){
-                            this.props.history.push('/billing');
-                            window.location.reload();
-                            }else {
-                                this.props.history.push('/loginRegView');
-                                window.location.reload();
-                            }
-                        }
-                        }
-                    />
-                    </Modal.Footer>
+                    {price1 > 0 ? (
+                        <Modal.Footer>
+
+                            Proceed to checkout <DoubleArrowIcon fontSize="large"
+                                                                 onClick={() => {
+                                                                     if(AuthService.getCurrentUser() != null){
+                                                                         this.props.history.push('/billing');
+                                                                         window.location.reload();
+                                                                     }else {
+                                                                         this.props.history.push('/loginRegView');
+                                                                         window.location.reload();
+                                                                     }
+                                                                 }
+                                                                 }
+                        />
+                        </Modal.Footer>
+                    ):null}
+
                 </Modal>
 
         )
