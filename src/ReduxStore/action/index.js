@@ -323,20 +323,61 @@ export const fetchAllCats =() => {
     };
 };
 
-export const Login = (data)=>{
-    axios.get('http://localhost:4000/userAdmin/all')
-        .then(response =>{
-            response.data.map((user)=>{
-                console.log(user.username)
-            })
-        })
-        .catch(error=>{
-            throw(error);
-        });
-    throw new SubmissionError({ username: 'User does not exist', _error: 'Login failed!' })
-};
-
 export const CartLength = (data)=>{
     return {type:'count', payload:data}
 };
 
+export const fetchUsers = (Users) => {
+    return {
+        type: 'FETCHALLUSER',
+        payload:Users
+    }
+};
+export const fetchAllUsers =() => {
+    return (dispatch) => {
+        return axios.get('http://localhost:4000/users/all')
+            .then(response => {
+                dispatch(fetchUsers(response.data))
+            })
+            .catch(error => {
+                throw(error);
+            });
+    };
+};
+
+export const fetchProducts = (Users) => {
+    return {
+        type: 'FETCHALLPRO',
+        payload:Users
+    }
+};
+export const fetchAllProducts =() => {
+    return (dispatch) => {
+        return axios.get('http://localhost:4000/products/')
+            .then(response => {
+                dispatch(fetchProducts(response.data))
+            })
+            .catch(error => {
+                throw(error);
+            });
+    };
+};
+
+
+export const fetchPayment = (Users) => {
+    return {
+        type: 'FETCHALLPAY',
+        payload:Users
+    }
+};
+export const fetchAllPayments =() => {
+    return (dispatch) => {
+        return axios.get('http://localhost:4000/payment/get-payment')
+            .then(response => {
+                dispatch(fetchPayment(response.data))
+            })
+            .catch(error => {
+                throw(error);
+            });
+    };
+};

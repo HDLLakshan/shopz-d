@@ -26,16 +26,19 @@ import {Category} from "./Component/Admin/CategoryComponents/Category";
 import {applyMiddleware, compose, createStore} from "redux";
 import allReducers from "./ReduxStore/reducers";
 import thunk from "redux-thunk";
-import {fetchAllCats, fetchAllPMs} from "./ReduxStore/action";
+import {fetchAllCats, fetchAllPayments, fetchAllPMs, fetchAllProducts, fetchAllUsers} from "./ReduxStore/action";
 import {Provider} from "react-redux";
 import {Dashboard} from "./Component/Admin/DashBoard/Dashboard";
 
 const store = createStore(allReducers,
     compose(applyMiddleware(thunk),
-  //      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+       window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     ));
 store.dispatch(fetchAllPMs());
 store.dispatch(fetchAllCats());
+store.dispatch(fetchAllUsers());
+store.dispatch(fetchAllProducts());
+store.dispatch(fetchAllPayments());
 
 class App extends Component {
 
@@ -47,7 +50,6 @@ class App extends Component {
                 <Provider store={store}>
                     <Switch>
                         <Route path="/check" component={BoardUser} exact/>
-
                         <Route path="/Admin" exact component={Dashboard}/>
                         <Route path="/Admin/ProductManager" exact component={ProductManager}/>
                         <Route path="/Admin/Category" exact component={Category}/>
