@@ -91,7 +91,7 @@ class NavBar extends Component {
                 <Navbar.Brand className="name">RARE</Navbar.Brand>
 
                 {currentUser || adminUser || salesUser ? (
-                    <Nav.Link style={{color: 'white'}} as={NavLink} to={"/add"}> Hi {username}! </Nav.Link>
+                    <Nav.Link style={{color: 'white'}} as={NavLink}> Hi {username}! </Nav.Link>
                 ) : (null)}
 
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
