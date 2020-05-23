@@ -5,7 +5,6 @@ import authHeader from "../services/auth-header";
 import { withRouter } from 'react-router-dom';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import {Delete} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
 
 class AddToWishlist extends Component {
@@ -44,7 +43,7 @@ class AddToWishlist extends Component {
                                         });
 
 
-                                        for(var i= 0 ; i<res.data[0].ProductObject.length;i++){
+                                        for(let i= 0 ; i<res.data[0].ProductObject.length; i++){
                                             if(res.data[0].ProductObject[i].ProductId===nextProps.productId){
                                                 this.setState({
                                                     addToWishList: true,
@@ -69,13 +68,13 @@ class AddToWishlist extends Component {
     handleWishlist() {
         if(AuthService.getCurrentUser() != null) {
             if (this.state.addToWishList) {
-                for (var i = 0; i < this.state.product.length; i++) {
+                for (let i = 0; i < this.state.product.length; i++) {
                     if (this.state.product[i].ProductId === this.state.productId) {
                         this.state.product.splice(i, 1);
                     }
                 }
                 axios.put('http://localhost:4000/wishlist/edit-details' + this.state.userId, this.state.product)
-                    .then(res => {
+                    .then(() => {
                         this.setState({
                             addToWishList: false
                         });
@@ -101,7 +100,7 @@ class AddToWishlist extends Component {
                             };
                             this.state.product.push(productObj);
                             axios.put('http://localhost:4000/wishlist/edit-details' + this.state.userId, this.state.product)
-                                .then(res => {
+                                .then(() => {
                                     this.setState({
                                         addToWishList: true
                                     });
@@ -132,7 +131,7 @@ class AddToWishlist extends Component {
                                 ProductObject: proObj
                             };
                             axios.post('http://localhost:4000/wishlist/add-to-wishlist', finalObj)
-                                .then(res => {
+                                .then(() => {
                                 });
                             this.setState({addToWishList: true});
 
@@ -146,7 +145,6 @@ class AddToWishlist extends Component {
 }
 
     render() {
-        const {productId, imagePath , quantity}= this.props;
         return(
             <div>
                 {this.state.addToWishList ? (

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import AddToShoppingCart from "../Shopping Cart/AddToShoppingCart";
-import {Col, Row} from "react-bootstrap";
+import {Row} from "react-bootstrap";
 import { Delete } from '@material-ui/icons';
 import Badge from 'react-bootstrap/Badge';
 import IconButton from "@material-ui/core/IconButton";
@@ -24,7 +24,6 @@ export class WishlistProductRow extends Component{
     }
 
     render(){
-        const {key, obj, handleRemoveButton}= this.props;
         return(
                 <div className="card" style={{"min-width":"25%", "max-width":"25%", "margin-top":"35px", "min-height":"65%"}}>
                     {this.state.discount? (<div style={{'width':'20px', 'height':'30px', align:'10px'}}>
