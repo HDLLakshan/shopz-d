@@ -96,8 +96,7 @@ this.setState({loading:true})
             ;
 
             this.setState({
-                Products: '',
-                loading:false,
+                Products: ''
             })
 
     }

@@ -97,11 +97,11 @@ class NavBar extends Component {
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        {currentUser || salesUser ? (
+                        { salesUser ? (
                                 <Nav.Link as={NavLink} to={"/add"}>Add</Nav.Link>
                             ) : (null)}
 
-                        {currentUser || salesUser ? (
+                        { salesUser ? (
                             <Nav.Link as={NavLink} to={"/viewListOfProduct"}>View</Nav.Link>
                         ) : (null)}
 
