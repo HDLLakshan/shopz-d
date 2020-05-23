@@ -22,7 +22,7 @@ export function Dashboard(props) {
                 admin ?
                     <div className={classes.root}>
                         <HomeAdmin path={props}/>
-                        <div className="image"></div>
+                        <div className="image1"></div>
                         Site embed with google analytics Where you can see Site viewers, session durations and etc
                         <hr/>
                         <a href="https://analytics.google.com/analytics/web/#/report-home/a145125220w232896032p21865"><Button>Go to Google analytics site</Button></a>
