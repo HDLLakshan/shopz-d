@@ -6,7 +6,6 @@ import authHeader from "../services/auth-header";
 import { withRouter } from 'react-router-dom'
 import {Col, Row} from "react-bootstrap";
 import Image from './wallpaper.jpg';
-import GetShoppingCart from "../Shopping Cart/getShoppingCart";
 
 class GetWishlist extends Component{
     constructor(props) {
@@ -49,13 +48,13 @@ class GetWishlist extends Component{
     }
 
     handleRemoveButton(pid){
-        for(var i= 0 ; i<this.state.products.length;i++){
+        for(let i= 0 ; i<this.state.products.length; i++){
             if(this.state.products[i].ProductId===pid){
                 this.state.products.splice(i, 1);
             }
         }
         axios.put('http://localhost:4000/wishlist/edit-details' + this.state.userId, this.state.products)
-            .then(res => {
+            .then(() => {
                 axios.post('http://localhost:4000/wishlist/check-product' + this.state.userId, null, { headers: authHeader() })
                     .then(res => {
                         if (res.data.length > 0) {
@@ -68,9 +67,8 @@ class GetWishlist extends Component{
     }
 
     render(){
-        let addModalClose =() => this.setState({addModalShow : false});
         return(
-        <div>
+            <div>
             <div style={{ fontWeight: 'bold', backgroundColor:'#000000',  padding: "15px",margin: "20px" }} className='text-center text-white'
                  onClick={()=>{
                      this.props.history.push('/');
@@ -81,9 +79,9 @@ class GetWishlist extends Component{
             <Row>
                 <Col md="4" >
                     <div className="block-example border border-dark" style={{  margin: "40px" }}>
-                        <div style={{ backgroundColor:'#000000', "width": "100%","height":"100px"}}></div>
+                        <div style={{backgroundColor: '#000000', "width": "100%", "height": "100px"}}/>
                         <div style={{ "height":"400px"}}>
-                            <img src={Image} style={{"height":"25%", "width":"100%"}}/>
+                            <img src={Image} style={{"height":"25%", "width":"100%"}} alt="Image"/>
                             <Row>
                                 <Col>
                                     <h5 style={{"margin-top":"35px", "margin-left":'100px', fontWeight: 'bold'}}>{this.state.username}'s RARE Wishlist</h5>
