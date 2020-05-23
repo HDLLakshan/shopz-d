@@ -24,6 +24,7 @@ export class WishlistProductRow extends Component{
     }
 
     render(){
+        const {handleRemoveButton}=this.props;
         return(
                 <div className="card" style={{"min-width":"25%", "max-width":"25%", "margin-top":"35px", "min-height":"65%"}}>
                     {this.state.discount? (<div style={{'width':'20px', 'height':'30px', align:'10px'}}>

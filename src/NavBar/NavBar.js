@@ -90,18 +90,18 @@ class NavBar extends Component {
             <Navbar className="layout" sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Navbar.Brand className="name">RARE</Navbar.Brand>
 
-                {currentUser || adminUser ? (
+                {currentUser || adminUser || salesUser ? (
                     <Nav.Link style={{color: 'white'}} as={NavLink} to={"/add"}> Hi {username}! </Nav.Link>
                 ) : (null)}
 
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        {currentUser || salesUser ? (
+                        {salesUser ? (
                                 <Nav.Link as={NavLink} to={"/add"}>Add</Nav.Link>
                             ) : (null)}
 
-                        {currentUser || salesUser ? (
+                        {salesUser ? (
                             <Nav.Link as={NavLink} to={"/viewListOfProduct"}>View</Nav.Link>
                         ) : (null)}
 
@@ -137,9 +137,13 @@ class NavBar extends Component {
                         ) : (null)}
 
                         {currentUser ? (
-                        <Nav.Link href="#link"><FavoriteBorderIcon/></Nav.Link>
+                            <IconButton>
+                                <Nav.Link as={Link} to="/wishlist"><FavoriteBorderIcon/></Nav.Link>
+                            </IconButton>
+
                         ) : (null)}
-                        { !adminUser || (this.state.addModalShow && currentUser) ? (
+                        {
+                            this.state.addModalShow ? (
                             <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose}
                                              history={this.props.history}/>
                         ) : (
