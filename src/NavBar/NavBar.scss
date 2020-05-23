@@ -1,8 +1,8 @@
 .layout{
   background: url("./wallpaper.jpg") no-repeat center;
-  height: 90px;
+  mso-default-height: 70px;
   background-size: cover;
-  overflow: hidden;
+  text-decoration-color: white;
 }
 
 .logout{
@@ -12,6 +12,51 @@
 .name{
   color: white;
   font-size: 60px;
-  font-family: 'Caesar Dressing', cursive;  position: fixed;
-  left: 40%;
+  font-family: 'Caesar Dressing', cursive;
+}
+
+.floatRight{
+  float: right;
+}
+
+.paddingHalf{
+  padding: 0.5em;
+}
+
+.paddingNone{
+  padding: 0;
+}
+
+.textWhite{
+  color: white;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: #f8f9fa;
+}
+
+.nav-link {
+  color: white;
+}
+
+.form-control {
+  color: white;
+  background-color: var(--PhoneInputCountryFlag-backgroundColor--loading);
+}
+
+.navbar-header {
+  float: left;
+  padding: 15px;
+  text-align: center;
+  width: 100%;
+}
+.navbar-brand {
+  float:none;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+.dropdown-menu {
+  width: 300px;
+  padding-left: 30px;
 }
