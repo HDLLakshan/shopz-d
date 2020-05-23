@@ -1,0 +1,43 @@
+.h { letter-spacing: 0px; font-weight: 400; color: #1c1e22; margin: 0px 0px 15px 0px; font-family: 'Noto Sans', sans-serif; }
+.h1 { font-size: 42px; line-height: 50px; }
+.h2 { font-size: 36px; line-height: 42px; }
+.h3 { font-size: 20px; line-height: 32px; }
+.h4 { font-size: 18px; line-height: 32px; }
+.h5 { font-size: 14px; line-height: 20px; }
+.h6 { font-size: 12px; line-height: 18px; }
+.p { margin: 0 0 20px; line-height: 1.8; color: black}
+.p1:last-child { margin: 0px;color: black }
+a { text-decoration: none; color: #2e3139; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; transition: all 0.3s; }
+a:focus, a:hover { text-decoration: none; }
+.content{ padding-bottom:80px}
+.label{
+    color: black;
+}
+
+.box { background-color: #fff; border-radius: 8px; border: 2px solid #e9ebef; padding: 50px; margin-bottom: 40px; }
+.box-title { margin-bottom: 30px; text-transform: uppercase; font-size: 16px; font-weight: 700; color: #003300; letter-spacing: 2px; }
+.plan-selection { border-bottom: 2px solid #e9ebef; padding-bottom: 25px; margin-bottom: 35px; }
+.plan-selection:last-child { border-bottom: 0px; margin-bottom: 0px; padding-bottom: 0px; }
+.plan-data { position: relative; }
+.plan-data label { font-size: 20px; margin-bottom: 15px; font-weight: 400; }
+.plan-text { padding-left: 35px; }
+.description { position: absolute; right: 0px; color: #094bde; font-size: 20px; font-weight: 700; letter-spacing: -1px; line-height: 1.5; bottom: 43px; }
+.detail { bottom: 18px; }
+.detail2 { bottom: 68px; }
+.summary-block { border-bottom: 2px solid #d7d9de; }
+.summary-block:last-child { border-bottom: 0px; }
+.summary-content { padding: 28px 0px; }
+.summary-price { color: #094bde; font-size: 20px; font-weight: 400; letter-spacing: -1px; margin-bottom: 0px; display: inline-block; float: right; }
+.summary-small-text { font-weight: 700; font-size: 12px; color: #8f929a; }
+.summary-text { margin-bottom: -10px; }
+.summary-title { font-weight: 700; font-size: 14px; color: #1c1e22; }
+.summary-head { display: inline-block; width: 120px; }
+
+.widget { margin-bottom: 30px; background-color: #888740; padding: 50px; border-radius: 6px; }
+.widget:last-child { border-bottom: 0px; }
+.widget-title { color: #003300; font-size: 16px; font-weight: 700; text-transform: uppercase; margin-bottom: 25px; letter-spacing: 1px; display: table; line-height: 1; }
+
+.button1{
+    background-color: #555537; color: #555537; border: 1px solid #063bb3;
+}
+

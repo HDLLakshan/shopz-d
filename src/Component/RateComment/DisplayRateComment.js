@@ -55,53 +55,40 @@ export default class DisplayRateComment extends Component {
     render() {
         return (
             <React.Fragment>
+                <Grid container spacing={3}  >
+                    <Grid item sm={12} style={{margin:20}}>
+                        <div  style={{margin:20}}  >
+                            <Paper elevation={2}>
+                                <br/><br/>
+                                <h5 align="center">Your Have Purchased Your Order Successfully !</h5>
+                                <h6 align="center"> Rate and Commment Products below</h6>
+                                <h6 align="center"> Or  &nbsp; <Button style={{"background-color" :'#363626', color:"#fff"}}
+                                                                       onClick={() => this.click()}
+                                >Skip & Back to Home</Button></h6>
 
-                <main>
-                    <Paper>
-                        <React.Fragment>
-
-                            <React.Fragment>
                                 <br/>
-
+                                {this.RatingTable()}
+                                <br/><br/>
+                                <Grid item sm={12}>
+                                    <div align="center">
+                                        <Button
+                                            style={{"background-color" :'#363626', color:"#fff"}}
+                                                onClick={() => this.click()}
+                                        >Finish & Back to Home</Button>
+                                    </div>
+                                </Grid>
                                 <br/>
-                                <Grid container spacing={3}  >
-                                    <Grid item sm={12}>
-                                        <h5 align="center">Your Have Purchased Your Order Successfully !</h5>
-                                        <h6 align="center"> Rate and Commment Products below</h6>
-                                        <h6 align="center"> Or  &nbsp; <Button color="primary"
-                                                                               variant="contained"  onClick={() => this.click()}
-                                        >Skip & Back to Home</Button></h6>
-                                        <br/>
-                                        <br/>
-                                    </Grid>
+                            </Paper>
+                        </div>
 
-                                    <Table striped bordered hover >
-
-                                        <tbody >
-
-                                        {this.RatingTable()}
-
-                                        </tbody>
-
-                                    </Table>
-
-                                    <Grid item sm={12}>
-                                        <div align="center">
-                                            <Button variant="contained" color="secondary"
-                                                    onClick={() => this.click()}
-                                            >Finish & Back to Home</Button>
-                                        </div>
-                                    </Grid>
-
-                                </Grid>  <br/>
-
-
-                            </React.Fragment>
-
-                        </React.Fragment>
-                    </Paper>
-                </main>
+                    </Grid>
+                </Grid>
+                <br/>
             </React.Fragment>
+
+
+
+
         );
     }
 }

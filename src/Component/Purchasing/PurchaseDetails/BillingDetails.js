@@ -276,15 +276,22 @@ class  BillingDetails extends Component{
 
     }
 
+
+
+
+
+
+
+
+
+
     render(){
         return (
 
             <React.Fragment>
 
-
-                <main>
-                    <Paper className="paper" >
-                        <br/>
+                <main >
+                    <Paper>
                         <Typography component="h1" variant="h4" align="center">
                             Purchasing Details
                         </Typography>
@@ -297,10 +304,9 @@ class  BillingDetails extends Component{
                                     Billing Details
                                 </Typography>
                                 <br/>
-
                                 <Grid container spacing={1} justify="center" >
 
-                                    <Grid item xs={7} >
+                                    <Grid item xs={8} >
                                         <Form onSubmit={this.onSubmit} >
                                             <FormGroup row inline  justify="center" >
 
@@ -385,12 +391,10 @@ class  BillingDetails extends Component{
                                                 </Col>
                                                 <Col sm={2}>
                                                     <CountryDropdown
-                                                        style={{width:320,height:35}}
+                                                        className="dropdowns"
                                                         value={this.state.Billing.country}
                                                         onChange={(e) => this.onChangeCountry(e)}
-
                                                     />
-
                                                     <div align="center" style={{ fontSize: 16, color: "red" }}>
                                                         {this.state.countryError}
                                                     </div>
@@ -400,7 +404,6 @@ class  BillingDetails extends Component{
                                             <FormGroup row>
                                                 <Col sm={3}>
                                                     <Input type="text"
-
                                                            placeholder="Zip / Postal code"
                                                            maxlength={10}
                                                            name="zip"
@@ -477,7 +480,7 @@ class  BillingDetails extends Component{
                                                 <Col sm={4}><label>Wish to do payment with cash on delivery</label> </Col>
                                                 <Col sm={4}>
                                                     <div align="center">
-                                                        <Button variant="danger" size="md"  type="submit" float-center="true"  >
+                                                        <Button size="md"  type="submit" float-center="true" style={{"background-color" :'#888844', color:"#fff"}} >
                                                             Save Details & Next
                                                         </Button></div>
                                                 </Col>

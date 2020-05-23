@@ -26,13 +26,13 @@ const {product} = this.props
                     <ImageView ImgArr={product.Details}/>
                 </div >
                 <Card.Body>
-                    <Card.Title>{product.ProductName}</Card.Title>
-                    <Card.Body >
-                        <strong style={{color:'black'}}>Rs.{product.PricePerUnit}</strong>
+                    <Card.Title className={"text-center"}>{product.ProductName}</Card.Title>
+                    <Card.Text >
+                        <strong style={{color:'black'}}>LKR.{product.PricePerUnit}</strong>
                         <strong hidden={product.Discount === 0} style={{float: 'right', color:'red'}}>{product.Discount}% OFF</strong>
-                    </Card.Body>
+                    </Card.Text>
                     <Card.Footer>
-                        {product.TotRate === 0 ?  <p className={"newarrival text-center"}>NEW</p> :  <Rating precision={0.5}  style={{marginLeft: '20px', marginTop:'10px'}}
+                        {product.TotRate === 0 ?  <p className={"newarrival text-center"}>NEW</p> :  <Rating name={"rate"} precision={0.5}  style={{marginLeft: '20px', marginTop:'10px'}}
                                 defaultValue={product.TotRate} size="small" disabled={true}/> }
                     </Card.Footer>
                 </Card.Body>

@@ -68,7 +68,7 @@ class NavBar extends Component {
             })
         }, 1000)
 
-        axios.get('https://servershopping.azurewebsites.net/category/all')
+        axios.get('http://localhost:4000/category/all')
             .then(res => {
                 this.setState({
                     CategoryList: res.data
@@ -139,7 +139,6 @@ class NavBar extends Component {
                         {currentUser ? (
                         <Nav.Link href="#link"><FavoriteBorderIcon/></Nav.Link>
                         ) : (null)}
-
                         { !adminUser || (this.state.addModalShow && currentUser) ? (
                             <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose}
                                              history={this.props.history}/>
@@ -152,8 +151,6 @@ class NavBar extends Component {
                             </IconButton>
                         )}
                     </Nav>
-
-                    { !adminUser ? (
                     <Form inline>
                         <FormControl defaultValue={this.state.SearchVal}
                                      type="text" placeholder="Search" className="mr-sm-2"
@@ -162,8 +159,6 @@ class NavBar extends Component {
                             <IconButton style={{color: "white", padding: 0}}><SearchIcon/></IconButton>
                         </Nav.Link>
                     </Form>
-                    ) : (null)}
-
                     {currentUser || adminUser || salesUser ? (
                         <Nav.Link style={{color: 'white'}} href="/" onClick={this.logOut}>Logout</Nav.Link>
                     ) : (

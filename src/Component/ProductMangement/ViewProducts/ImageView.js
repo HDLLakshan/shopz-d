@@ -21,7 +21,7 @@ class ImageView extends Component{
     render() {
         return(
 
-            <Carousel fade={true} pause={'hover'} slide={false} interval={5000} >
+            <Carousel fade={true} pause={'hover'} slide={false} interval={4000} >
                 {this.props.ImgArr.map((txt,index) =>
                     <Carousel.Item key={index}>
                         {this.state.loading ? <div style={{position:'absolute'}} className="d-flex justify-content-center">

@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import axios from 'axios';
 import Grid from "@material-ui/core/Grid/Grid";
 import Button from "@material-ui/core/Button/Button";
-
 import Paper from "@material-ui/core/Paper/Paper";
-import './layout.css'
+import './review.css'
 import Typography from "@material-ui/core/Typography/Typography";
 import AuthService from "../../UserManagement/services/auth.service";
 import LoaderComponent from "../../ProductMangement/ViewProducts/LoaderComponent";
+import Container from "@material-ui/core/Container/Container";
 
 
 export default class ReviewDetails extends Component {
@@ -112,9 +112,8 @@ export default class ReviewDetails extends Component {
     getThePrice(){
 
         var price1=0;
-        var priceDis = 0
         this.state.products.map((res , i )=>{
-            price1=res.PricePerUnit* res.Quantity+price1
+            price1= (res.PricePerUnit - res.PricePerUnit*(res.Discount/100))* res.Quantity + price1
         },()=>{
             this.setState({
                 price:price1
@@ -128,8 +127,8 @@ export default class ReviewDetails extends Component {
 
 
 
-    oncliick(e){
-        e.preventDefault();
+    oncliick(){
+       // e.preventDefault();
         this.setState({
             loading:true
         })
@@ -151,169 +150,179 @@ export default class ReviewDetails extends Component {
 
 
     }
-    afterSubmit = () => {
-
-        this.setState({
-            loading:false
-        })
-
-
-
-
-    }
-
 
     render() {
         return (
-            <div>
+            <Container>
                 {this.state.loading ?     <div >
                         <div className="d-flex justify-content-center">
                             <LoaderComponent top={'100px'}/>
                         </div>
                     </div> :
                     <React.Fragment>
+                        <div className="content">
+                            <div className="container">
 
-                        <main>
-                            <Paper>
-                                <Typography component="h1" variant="h4" align="center">
-                                    Purchasing Details
-                                </Typography>
-                                <br/>
-                                <Typography variant="h6" gutterBottom align="center">
-                                    Review Details
-                                </Typography>
-                                <br/>
-                                <React.Fragment>
-
-                                    <div className="roots">
-                                        <Grid container spacing={3}>
-
-
-
-                                            <Grid item xs={4}>
-                                                <Paper className="papers1">
-                                                    <h6 align="center"> Billing Details</h6>
-                                                    <p className="facts">Name
-                                                        : {this.state.Billing.firstName} &nbsp; {this.state.Billing.lastName}</p>
-                                                    <p className="facts">Address
-                                                        : {this.state.Billing.zip}, {this.state.Billing.billAddress}</p>
-                                                    <p className="facts">City: {this.state.Billing.city} </p>
-                                                    <p className="facts">State : {this.state.Billing.State}</p>
-                                                    <p className="facts">Country : {this.state.Billing.country}</p>
-                                                    <p className="facts">Phone Number : {this.state.Billing.pno}</p>
-                                                </Paper><br/>
-
-                                            </Grid>
-                                            <Grid item xs={4}>
-                                                <Paper className="papers1 box" style={{marginLeft:30}}>
-
-                                                    <h6 align="center"> Delivery Details</h6><br/>
-                                                    <p className="facts">Delivery address : {this.state.Billing.deliveryadd}
+                                <div className="row">
+                                    <div className="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+                                        <div className="box">
+                                            <h2 className="h" align="center">
+                                                Review Purchase Details
+                                            </h2>
+                                            <br/>
+                                            <h3 className="box-title h h3">Billing Details</h3>
+                                            <div className="plan-selection">
+                                                <p className="p p1">Name
+                                                    : {this.state.Billing.firstName} &nbsp; {this.state.Billing.lastName}</p>
+                                                <p className="p p1">Address
+                                                    : {this.state.Billing.zip}, {this.state.Billing.billAddress}</p>
+                                                <p className="p p1">City: {this.state.Billing.city} </p>
+                                                <p className="p p1">State : {this.state.Billing.State}</p>
+                                                <p className="p p1">Country : {this.state.Billing.country}</p>
+                                                <p className="p p1">Phone Number : {this.state.Billing.pno}</p>
+                                            </div>
+                                            <div className="plan-selection">
+                                                <div className="plan-data">
+                                                    <h4 className="box-title h h3">Delivery Details</h4>
+                                                    <p className="p p1">Delivery address
+                                                        : {this.state.Billing.deliveryadd}
                                                     </p>
-                                                    <p className="facts">Delivery Instructions
+
+                                                    <p className="p p1">Delivery Instructions
                                                         : {this.state.Billing.instructions}</p>
                                                     {(() => {
                                                         if (this.state.Billing.cashDelivery === true) {
-                                                            return <p className="facts">Payment Type : Cash on Delivery</p>
+                                                            return <p className="p p1">Payment Type : Cash on
+                                                                Delivery</p>
                                                         }
                                                     })()}
-                                                </Paper>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                            </Grid>
-
-                                            {(() => {
-                                                if (this.state.Billing.cashDelivery === false) {
-                                                    // noinspection JSAnnotator
-                                                    return <Grid item xs={4}>
-                                                        <Paper className="papers1">
-                                                            <h6 align="center">Payment Details</h6>
-                                                            <p className="facts">Payment Type : Credit Card </p>
-                                                            <p className="facts">Card Number : {this.state.CreditCard.cno} </p>
-                                                            <p className="facts">Card Holder Name
+                                        {(() => {
+                                            if (this.state.Billing.cashDelivery === false) {
+                                                // noinspection JSAnnotator
+                                                return <div className="box">
+                                                    <h3 className="box-title h h3">Payment Details</h3>
+                                                    <div className="plan-selection">
+                                                        <div className="plan-data">
+                                                            <p className="p p1">Payment Type : Credit Card </p>
+                                                            <p className="p p1">Card Number
+                                                                : {this.state.CreditCard.cno} </p>
+                                                            <p className="p p1">Card Holder Name
                                                                 : {this.state.CreditCard.nameCard}</p>
-                                                            <p className="facts">Expire
+                                                            <p className="p p1">Expire
                                                                 Date: {this.state.CreditCard.month}/{this.state.CreditCard.year} </p>
-                                                            <p className="facts">CCV Number : {this.state.CreditCard.cvc}</p>
-                                                            <p className="facts">Delivery Charges :
-                                                                Rs.{this.state.price = this.getThePrice()}+{this.state.delCharge}</p>
-                                                            <p className="facts">Total Payment :
-                                                                Rs.{this.state.totalpay}</p>
-                                                            <br/>
-
-
-                                                        </Paper><br/>
-
-                                                    </Grid>
-                                                } else {
-                                                    return <Grid item xs={4}>
-                                                        <Paper className="papers1">
-                                                            <h6 align="center">Payment Details</h6>
-                                                            <p className="facts">Payment Type : Cash on Delivery </p>
-                                                            <p className="facts">Delivery Charges :
-                                                                Rs.{this.state.price = this.getThePrice()}+{this.state.delCharge}</p>
-                                                            <p className="facts">Total Payment :
-                                                                Rs.{this.state.totalpay}</p>
-                                                            <br/>
-
-
-                                                        </Paper><br/>
-
-                                                    </Grid>
-                                                }
-                                            })()}
-
-
-                                            <Grid item xs={12}>
-                                                <div class="row">
-                                                    <div class="col-md-9" align="left" style={{"margin-left": 30}}>
-                                                        {(() => {
-                                                            if (this.state.Billing.cashDelivery === true) {
-                                                                return <Button
-                                                                    variant="contained" type="submit"
-                                                                    onClick={() => this.props.history.push('/billing')}
-                                                                    color="primary"
-
-                                                                >
-                                                                    Back to Details
-                                                                </Button>
-                                                            } else {
-                                                                return <Button
-                                                                    variant="contained" type="submit"
-                                                                    onClick={() => this.props.history.push('/credit-card')}
-                                                                    color="primary"
-
-                                                                >
-                                                                    Back to Details
-                                                                </Button>
-                                                            }
-                                                        })()}
-
-
+                                                            <p className="p p1">CCV Number
+                                                                : {this.state.CreditCard.cvc}</p>
+                                                        </div>
                                                     </div>
-                                                    <div align="right" style={{"margin-right": 30}}>
-                                                        <Button
-                                                            variant="contained" type="submit"
-                                                            onClick={(e) => this.oncliick(e)}
-                                                            color="primary"
 
-                                                        >
-                                                            Place Order
-                                                        </Button>
+                                                </div>
+                                            } else {
+                                                return <div className="box">
+                                                    <h3 className="box-title">Payment Details</h3>
+                                                    <div className="plan-selection">
+                                                        <div className="plan-data">
+
+                                                            <label className="label">Payment Type : Cash on Delivery</label>
+                                                        </div>
+                                                    </div>
+                                                    <div className="plan-selection">
+                                                        <div className="plan-data">
+                                                            <label className="label">Make your payment when delivered :) </label>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            }
+                                        })()}
+                                    </div>
+                                    <div className="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+
+                                        <div className="widget">
+                                            <h3 className="widget-title h3 h">Total Payment</h3>
+                                            <h2 className="h h2">
+                                                Rs. {this.state.price = this.getThePrice() + this.state.delCharge}
+                                            </h2>
+                                            <div className="summary-block">
+                                                <div className="summary-content">
+                                                    <div className="summary-head"><h5 className="summary-title h5 h">Products
+                                                        Price</h5></div>
+                                                    <div className="summary-price">
+                                                        <p className="summary-text p p1">Rs. {this.state.price = this.getThePrice()}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="summary-block">
+                                                <div className="summary-content">
+                                                    <div className="summary-head"><h5 className="summary-title h h5">Delivery
+                                                        Charges
+                                                    </h5></div>
+                                                    <div className="summary-price">
+                                                        <p className="summary-text p p1">Rs. {this.state.delCharge}</p>
 
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div className="summary-block">
+                                                <div className="summary-content">
+                                                    <div className="summary-head"><h5 className="summary-title h h5">Total
+                                                        Price</h5></div>
+                                                    <div className="summary-price">
+                                                        <p className="summary-text p p1">
+                                                            Rs. {this.state.price = this.getThePrice()} + {this.state.delCharge}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div align="center">
                                                 <br/>
-                                            </Grid>
+                                                <Button
+                                                    variant="contained" type="submit"
+                                                    onClick={() => this.oncliick()}
+                                                    color="default"
 
-                                        </Grid>
+                                                >
+                                                    Place Order
+                                                </Button>
+                                            </div>
+                                        </div>
+                                        <div align="center">
+                                            {(() => {
+                                                if (this.state.Billing.cashDelivery === true) {
+                                                    return <Button
+                                                        type="submit"
+                                                        onClick={() => this.props.history.push('/billing')}
+                                                        style={{"background-color" :'#363626', color:"#fff"}}
+
+                                                    >
+                                                        Back to Details
+                                                    </Button>
+                                                } else {
+                                                    return <Button
+                                                        type="submit"
+                                                        onClick={() => this.props.history.push('/credit-card')}
+                                                        style={{"background-color" :'#363626', color:"#fff"}}
+
+                                                    >
+                                                        Back to Details
+                                                    </Button>
+                                                }
+                                            })()}
+
+                                            <br/>
+                                        </div>
                                     </div>
-                                </React.Fragment>
-                            </Paper>
+                                </div>
+                            </div>
+                        </div>
 
-                        </main>
+
                     </React.Fragment>
                 }
-            </div>
+            </Container>
 
 
         );
