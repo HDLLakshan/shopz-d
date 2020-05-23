@@ -57,7 +57,7 @@ class AddProduct extends Component{
     }
 
     componentDidMount() {
-        axios.get('https://servershopping.azurewebsites.net/category/all')
+        axios.get('http://localhost:4000/category/all')
             .then(res => {
                 this.setState({
                     CategoryList: res.data
@@ -91,7 +91,7 @@ this.setState({loading:true})
         }
 
 
-            axios.post('https://servershopping.azurewebsites.net/products/add-product', formData, {headers: {"Content-type": "multipart/form-data"}})
+            axios.post('http://localhost:4000/products/add-product', formData, {headers: {"Content-type": "multipart/form-data"}})
                 .then(()=>  this.props.history.push('/viewListOfProduct') )
             ;
 

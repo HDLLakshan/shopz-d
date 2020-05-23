@@ -68,7 +68,7 @@ class NavBar extends Component {
             })
         }, 1000)
 
-        axios.get('https://servershopping.azurewebsites.net/category/all')
+        axios.get('http://localhost:4000/category/all')
             .then(res => {
                 this.setState({
                     CategoryList: res.data
