@@ -137,9 +137,10 @@ class NavBar extends Component {
                         ) : (null)}
 
                         {currentUser ? (
-                        <Nav.Link href="#link"><FavoriteBorderIcon/></Nav.Link>
+                        <Nav.Link as={Link} to="/wishlist"><FavoriteBorderIcon/></Nav.Link>
                         ) : (null)}
-                        { !adminUser || (this.state.addModalShow && currentUser) ? (
+
+                        {(this.state.addModalShow && currentUser) ? (
                             <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose}
                                              history={this.props.history}/>
                         ) : (
