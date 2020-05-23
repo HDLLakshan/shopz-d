@@ -68,7 +68,7 @@ class NavBar extends Component {
             })
         }, 1000)
 
-        axios.get('https://servershopping.azurewebsites.net/category/all')
+        axios.get('http://localhost:4000/category/all')
             .then(res => {
                 this.setState({
                     CategoryList: res.data
@@ -91,7 +91,7 @@ class NavBar extends Component {
                 <Navbar.Brand className="name">RARE</Navbar.Brand>
 
                 {currentUser || adminUser || salesUser ? (
-                    <Nav.Link style={{color: 'white'}} as={NavLink} to={"/add"}> Hi {username}! </Nav.Link>
+                    <Nav.Link style={{color: 'white'}} as={NavLink} to={"/"}> Hi {username}! </Nav.Link>
                 ) : (null)}
 
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
@@ -157,7 +157,7 @@ class NavBar extends Component {
                     </Nav>
                     <Form inline>
                         <FormControl defaultValue={this.state.SearchVal}
-                                     type="text" placeholder="Search" className="mr-sm-2"
+                                     type="text" placeholder="Search" className="mr-sm-2 form-controlnav"
                                      onChange={(e) => this.setState({SearchVal: e.target.value})}/>
                         <Nav.Link className="paddingNone" as={NavLink} to={'/search/' + this.state.SearchVal}>
                             <IconButton style={{color: "white", padding: 0}}><SearchIcon/></IconButton>

@@ -32,7 +32,7 @@ const {product} = this.props
                         <strong hidden={product.Discount === 0} style={{float: 'right', color:'red'}}>{product.Discount}% OFF</strong>
                     </Card.Text>
                     <Card.Footer>
-                        {product.TotRate === 0 ?  <p className={"newarrival text-center"}>NEW</p> :  <Rating precision={0.5}  style={{marginLeft: '20px', marginTop:'10px'}}
+                        {product.TotRate === 0 ?  <p className={"newarrival text-center"}>NEW</p> :  <Rating name={"rate"} precision={0.5}  style={{marginLeft: '20px', marginTop:'10px'}}
                                 defaultValue={product.TotRate} size="small" disabled={true}/> }
                     </Card.Footer>
                 </Card.Body>

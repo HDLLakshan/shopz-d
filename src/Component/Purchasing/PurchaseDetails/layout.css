@@ -1,11 +1,16 @@
-@media screen and (min-device-width: 201px) and (max-device-width: 800px){
+
     .layout {
         width: auto;
         alignment: center;
 
     }
 
-
+ .dropdowns{
+     height:40px;
+     border-radius: 5px;
+     border-color: #cccccc;
+     color: #555555;
+ }
 
     .phone{
         height:40px;
@@ -59,13 +64,9 @@
 
 
     .papers1{
-        padding: 3px;
-        text-align: left;
-        margin-left: 10px;
-        height: 300px;
         word-wrap:break-word;
-
-
+        word-break:break-all;
+        word-break:break-word;
     }
     .box{
         overflow-y: scroll;
@@ -87,6 +88,14 @@
     .rategrid{
 
         margin-left: 10px;
-    }}
+    }
+
+    .inputBack{
+        background-color: #FFFFFF;
+
+    }
+    Input{
+        color: black;
+    }
 
 

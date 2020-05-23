@@ -20,7 +20,7 @@ class ShowAllProdcuts extends Component{
     }
 
     componentDidMount() {
-        axios.get('https://servershopping.azurewebsites.net/products/')
+        axios.get('http://localhost:4000/products/')
             .then(res => {
                 this.setState({
                     products: res.data
@@ -34,7 +34,7 @@ class ShowAllProdcuts extends Component{
 
     deleteProduct = (e,id) => {
         e.preventDefault();
-        axios.delete('https://servershopping.azurewebsites.net/products/deleteProduct/' + id)
+        axios.delete('http://localhost:4000/products/deleteProduct/' + id)
             .then((res) => {
                 window.location.reload();
             }).catch((error) => {

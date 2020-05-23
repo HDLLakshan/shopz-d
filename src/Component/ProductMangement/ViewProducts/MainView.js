@@ -31,7 +31,7 @@ class MainView extends Component{
     }
 
     componentDidMount() {
-        axios.get('https://servershopping.azurewebsites.net/products/')
+        axios.get('http://localhost:4000/products/')
             .then(res => {
                 this.setState({
                     ProductArray: res.data
@@ -50,7 +50,7 @@ class MainView extends Component{
     }
 
     getCategories = () => {
-        axios.get('https://servershopping.azurewebsites.net/category/all')
+        axios.get('http://localhost:4000/category/all')
             .then(res => {
                 this.setState({
                     CategoryName: res.data
