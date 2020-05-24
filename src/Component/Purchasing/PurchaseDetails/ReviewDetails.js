@@ -54,6 +54,7 @@ export default class ReviewDetails extends Component {
             saveCredit:false,
             available:true,
             historypay:false,
+            payempty:false,
         }
     }
 
@@ -79,7 +80,11 @@ export default class ReviewDetails extends Component {
                 this.setState({
                     Billing:res.data,
                 })
+                if(this.state.Billing.totalPay.length === 0){
+                    this.state.payempty = true
+                }
             })
+
             .catch((error) => {
                 console.log(error + 'geterror');
             })
@@ -220,7 +225,11 @@ export default class ReviewDetails extends Component {
                                                         </div></div>
                                                     {(() => {
                                                         if (this.state.historypay === true) {
-                                                            return this.getPaymentHistory()
+                                                          if(this.state.payempty === false){
+                                                              return this.getPaymentHistory()
+                                                          }else {
+                                                              return <h5 className="h" style={{color:" #003300"}}>You haven't purchased any products yet</h5>
+                                                          }
                                                         }
                                                     })()}
                                                 </div>
