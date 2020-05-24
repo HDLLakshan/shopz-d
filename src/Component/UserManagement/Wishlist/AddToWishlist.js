@@ -64,7 +64,10 @@ class AddToWishlist extends Component {
             }
 
     }
-
+    //Checks if a user is logged in
+    //If there is a wish list for the specific user, checks the list and of this is already on the list
+    //It gets deleted
+    //Otherwise it will be added
     handleWishlist() {
         if(AuthService.getCurrentUser() != null) {
             if (this.state.addToWishList) {

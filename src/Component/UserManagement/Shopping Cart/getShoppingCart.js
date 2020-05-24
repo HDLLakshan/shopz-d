@@ -32,6 +32,7 @@ let price1=0;
         });
 
     }
+    //Changing the quantity
     changeQuantity(e, id) {
         let myObj;
         myObj = JSON.parse(sessionStorage.getItem("products"));
@@ -51,7 +52,7 @@ let price1=0;
             })
     });
 
-
+    //Sending data to another component
     }
     getShoppingCartTemplate(){
             return this.state.products.map((res , i )=>{
@@ -59,6 +60,7 @@ let price1=0;
             });
 
     }
+    //Remove from the list
     handleRemoveButton(id){
         var oldList=[];
         oldList = JSON.parse(sessionStorage.getItem("products"));
@@ -78,6 +80,7 @@ let price1=0;
         sessionStorage.setItem('count', JSON.stringify(oldList.length));
         this.props.history.push('/');
     }
+    //Calculate the price
     getThePrice(){
         price1 = 0;
         this.state.products.map((res)=>{

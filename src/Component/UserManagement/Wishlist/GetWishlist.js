@@ -41,7 +41,7 @@ class GetWishlist extends Component{
 
     }
 
-        WishlistComponentTemplate(){
+    WishlistComponentTemplate(){
         return this.state.products.map((res , i )=>{
             return  <WishlistProductRow obj={res} key={i} handleRemoveButton={this.handleRemoveButton} /> ;
         });
