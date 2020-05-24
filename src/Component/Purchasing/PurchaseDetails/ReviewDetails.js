@@ -322,14 +322,37 @@ export default class ReviewDetails extends Component {
                                             </div>
                                             <div align="center">
                                                 <br/>
-                                                <Button
-                                                    variant="contained" type="submit"
-                                                    onClick={() => this.oncliick()}
-                                                    color="default"
+                                                {(() => {
+                                                    if (this.state.Billing.cashDelivery === true) {
+                                                        return   <Button
+                                                            variant="contained" type="submit"
+                                                            onClick={() => this.oncliick()}
+                                                            color="default"
 
-                                                >
-                                                    Place Order
-                                                </Button>
+                                                        >
+                                                            Place Order
+                                                        </Button>
+                                                    } else {
+                                                        if(this.state.available===false){
+                                                            return <Button
+                                                                    variant="contained" type="submit"
+                                                                    onClick={() => this.props.history.push('/rate-comment/' + this.state.uname)}
+                                                                    color="default"
+
+                                                                >
+                                                                    Back to Rate & Comment
+                                                                </Button>
+                                                        }else{
+                                                        return  <Button
+                                                            variant="contained" type="submit"
+                                                            onClick={() => this.oncliick()}
+                                                            color="default"
+
+                                                        >
+                                                            Place Order
+                                                        </Button>}
+                                                    }
+                                                })()}
                                             </div>
                                         </div>
                                         <div align="center">

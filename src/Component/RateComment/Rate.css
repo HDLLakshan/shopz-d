@@ -41,7 +41,7 @@ input[type="radio"]{
 }
 
 .scroll2::-webkit-scrollbar-track{
-    background-color: #f3f3f3;
+    background-color: #FFFFFF;
     border-radius: 30px;
 
 }
