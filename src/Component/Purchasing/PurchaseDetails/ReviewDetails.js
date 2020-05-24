@@ -7,6 +7,8 @@ import LoaderComponent from "../../ProductMangement/ViewProducts/LoaderComponent
 import Container from "@material-ui/core/Container/Container";
 import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox/Checkbox";
+import PaymentHistory from "./PaymentHistory";
+
 
 
 export default class ReviewDetails extends Component {
@@ -14,6 +16,7 @@ export default class ReviewDetails extends Component {
     constructor(props) {
         super(props)
         this.onClickSaveCredit = this.onClickSaveCredit.bind(this);
+        this.onClickShowHistory = this.onClickShowHistory.bind(this);
         this.oncliick = this.oncliick.bind(this);
         // State
         this.state = {
@@ -31,6 +34,7 @@ export default class ReviewDetails extends Component {
                 instructions: '',
                 deliveryadd: '',
                 cashDelivery: false,
+                totalPay:[]
             },
 
             CreditCard: {
@@ -49,12 +53,19 @@ export default class ReviewDetails extends Component {
             loading:false,
             saveCredit:false,
             available:true,
+            historypay:false,
         }
     }
 
     onClickSaveCredit=(event)=>{
         this.setState({
             saveCredit:event.target.checked
+        })
+    }
+
+    onClickShowHistory=(event)=>{
+        this.setState({
+            historypay:event.target.checked
         })
     }
 
@@ -121,6 +132,12 @@ export default class ReviewDetails extends Component {
 
         this.oncliick();
 
+    }
+
+    getPaymentHistory(){
+        return this.state.Billing.totalPay.map((res, i) => {
+            return <PaymentHistory obj={res} key={i}/>;
+        });
     }
 
     getThePrice(){
@@ -190,6 +207,24 @@ export default class ReviewDetails extends Component {
                                                 Review Purchase Details
                                             </h2>
                                             <br/>
+                                            <div className="plan-selection">
+                                                <div className="plan-data">
+                                                    <div className="row">
+                                                        <div className="col-1">
+                                                            <FormControlLabel
+                                                                control={<Checkbox style={{color:"gray"}} checked={this.state.historypay}onChange={this.onClickShowHistory} name="gilad" />}
+
+                                                            /> </div>
+                                                        <div className="col-8">
+                                                            <p className="p p1">Show Payment History</p>
+                                                        </div></div>
+                                                    {(() => {
+                                                        if (this.state.historypay === true) {
+                                                            return this.getPaymentHistory()
+                                                        }
+                                                    })()}
+                                                </div>
+                                            </div>
                                             <h3 className="box-title h h3">Billing Details</h3>
                                             <div className="plan-selection">
                                                 <p className="p p1">Name
