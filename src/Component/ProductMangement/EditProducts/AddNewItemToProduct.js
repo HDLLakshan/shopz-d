@@ -46,23 +46,26 @@ class AddNewItemToProduct extends Component{
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.setState({loading:true})
-        const formData = new FormData();
-        formData.append("image",this.state.newItem.image);
-        formData.append("color",this.state.newItem.color);
-        formData.append("small",this.state.newItem.small);
-        formData.append("medium",this.state.newItem.medium);
-        formData.append("large",this.state.newItem.large);
-        formData.append("xl",this.state.newItem.xl);
+        if((this.state.newItem.small === '') || (this.state.newItem.medium === '') || (this.state.newItem.large === '') || (this.state.newItem.xl === '')){
+            window.confirm('Please fill all fileld')
+        }else {
+            this.setState({loading: true})
+            const formData = new FormData();
+            formData.append("image", this.state.newItem.image);
+            formData.append("color", this.state.newItem.color);
+            formData.append("small", this.state.newItem.small);
+            formData.append("medium", this.state.newItem.medium);
+            formData.append("large", this.state.newItem.large);
+            formData.append("xl", this.state.newItem.xl);
 
-        axios.post('http://localhost:4000/products/addnewItemToProduct/' + this.props.match.params.id, formData)
-            .then((res) => {
-                // Redirect to Product List
-                this.props.history.push('/viewListOfProduct')
-            }).catch((error) => {
-            console.log(error)
-        })
-
+            axios.post('http://localhost:4000/products/addnewItemToProduct/' + this.props.match.params.id, formData)
+                .then((res) => {
+                    // Redirect to Product List
+                    this.props.history.push('/viewListOfProduct')
+                }).catch((error) => {
+                console.log(error)
+            })
+        }
 
 
 
