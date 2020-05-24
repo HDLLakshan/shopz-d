@@ -98,7 +98,7 @@ class GetWishlist extends Component{
                                 </div>
                             </Row>
                             <Row>
-                                <div className='btn' style={{width:"100%"}} onClick={()=>{this.props.history.push('/userMan')}}>
+                                <div className='btn' style={{width:"100%"}} onClick={()=>{this.props.history.push('/')}}>
                                     <Col>
                                         <hr/>
                                         <p style={{margin:"15px", fontWeight: 'bold', color:'#888844'}}>Home</p>
