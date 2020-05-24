@@ -6,6 +6,12 @@ import {FormControl} from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 
 const required = value => value ? undefined : 'Required';
+const minLength = min => value =>
+    value && value.length < min ? `Must be ${min} characters or more` : undefined;
+const minLength6 = minLength(6);
+const passwordsMatch = (value, allValues) =>
+    value !== allValues.password ? 'Passwords don\'t match' : undefined;
+
 const renderField = ({ input, label, type, meta: { touched, error },disabled }) => (
     <div>
         <FormControl {...input} type={type} placeholder={label} disabled={disabled}/>
@@ -32,7 +38,7 @@ function EditProductManager(props) {
                 <div className="control">
                     <label className="label">Password</label>
                     <Field className="input" name="password" component={renderField}
-                           type="text" validate={required}/>
+                           type="text" validate={[required,minLength6]}/>
                 </div>
             </div>
             <div className="field">
