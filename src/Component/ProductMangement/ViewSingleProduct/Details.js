@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import SubDetails from "./SubDetails";
 import AllRateComment from "../../RateComment/AllRateComment";
+import LoaderComponent from "../ViewProducts/LoaderComponent";
 
 
 class Details extends Component{
@@ -30,7 +31,7 @@ class Details extends Component{
 
     render() {
         if (this.props.product.Details.length === 0)
-            return null;
+            return (<LoaderComponent top={'100px'}/>)
 
         return (
             <div onChange={this.handleFormChange} className={"container-fluid  mt-5 ml-5"} style={{width:'95%'}} >

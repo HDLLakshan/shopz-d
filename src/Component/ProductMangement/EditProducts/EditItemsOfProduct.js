@@ -41,7 +41,7 @@ class EditItemsOfProduct extends Component{
         axios.put('http://localhost:4000/products/editItemOfProduct/' + this.props.match.params.id, this.state.Products.Details[index])
             .then((res) => {
                 console.log(res.data)
-                console.log('Student successfully updated')
+
             })
             .then(()=> this.props.history.push('/viewListOfProduct'))
             .catch((error) => {

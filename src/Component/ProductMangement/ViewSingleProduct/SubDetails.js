@@ -5,6 +5,7 @@ import {Rating} from "@material-ui/lab";
 import AddToShoppingCart from "../../UserManagement/Shopping Cart/AddToShoppingCart";
 import AddToWishlist from "../../UserManagement/Wishlist/AddToWishlist";
 import {Row} from "react-bootstrap";
+import LoaderComponent from "../ViewProducts/LoaderComponent";
 
 class SubDetails extends Component{
 
@@ -72,7 +73,7 @@ class SubDetails extends Component{
 
     render() {
         if (this.props.product.Details.length === 0)
-            return null;
+            return (<LoaderComponent top={'100px'}/>)
 
         return(
                  <div>

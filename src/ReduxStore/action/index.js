@@ -3,6 +3,8 @@ import {SubmissionError} from "redux-form";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 
+const url = 'http://localhost:4000';
+
 export const showForm =() => {
     return {
         type: 'ADDFORMPM'
@@ -49,7 +51,7 @@ export const addUser = (data) => {
                     label: 'Yes',
                     onClick:  () => {
 
-                        axios.post('http://localhost:4000/admin/add', data , )
+                        axios.post(url +'/admin/add', data , )
                             .then((response) => {
                                 console.log(response)
                                 if (response.status == 200){
@@ -89,7 +91,7 @@ export const updateUser = (data) => {
                     label: 'Yes',
                     onClick: () => {
 
-                        return axios.put(`http://localhost:4000/admin/${data.email}`,data)
+                        return axios.put(url+`/admin/${data.email}`,data)
                             .then((response) => {
                                 if (response.status == 200){
                                     dispatch(showEditForm());
@@ -123,7 +125,7 @@ export const deleteUser = (data) => {
                     label: 'Yes',
                     onClick: () => {
 
-                        return axios.delete(`http://localhost:4000/admin/${data}`)
+                        return axios.delete(url+`/admin/${data}`)
                             .then(response => {
                                 if (response.status == 200){
                                     dispatch(DeleteListPM(data));
@@ -155,7 +157,7 @@ export const fetchPMs = (PMs) => {
 
 export const fetchAllPMs =() => {
     return (dispatch) => {
-        return axios.get('http://localhost:4000/admin/all')
+        return axios.get(url+'/admin/all')
             .then(response => {
                 dispatch(fetchPMs(response.data))
             })
@@ -212,7 +214,7 @@ export const addCat = (data) => {
                     label: 'Yes',
                     onClick: () => {
 
-                        return axios.post('http://localhost:4000/category/add', data)
+                        return axios.post(url+'/category/add', data)
                             .then(response => {
                                 if (response.status == 200){
                                     dispatch(showFormCat());
@@ -246,7 +248,7 @@ export const updateCat = (data) => {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        return axios.put(`http://localhost:4000/category/${data.name}`,data)
+                        return axios.put(url+`/category/${data.name}`,data)
                             .then(response => {
                                 if (response.status === 200){
                                     dispatch(showEditFormCat());
@@ -280,7 +282,7 @@ export const deleteCat = (data) => {
                     label: 'Yes',
                     onClick: () => {
 
-                        return axios.delete(`http://localhost:4000/category/${data}`)
+                        return axios.delete(url+`/category/${data}`)
                             .then(response => {
                                 if (response.status === 200){
                                     dispatch(DeleteListCat(data));
@@ -313,7 +315,7 @@ export const fetchCats = (Cats) => {
 
 export const fetchAllCats =() => {
     return (dispatch) => {
-        return axios.get('http://localhost:4000/category/all')
+        return axios.get(url+'/category/all')
             .then(response => {
                 dispatch(fetchCats(response.data))
             })
@@ -323,20 +325,61 @@ export const fetchAllCats =() => {
     };
 };
 
-export const Login = (data)=>{
-    axios.get('http://localhost:4000/userAdmin/all')
-        .then(response =>{
-            response.data.map((user)=>{
-                console.log(user.username)
-            })
-        })
-        .catch(error=>{
-            throw(error);
-        });
-    throw new SubmissionError({ username: 'User does not exist', _error: 'Login failed!' })
-};
-
 export const CartLength = (data)=>{
     return {type:'count', payload:data}
 };
 
+export const fetchUsers = (Users) => {
+    return {
+        type: 'FETCHALLUSER',
+        payload:Users
+    }
+};
+export const fetchAllUsers =() => {
+    return (dispatch) => {
+        return axios.get(url+'/users/all')
+            .then(response => {
+                dispatch(fetchUsers(response.data))
+            })
+            .catch(error => {
+                throw(error);
+            });
+    };
+};
+
+export const fetchProducts = (Users) => {
+    return {
+        type: 'FETCHALLPRO',
+        payload:Users
+    }
+};
+export const fetchAllProducts =() => {
+    return (dispatch) => {
+        return axios.get(url+'/products/')
+            .then(response => {
+                dispatch(fetchProducts(response.data))
+            })
+            .catch(error => {
+                throw(error);
+            });
+    };
+};
+
+
+export const fetchPayment = (Users) => {
+    return {
+        type: 'FETCHALLPAY',
+        payload:Users
+    }
+};
+export const fetchAllPayments =() => {
+    return (dispatch) => {
+        return axios.get(url+'/payment/get-payment')
+            .then(response => {
+                dispatch(fetchPayment(response.data))
+            })
+            .catch(error => {
+                throw(error);
+            });
+    };
+};
