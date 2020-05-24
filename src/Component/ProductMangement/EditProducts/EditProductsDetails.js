@@ -6,6 +6,7 @@ import FormControl from "react-bootstrap/FormControl";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
+import LoaderComponent from "../ViewProducts/LoaderComponent";
 
 
 class EditProductsDetails extends Component{
@@ -81,9 +82,9 @@ class EditProductsDetails extends Component{
 
     render() {
         if(this.state.Products === null)
-            return null
+            return (<LoaderComponent top={'100px'}/>)
         if(this.state.CategoryList.length === 0)
-            return null
+            return (<LoaderComponent top={'100px'}/>)
 
         return(
             <div>
@@ -159,11 +160,7 @@ class EditProductsDetails extends Component{
                     </div>
                 }
                 { !this.state.loading &&
-                <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                </div>
+              <LoaderComponent top={'100px'}/>
                 }
             </div>
         )

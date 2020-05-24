@@ -16,7 +16,6 @@ import BillingDetails from "./Component/Purchasing/PurchaseDetails/BillingDetail
 import CardDetails from "./Component/Purchasing/PurchaseDetails/CardDetails";
 import ReviewDetails from "./Component/Purchasing/PurchaseDetails/ReviewDetails";
 import DisplayRateComment from "./Component/RateComment/DisplayRateComment";
-import BoardUser from "./Component/UserManagement/check";
 import ShowAllProdcuts from "./Component/ProductMangement/EditProducts/ShowAllProdcuts";
 import EditProductsDetails from "./Component/ProductMangement/EditProducts/EditProductsDetails";
 import EditItemsOfProduct from "./Component/ProductMangement/EditProducts/EditItemsOfProduct";
@@ -49,7 +48,6 @@ class App extends Component {
                 <ReactNotification/>
                 <Provider store={store}>
                     <Switch>
-                        <Route path="/check" component={BoardUser} exact/>
                         <Route path="/Admin" exact component={Dashboard}/>
                         <Route path="/Admin/ProductManager" exact component={ProductManager}/>
                         <Route path="/Admin/Category" exact component={Category}/>

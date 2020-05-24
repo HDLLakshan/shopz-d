@@ -50,7 +50,7 @@ class Register extends React.Component {
                     });
                     //Sweet alert showing when successful
                     if(response.data.success){
-                        swal("Good job!", "You are now registered!", "success");
+                        swal("Good job!", "You are now registered!", "success").then(() => null);
                     }
                 },
                 error => {

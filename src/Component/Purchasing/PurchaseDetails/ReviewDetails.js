@@ -1,19 +1,22 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import Grid from "@material-ui/core/Grid/Grid";
 import Button from "@material-ui/core/Button/Button";
-import Paper from "@material-ui/core/Paper/Paper";
 import './review.css'
-import Typography from "@material-ui/core/Typography/Typography";
 import AuthService from "../../UserManagement/services/auth.service";
 import LoaderComponent from "../../ProductMangement/ViewProducts/LoaderComponent";
 import Container from "@material-ui/core/Container/Container";
+import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox/Checkbox";
+import PaymentHistory from "./PaymentHistory";
+
 
 
 export default class ReviewDetails extends Component {
 
     constructor(props) {
         super(props)
+        this.onClickSaveCredit = this.onClickSaveCredit.bind(this);
+        this.onClickShowHistory = this.onClickShowHistory.bind(this);
         this.oncliick = this.oncliick.bind(this);
         // State
         this.state = {
@@ -31,6 +34,7 @@ export default class ReviewDetails extends Component {
                 instructions: '',
                 deliveryadd: '',
                 cashDelivery: false,
+                totalPay:[]
             },
 
             CreditCard: {
@@ -46,8 +50,24 @@ export default class ReviewDetails extends Component {
             delCharge:100,
             totalpay:0,
             paying:'',
-            loading:false
+            loading:false,
+            saveCredit:false,
+            available:true,
+            historypay:false,
+            payempty:false,
         }
+    }
+
+    onClickSaveCredit=(event)=>{
+        this.setState({
+            saveCredit:event.target.checked
+        })
+    }
+
+    onClickShowHistory=(event)=>{
+        this.setState({
+            historypay:event.target.checked
+        })
     }
 
 
@@ -60,16 +80,26 @@ export default class ReviewDetails extends Component {
                 this.setState({
                     Billing:res.data,
                 })
+                if(this.state.Billing.totalPay.length === 0){
+                    this.state.payempty = true
+                }
             })
+
             .catch((error) => {
                 console.log(error + 'geterror');
             })
 
         axios.get('http://localhost:4000/credit-card/get-single-creditcard/' + this.state.uname)
             .then(res => {
-                this.setState({
-                    CreditCard:res.data,
-                })
+                if(res.data === null){
+                    this.setState({
+                        available:false,
+                    })
+                }else{
+                    this.setState({
+                        CreditCard:res.data,
+                    })
+                }
             })
             .catch((error) => {
                 console.log(error + 'credit get error');
@@ -109,6 +139,12 @@ export default class ReviewDetails extends Component {
 
     }
 
+    getPaymentHistory(){
+        return this.state.Billing.totalPay.map((res, i) => {
+            return <PaymentHistory obj={res} key={i}/>;
+        });
+    }
+
     getThePrice(){
 
         var price1=0;
@@ -134,9 +170,15 @@ export default class ReviewDetails extends Component {
         })
         sessionStorage.removeItem("count");
         // this.SaveTotal();
+        if (this.state.saveCredit === true) {
+
+            axios.delete('http://localhost:4000/credit-card/delete-credit-card/'+this.state.uname)
+                .then(res => console.log(res.data));
+
+        }
 
         axios.all([
-            axios.post('http://localhost:4000/billing/add-payment/' + this.state.uname+"/"+this.state.totalpay),
+            axios.post('http://localhost:4000/billing/add-payment/' + this.state.uname+"/"+this.state.totalpay,this.state.products),
             axios.post('http://localhost:4000/products/sold',this.state.products)
         ]).then(()=> this.setState({
             loading:false
@@ -170,6 +212,28 @@ export default class ReviewDetails extends Component {
                                                 Review Purchase Details
                                             </h2>
                                             <br/>
+                                            <div className="plan-selection">
+                                                <div className="plan-data">
+                                                    <div className="row">
+                                                        <div className="col-1">
+                                                            <FormControlLabel
+                                                                control={<Checkbox style={{color:"gray"}} checked={this.state.historypay}onChange={this.onClickShowHistory} name="gilad" />}
+
+                                                            /> </div>
+                                                        <div className="col-8">
+                                                            <p className="p p1">Show Payment History</p>
+                                                        </div></div>
+                                                    {(() => {
+                                                        if (this.state.historypay === true) {
+                                                          if(this.state.payempty === false){
+                                                              return this.getPaymentHistory()
+                                                          }else {
+                                                              return <h5 className="h" style={{color:" #003300"}}>You haven't purchased any products yet</h5>
+                                                          }
+                                                        }
+                                                    })()}
+                                                </div>
+                                            </div>
                                             <h3 className="box-title h h3">Billing Details</h3>
                                             <div className="plan-selection">
                                                 <p className="p p1">Name
@@ -203,6 +267,16 @@ export default class ReviewDetails extends Component {
                                         {(() => {
                                             if (this.state.Billing.cashDelivery === false) {
                                                 // noinspection JSAnnotator
+                                                if(this.state.available=== false){
+                                                    return <div className="box">
+                                                        <h3 className="box-title h h3">Payment Details</h3>
+                                                        <div className="plan-selection">
+                                                            <div className="plan-data">
+                                                                <p className="p p1">Credit Card Details are no longer available :( </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }else{
                                                 return <div className="box">
                                                     <h3 className="box-title h h3">Payment Details</h3>
                                                     <div className="plan-selection">
@@ -218,8 +292,21 @@ export default class ReviewDetails extends Component {
                                                                 : {this.state.CreditCard.cvc}</p>
                                                         </div>
                                                     </div>
+                                                    <div className="plan-selection">
+                                                        <div className="plan-data">
+                                                            <div className="row">
+                                                                <div className="col-1">
+                                                                    <FormControlLabel
+                                                                        control={<Checkbox style={{color:"gray"}} checked={this.state.saveCredit}onChange={this.onClickSaveCredit} name="gilad" />}
 
-                                                </div>
+                                                                    /> </div>
+                                                                <div className="col-8">
+                                                                    <p className="p p1">Don't Save Credit Card Details for Next Time</p>
+                                                                </div></div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>}
                                             } else {
                                                 return <div className="box">
                                                     <h3 className="box-title">Payment Details</h3>
@@ -279,14 +366,37 @@ export default class ReviewDetails extends Component {
                                             </div>
                                             <div align="center">
                                                 <br/>
-                                                <Button
-                                                    variant="contained" type="submit"
-                                                    onClick={() => this.oncliick()}
-                                                    color="default"
+                                                {(() => {
+                                                    if (this.state.Billing.cashDelivery === true) {
+                                                        return   <Button
+                                                            variant="contained" type="submit"
+                                                            onClick={() => this.oncliick()}
+                                                            color="default"
 
-                                                >
-                                                    Place Order
-                                                </Button>
+                                                        >
+                                                            Place Order
+                                                        </Button>
+                                                    } else {
+                                                        if(this.state.available===false){
+                                                            return <Button
+                                                                    variant="contained" type="submit"
+                                                                    onClick={() => this.props.history.push('/rate-comment/' + this.state.uname)}
+                                                                    color="default"
+
+                                                                >
+                                                                    Back to Rate & Comment
+                                                                </Button>
+                                                        }else{
+                                                        return  <Button
+                                                            variant="contained" type="submit"
+                                                            onClick={() => this.oncliick()}
+                                                            color="default"
+
+                                                        >
+                                                            Place Order
+                                                        </Button>}
+                                                    }
+                                                })()}
                                             </div>
                                         </div>
                                         <div align="center">

@@ -22,17 +22,17 @@ export default class AddToShoppingCart extends Component{
     }
     componentDidMount() {
 
-                let oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
-                const arrayproduct =  JSON.parse(oldproduct);
-                for(let i= 0 ; i <arrayproduct.length ; i++) {
-                    if (arrayproduct[i].ProductId === this.props.productId) {
-                        this.setState({
-                            isInList: true,
-                            index: i,
-                            products: []
-                        })
-                    }
-                }
+        let oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
+        const arrayproduct =  JSON.parse(oldproduct);
+        for(let i= 0 ; i <arrayproduct.length ; i++) {
+            if (arrayproduct[i].ProductId === this.props.productId) {
+                this.setState({
+                    isInList: true,
+                    index: i,
+                    products: []
+                })
+            }
+        }
 
     }
 
@@ -57,7 +57,7 @@ export default class AddToShoppingCart extends Component{
     let oldproduct;
     oldproduct = sessionStorage.getItem('products') ? sessionStorage.getItem('products') : "[]";
     const arrayproduct = JSON.parse(oldproduct);
-
+    //Deleting from the array
     if(this.state.isInList){
         for(let i= 0 ; i <arrayproduct.length ; i++){
             if(arrayproduct[i].ProductId===this.props.productId) {
@@ -71,7 +71,7 @@ export default class AddToShoppingCart extends Component{
         }
 
     }
-
+    //Adding to the array
     else{
         axios.get('http://localhost:4000/products/view-product/' + this.props.productId)
             .then(res => {

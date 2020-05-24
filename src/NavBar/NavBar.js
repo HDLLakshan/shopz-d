@@ -6,18 +6,15 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
-import Button from "@material-ui/core/Button";
 import AuthService from "../Component/UserManagement/services/auth.service";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import axios from "axios";
 import SearchIcon from '@material-ui/icons/Search';
 import GetShoppingCart from "../Component/UserManagement/Shopping Cart/getShoppingCart";
 import {Badge} from "@material-ui/core";
-import LoginRegView from "../Component/UserManagement/Login/loginRegView";
 import Search from "@material-ui/icons/Search";
 import {Link, NavLink, withRouter} from "react-router-dom";
 import './NavBar.scss'
-import Row from "react-bootstrap/Row";
 
 let username = '';
 
@@ -91,17 +88,17 @@ class NavBar extends Component {
                 <Navbar.Brand className="name">RARE</Navbar.Brand>
 
                 {currentUser || adminUser ? (
-                    <Nav.Link style={{color: 'white'}} as={NavLink} to={"/add"}> Hi {username}! </Nav.Link>
+                    <Nav.Link style={{color: 'white'}} as={NavLink} to={"/userMan"}> Hi {username}! </Nav.Link>
                 ) : (null)}
 
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        {currentUser || salesUser ? (
+                        { salesUser ? (
                                 <Nav.Link as={NavLink} to={"/add"}>Add</Nav.Link>
                             ) : (null)}
 
-                        {currentUser || salesUser ? (
+                        { salesUser ? (
                             <Nav.Link as={NavLink} to={"/viewListOfProduct"}>View</Nav.Link>
                         ) : (null)}
 
@@ -140,7 +137,7 @@ class NavBar extends Component {
                         <Nav.Link as={Link} to="/wishlist"><FavoriteBorderIcon/></Nav.Link>
                         ) : (null)}
 
-                        {(this.state.addModalShow && currentUser) ? (
+                        {this.state.addModalShow  ? (
                             <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose}
                                              history={this.props.history}/>
                         ) : (
