@@ -27,11 +27,11 @@ export default class CardDetails extends React.Component {
             available:'',
             CreditCard: {
                 userName: '',
-                nameCard: 'xxxxx xxxxxx',
-                cno: '0000000000000000',
-                month: 'xx',
-                year: 'xx',
-                cvc: 'CVC'
+                nameCard: '',
+                cno: '',
+                month: '',
+                year: '',
+                cvc: ''
             },
             nameCardError:'',
             cnoError:'',
