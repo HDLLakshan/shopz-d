@@ -20,7 +20,7 @@ class AddNewItemToProduct extends Component{
             },
             imageURL:'',
             Products:[],
-            loading:true
+            loading:false
 
         }
     }
@@ -46,6 +46,7 @@ class AddNewItemToProduct extends Component{
 
     onSubmit = (e) => {
         e.preventDefault();
+        this.setState({loading:true})
         const formData = new FormData();
         formData.append("image",this.state.newItem.image);
         formData.append("color",this.state.newItem.color);
@@ -58,7 +59,6 @@ class AddNewItemToProduct extends Component{
             .then((res) => {
                 // Redirect to Product List
                 this.props.history.push('/viewListOfProduct')
-                console.log('Student successfully updated')
             }).catch((error) => {
             console.log(error)
         })
