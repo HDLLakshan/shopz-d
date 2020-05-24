@@ -9,6 +9,9 @@ import ShowFormCat from "./Category/ShowFormCat";
 import AllCategoryReducer from "./Category/AllCategories";
 import IndexCategory from "./Category/IndexCategory";
 import CartCount from "./Cart/CartCount";
+import AllPaymentReducer from "./Admin/AllPayments";
+import AllProductsReducer from "./Admin/AllProducts";
+import AllUsersReducer from "./Admin/AllUsers";
 
 const allReducers = combineReducers({
     CartCount:CartCount,
@@ -20,6 +23,9 @@ const allReducers = combineReducers({
     ShowEditCat: ShowEditFormCat,
     ShowAddCat: ShowFormCat,
     AllCats: AllCategoryReducer,
+    AllUsers:AllUsersReducer,
+    AllProducts: AllProductsReducer,
+    AllPayments: AllPaymentReducer,
     IndexCat:IndexCategory,
 });
 export default allReducers;

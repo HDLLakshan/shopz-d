@@ -90,18 +90,18 @@ class NavBar extends Component {
             <Navbar className="layout" sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Navbar.Brand className="name">RARE</Navbar.Brand>
 
-                {currentUser || adminUser || salesUser ? (
-                    <Nav.Link style={{color: 'white'}} as={NavLink} to={"/"}> Hi {username}! </Nav.Link>
+                {currentUser || adminUser ? (
+                    <Nav.Link style={{color: 'white'}} as={NavLink} to={"/add"}> Hi {username}! </Nav.Link>
                 ) : (null)}
 
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        {salesUser ? (
+                        {currentUser || salesUser ? (
                                 <Nav.Link as={NavLink} to={"/add"}>Add</Nav.Link>
                             ) : (null)}
 
-                        {salesUser ? (
+                        {currentUser || salesUser ? (
                             <Nav.Link as={NavLink} to={"/viewListOfProduct"}>View</Nav.Link>
                         ) : (null)}
 
@@ -137,13 +137,10 @@ class NavBar extends Component {
                         ) : (null)}
 
                         {currentUser ? (
-                            <IconButton>
-                                <Nav.Link as={Link} to="/wishlist"><FavoriteBorderIcon/></Nav.Link>
-                            </IconButton>
-
+                        <Nav.Link as={Link} to="/wishlist"><FavoriteBorderIcon/></Nav.Link>
                         ) : (null)}
-                        {
-                            this.state.addModalShow ? (
+
+                        {(this.state.addModalShow && currentUser) ? (
                             <GetShoppingCart show={this.state.addModalShow} onHide={addModalClose}
                                              history={this.props.history}/>
                         ) : (
@@ -157,7 +154,7 @@ class NavBar extends Component {
                     </Nav>
                     <Form inline>
                         <FormControl defaultValue={this.state.SearchVal}
-                                     type="text" placeholder="Search" className="mr-sm-2 form-controlnav"
+                                     type="text" placeholder="Search" className="mr-sm-2"
                                      onChange={(e) => this.setState({SearchVal: e.target.value})}/>
                         <Nav.Link className="paddingNone" as={NavLink} to={'/search/' + this.state.SearchVal}>
                             <IconButton style={{color: "white", padding: 0}}><SearchIcon/></IconButton>
