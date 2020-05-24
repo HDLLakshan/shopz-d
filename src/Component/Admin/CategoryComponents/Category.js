@@ -25,10 +25,10 @@ export const useStyles = makeStyles((theme) => ({
         marginLeft: 10,
         padding: 10
     },
-    marginTop:{
+    marginTop: {
         marginTop: '15px'
     },
-    content:{
+    content: {
         marginTop: 10
     },
     heading: {
@@ -79,12 +79,14 @@ export function Category(props) {
                         <Typography variant="h6">Name :</Typography>
                         <Typography variant="subtitle2">{cat.name}</Typography>
                         <Typography variant="h6">Sub Categories:</Typography>
-                        {cat.subCategory.map((sub) => {
-                            return (
-                                <Typography variant="subtitle2">{sub}</Typography>
+                        {cat.subCategory != undefined ?
+                            (cat.subCategory.map((sub) => {
+                                    return (
+                                        <Typography variant="subtitle2">{sub}</Typography>
+                                    )
+                                })
                             )
-                        })
-                        }
+                            : null}
 
                     </div>
                     <div className={clsx(classes.column, classes.helper)}>
@@ -137,7 +139,7 @@ export function Category(props) {
                                         onClick={() => dispatch(showFormCat())}
                                 >Add</Button>
                                 {AddCat ? <AddCategory/> : null}
-                                { EditCat ? <EditCategory/> : null}
+                                {EditCat ? <EditCategory/> : null}
                             </Col>
                         </Row>
                     </div>
