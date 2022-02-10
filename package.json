@@ -18,7 +18,7 @@
     "generate-password": "^1.5.1",
     "history": "latest",
     "moment": "^2.25.3",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "prop-types": "latest",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
